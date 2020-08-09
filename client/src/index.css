@@ -1,0 +1,120 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.hero {
+  /* background-image: url(./components/assets/2522219.jpg); */
+  background-size: cover;
+  height: 90vh;
+  background-position: center;
+}
+.brd1 {
+  border: 1px solid green;
+}
+.brd2 {
+  border: 1px solid #1cd8c8;
+}
+img {
+  width: 100%;
+}
+.myBtn{
+  width: 150px;
+  background:  #94d1d1;
+}
+.myBtn2{
+  width: 150px;
+  padding: 15px;
+  background:  #94d1d1;
+  border-radius: 5px;
+}
+.myBtn:hover{
+  background:  #808383;
+}
+.teamWindow{
+  background: #c5cfcf;
+  height: 80vh;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+.myCrdImgTp{
+  height: 30vh;
+  object-fit: cover;
+}
+.myCard{
+  margin-top: 10px;
+  width: 32%;
+  /* min-height: 40vh; */
+  max-height: 70vh;
+}
+.sideBar{
+  background: #253b3d;
+  min-height: 100vh;
+  padding: 0;
+}
+.sidBarItem{
+  margin: 0;
+  width: 100%;
+  list-style: none;
+  text-align: left;
+  padding: 25px 20px;
+  color: white;
+  border: 1px solid #16232400;
+}
+.sidBarItemActive{
+  background: #71ecdc;
+  margin: 0;
+  width: 100%;
+  list-style: none;
+  text-align: left;
+  padding: 25px 20px;
+  color: black;
+  border: 1px solid #16232400;
+  text-decoration: none;
+
+}
+.sidBarItem:hover{
+  /* list-style: none;
+  text-align: left;
+  padding: 25px 30px; */
+  color: #71ecdc;
+  background: #324f52;
+  border: 1px solid #162324bd;
+  text-decoration: none;
+
+
+}
+.sidBarItemActive:hover{
+  color: black;
+  text-decoration: none;
+}
+.teamDashboard{
+  background: #84a0a3;
+  min-height: 100vh;
+  /* width: 100%; */
+}
+ul {
+  text-decoration: none;
+}
+.wrapper{
+  width: 100%;
+}
+.tabLinkActive{
+  color: pink;
+}
+.sp {
+  color: red;
+}
+
+a:hover{
+  text-decoration: none;
+  /* text-emphasis: none; */
+}
