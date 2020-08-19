@@ -7,14 +7,14 @@ function SideBar(props) {
     return (
         <div className="col-2 sideBar">
             <ul class="list-group pt-4">
-                <Link to={`/TeamPage/${props.teamId}`} className="try">
+                <Link to={`/TeamPage/${props.teamId}`} className="try"> 
                     <li class={location.pathname === `/TeamPage/${props.teamId}` ? "sidBarItemActive" : "sidBarItem"}>
                         Dashboard
                     </li>
                 </Link>
                 <Link to={`/TeamPage/${props.teamId}/Employees`} className="try">
                     <li class={location.pathname === `/TeamPage/${props.teamId}/Employees` ? "sidBarItemActive" : "sidBarItem"}>
-                        Employees
+                        Members
                     </li>
                 </Link>
                 <Link to={`/TeamPage/${props.teamId}/Departments`} className="try">

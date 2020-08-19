@@ -12,6 +12,8 @@ import LogOut from './components/LogOut';
 import Dashboard from './components/Dashboard';
 import TeamPage from './components/TeamPage/TeamPage';
 import Employees from './components/TeamPage/Employees';
+import MembProfile from './components/TeamPage/MembProfile'
+
 function App() {
   return (
     <div className="App">
@@ -25,8 +27,7 @@ function App() {
         <Route exact path={["/logout"]} component={LogOut}/>
         <Route exact path={["/Dashboard"]} component={Dashboard}/>
         <Route path={["/TeamPage/:teamId"]} component={TeamPage} />
-
-        {/* <Route path={["/TeamPage/:teamId/Employees"]} component={Employees} /> */}
+        {/* <Route path={["/TeamPage/MembProfile/:teamId/:membId"]} component={MembProfile}/> */}
       </Router>
     </div>
   );

@@ -24,7 +24,7 @@ code {
   border: 1px solid #1cd8c8;
 }
 img {
-  width: 100%;
+ width: 100%;
 }
 .myBtn{
   width: 150px;
@@ -51,7 +51,7 @@ img {
 }
 .myCard{
   margin-top: 10px;
-  width: 32%;
+  width: 30%;
   /* min-height: 40vh; */
   max-height: 70vh;
 }
@@ -89,8 +89,6 @@ img {
   background: #324f52;
   border: 1px solid #162324bd;
   text-decoration: none;
-
-
 }
 .sidBarItemActive:hover{
   color: black;
@@ -117,4 +115,14 @@ ul {
 a:hover{
   text-decoration: none;
   /* text-emphasis: none; */
+}
+.empAvatar{
+  height: 35vh;
+  width: 35vh;
+  object-fit: cover;
+}
+.empAvatarThmb{
+  height: 10vh;
+  width: 10vh;
+  object-fit: cover;
 }

@@ -79,12 +79,16 @@ async function postRoles( userRoles ){
 // membName: "", membDesc: "", membRole: ""
 
 async function postEmployee( employee ){
-    const teamID = employee.teamId
-    const userId = employee.userId
+    const teamID = employee.teamId;
+    const userId = employee.userId;
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(employee.membPassword, saltRounds); 
     const employeeData = {
         'membName': `${employee.membName}`,
         'membDesc': `${employee.membDesc}`,
         'membRole': `${employee.membRole}`,
+        'membSex': `${employee.membSex}`,
+        'membPassword': passwordHash
     };
     // console.log('in orm:', employeeData)
     const createEmployee = await db.users.findOneAndUpdate(
@@ -92,7 +96,7 @@ async function postEmployee( employee ){
         { $push: { "teams.$.teamMembers": employeeData }});
     console.log(createEmployee)
     return { 
-        message: "role successfully saved", 
+        message: "employee successfully created", 
     };   
 }
 
@@ -133,6 +137,29 @@ async function getEmployees( userId, teamId ){
         }
     })
     return teamsEmployeeArr
+}
+//delete roles
+// getEmployee detail
+async function getMembDet( userId, teamId, membId ){
+    const getMembDetail = await db.users.find({
+        "_id" : userId 
+    })
+    let memberDetail={};
+    // console.log('in orm: getrole:', getMembDetail[0].teams)
+    let teamsEmployeeArr = getMembDetail[0].teams;
+    teamsEmployeeArr.forEach( team =>{
+        if(team._id == teamId){
+            team.teamMembers.forEach(member =>{
+                if(member._id == membId){
+                    console.log(member.membName)
+                    memberDetail = member;
+                    return memberDetail
+                }
+            })
+            // teamsEmployeeArr = team.teamMembers;
+        }
+    })
+    return memberDetail
 }
 //delete roles
 // deleteRole
@@ -176,6 +203,17 @@ async function getTeamDetail( teamId, userId ){
     return teamDetailArr;
 }
 
+//multer
+async function updateAvatar( userId, imageUrl ){
+    const imageData = {
+        profileImg: imageUrl
+     };
+    const dbResult = await db.users.findOneAndUpdate({_id: userId}, imageData);
+    const userFetch = await db.users.findOneAndUpdate({ _id: userId }, { $push: { friendList: {image: imageData} } });
+
+    return { message: `Thank you, updated` }
+}
+
 module.exports = {
     registerUser,
     loginUser,
@@ -187,5 +225,7 @@ module.exports = {
     deleteRole,
     postEmployee,
     getEmployees,
-    deleteEmployee
+    deleteEmployee,
+    updateAvatar,
+    getMembDet
 }

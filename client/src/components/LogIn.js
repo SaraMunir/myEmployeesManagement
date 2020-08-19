@@ -54,7 +54,6 @@ function LogIn() {
     return (
         <div style={{color: "black"}}>
             { isLoggedIn ? <Redirect to='/Dashboard' /> : '' }
-
             <div className={ alertMessage.type ? `alert alert-${alertMessage.type}` : 'd-hide' } role="alert">
                 {alertMessage.message}
             </div>
@@ -64,7 +63,6 @@ function LogIn() {
                     <p class="lead text-muted">Welcome back to Movie Maniax!</p>
                 </div>
             </section>
-        
             <div class="container">
                 <div class="card">
                     <div class="card-body">

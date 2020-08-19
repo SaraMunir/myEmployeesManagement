@@ -33,7 +33,7 @@ app.post('/api/user/login', async function( req,res ){
 
 app.post('/api/teams', async function( req,res ){
     const userTeams = req.body;
-    console.log('in server:', userTeams)
+    // console.log('in server:', userTeams)
     const postTeams = await orm.postTeams( userTeams );
     res.send(postTeams);
 })
@@ -42,7 +42,7 @@ app.post('/api/teams', async function( req,res ){
 // /api/teams/${userId}
 
 app.get('/api/teams/:userId', async(req, res) => {
-    console.log('in server the team fetched userId: ', req.params.userId);
+    // console.log('in server the team fetched userId: ', req.params.userId);
     const userId = req.params.userId;
 
     const getTeams = await orm.getTeams( userId );
@@ -66,6 +66,20 @@ app.get('/api/employees/:userId/:teamId', async(req, res) => {
 
     const getEmployees = await orm.getEmployees( userId, teamId );
     res.json( getEmployees );
+})
+//get member detail
+
+///api/TeamDetail/${userId}/${teamId}/${membId}
+
+// /api/employeeDetail/${userId}/${teamId}/${membId}
+app.get('/api/employeeDetail/:userId/:teamId/:membId', async(req, res) => {
+    const userId = req.params.userId;
+    const teamId = req.params.teamId;
+    const membId = req.params.membId;
+    console.log('in server the memb details is being loaded')
+
+    const getMembDetail = await orm.getMembDet( userId, teamId, membId );
+    res.json( getMembDetail );
 })
 
 //deleting roles
@@ -103,10 +117,9 @@ app.get('/api/deleteEmployee/:adminId/:teamId/:employeeId', async(req, res) => {
 // /api/TeamDetail/${teamId}
 // /api/TeamDetail/${teamId}/${userId}
 app.get('/api/TeamDetail/:teamId/:userId', async(req, res) => {
-    console.log('in server the team fetched userId: ', req.params.userId);
+    console.log('in server the team fetched userId for getting team detail: ', req.params.teamId);
     const userId = req.params.userId;
     const teamId = req.params.teamId;
-
     const getTeamDetail = await orm.getTeamDetail( teamId, userId);
     res.json( getTeamDetail );
 })
@@ -126,3 +139,17 @@ app.post('/api/employees', async function( req,res ){
     const postEmployee = await orm.postEmployee( userEmployee );
     res.send(postEmployee);
 })
+
+// multer upload
+// const upload = require('multer')({ dest: 'client/public/uploads/' });
+// app.put( '/api/upload/:userid', upload.single('myFile'), async function( req, res ){
+//     let userId = req.params.userid
+//     const filePath = req.file.path;
+//     const originalName = req.file.originalname;
+
+//     const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
+//         fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
+//     const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+//     const imgUploadDb = await orm.updateAvatar( userId, imageUrl );
+//     res.send( imgUploadDb );
+// });
