@@ -124,7 +124,6 @@ app.get('/api/TeamDetail/:teamId/:userId', async(req, res) => {
     res.json( getTeamDetail );
 })
 
-
 //creating roles
 app.post('/api/roles', async function( req,res ){
     const userRoles = req.body;

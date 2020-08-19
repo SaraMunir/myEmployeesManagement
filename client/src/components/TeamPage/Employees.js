@@ -60,7 +60,6 @@ function Employees() {
         const apiDeleteRole= await fetch(`/api/deleteEmployee/${userId}/${teamId}/${employeeId}`);
         loadEmployees()
     }
-
     useEffect(function(){
         loadEmployees()
         // console.log('teamDetail: ', teamDetail)
