@@ -16,21 +16,27 @@ function MembProfile() {
     const [ employeeEdit, setEmployeeEdit ] = useState({ membName: "", membDesc: "", membRole: "", membRoleId: "", birthday:"", address:"", membSex: "",membPassword: "", userId: `${userId}`, teamId: `${teamId}`});
 
     async function loadEmpProfile(){
-        // console.log('membId: ', membId)
         const getEmpDetail= await fetch(`/api/employeeDetail/${userId}/${teamId}/${membId}`).then(result=>result.json());
-        // console.log('getEmpDetail: ', getEmpDetail)
         setMembDetail(getEmpDetail);
+        // console.log("ln 21 getEmpDetail", getEmpDetail)
+        // console.log(Object.keys(getEmpDetail));
+        //loop through employeeEdit object and compare it with getEmpDetail
+        Object.keys(getEmpDetail).forEach(key => {
+            if(employeeEdit.hasOwnProperty(key)){
+                employeeEdit[key] = getEmpDetail[key];
+                setEmployeeEdit(employeeEdit);
+            }
+        });
     }
 
     function handleInputChange( e ){
         const { id, value } = e.target; 
         setEmployeeEdit( { ...employeeEdit, [id]: value } );
-        }
+    }
 
     async function saveChanges(e){
         e.preventDefault();
-        console.log( 'employeeEdit ', employeeEdit)
-        
+        // console.log( 'New One: employeeEdit ', employeeEdit)
         
         // const apiResult = await fetch('/api/employees', 
         //     {   method: 'post',
@@ -46,7 +52,6 @@ function MembProfile() {
             loadEmpProfile()
     }
     useEffect( function(){
-        console.log('teamId:', teamId)
         loadEmpProfile();
     }, []);
 
@@ -69,7 +74,7 @@ function MembProfile() {
                                     <label for="membName">Name</label>
                                     <input type="text" class="form-control" 
                                     id="membName" aria-describedby="taskHelp" placeholder={membDetail.membName} onChange={handleInputChange} 
-                                    value={employeeEdit.membName==="" ? membDetail.membName: employeeEdit.membName}/>
+                                    value={employeeEdit.membName}/>
                                     
                                 </div>
                                 <div className="form-group">
