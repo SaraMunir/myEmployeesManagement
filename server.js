@@ -76,7 +76,7 @@ app.get('/api/employeeDetail/:userId/:teamId/:membId', async(req, res) => {
     const userId = req.params.userId;
     const teamId = req.params.teamId;
     const membId = req.params.membId;
-    console.log('in server the memb details is being loaded')
+    // console.log('in server the memb details is being loaded')
 
     const getMembDetail = await orm.getMembDet( userId, teamId, membId );
     res.json( getMembDetail );

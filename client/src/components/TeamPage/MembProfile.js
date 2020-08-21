@@ -18,8 +18,8 @@ function MembProfile() {
     async function loadEmpProfile(){
         const getEmpDetail= await fetch(`/api/employeeDetail/${userId}/${teamId}/${membId}`).then(result=>result.json());
         setMembDetail(getEmpDetail);
-        // console.log("ln 21 getEmpDetail", getEmpDetail)
-        // console.log(Object.keys(getEmpDetail));
+        console.log("ln 21 getEmpDetail", getEmpDetail)
+        console.log(Object.keys(getEmpDetail));
         //loop through employeeEdit object and compare it with getEmpDetail
         Object.keys(getEmpDetail).forEach(key => {
             if(employeeEdit.hasOwnProperty(key)){
@@ -36,7 +36,7 @@ function MembProfile() {
 
     async function saveChanges(e){
         e.preventDefault();
-        // console.log( 'New One: employeeEdit ', employeeEdit)
+        console.log( 'New One: employeeEdit ', employeeEdit)
         
         // const apiResult = await fetch('/api/employees', 
         //     {   method: 'post',
