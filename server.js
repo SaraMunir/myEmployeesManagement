@@ -14,7 +14,6 @@ app.use( express.urlencoded({ extended: false }) );
 app.use( express.json() );
 
 app.post('/api/user/signUp', async function( req,res ){
-    console.log('in server, userDate: ', req.body)
     const userData = req.body;
     const registerResult = await orm.registerUser( userData );
     res.send(registerResult);
@@ -33,51 +32,34 @@ app.post('/api/user/login', async function( req,res ){
 
 app.post('/api/teams', async function( req,res ){
     const userTeams = req.body;
-    // console.log('in server:', userTeams)
     const postTeams = await orm.postTeams( userTeams );
     res.send(postTeams);
 })
 
-//fetching teams:
-// /api/teams/${userId}
-
 app.get('/api/teams/:userId', async(req, res) => {
-    // console.log('in server the team fetched userId: ', req.params.userId);
     const userId = req.params.userId;
-
     const getTeams = await orm.getTeams( userId );
     res.json( getTeams );
 })
-//fetching teams:
-// /api/teams/${userId}
 
 app.get('/api/roles/:userId/:teamId', async(req, res) => {
     const userId = req.params.userId;
     const teamId = req.params.teamId;
-
     const getRoles = await orm.getRoles( userId, teamId );
     res.json( getRoles );
 })
-// /api/employees/${adminId}/${teamId}
-//get employees
+
 app.get('/api/employees/:userId/:teamId', async(req, res) => {
     const userId = req.params.userId;
     const teamId = req.params.teamId;
-
     const getEmployees = await orm.getEmployees( userId, teamId );
     res.json( getEmployees );
 })
-//get member detail
 
-///api/TeamDetail/${userId}/${teamId}/${membId}
-
-// /api/employeeDetail/${userId}/${teamId}/${membId}
 app.get('/api/employeeDetail/:userId/:teamId/:membId', async(req, res) => {
     const userId = req.params.userId;
     const teamId = req.params.teamId;
     const membId = req.params.membId;
-    // console.log('in server the memb details is being loaded')
-
     const getMembDetail = await orm.getMembDet( userId, teamId, membId );
     res.json( getMembDetail );
 })
@@ -97,11 +79,7 @@ app.get('/api/deleteRole/:adminId/:teamId/:roleId', async(req, res) => {
 
 })
 //deleting employee
-// /api/deleteEmployee/${adminId}/${teamId}/${employeeId}
 app.get('/api/deleteEmployee/:adminId/:teamId/:employeeId', async(req, res) => {
-    const adminId= req.params.adminId;
-    const teamId= req.params.teamId;
-    const employeeId= req.params.employeeId;
     const allId ={
         'adminId': req.params.adminId, 
         'teamId': req.params.teamId,
@@ -113,11 +91,9 @@ app.get('/api/deleteEmployee/:adminId/:teamId/:employeeId', async(req, res) => {
 })
 
 
+
 //fetching Team Detail:
-// /api/TeamDetail/${teamId}
-// /api/TeamDetail/${teamId}/${userId}
 app.get('/api/TeamDetail/:teamId/:userId', async(req, res) => {
-    console.log('in server the team fetched userId for getting team detail: ', req.params.teamId);
     const userId = req.params.userId;
     const teamId = req.params.teamId;
     const getTeamDetail = await orm.getTeamDetail( teamId, userId);
@@ -127,17 +103,31 @@ app.get('/api/TeamDetail/:teamId/:userId', async(req, res) => {
 //creating roles
 app.post('/api/roles', async function( req,res ){
     const userRoles = req.body;
-    // console.log('in server:', userRoles)
     const postRoles = await orm.postRoles( userRoles );
     res.send(postRoles);
 })
+
 //creating employees
 app.post('/api/employees', async function( req,res ){
     const userEmployee = req.body;
-    // console.log('in server:', userEmployee)
     const postEmployee = await orm.postEmployee( userEmployee );
     res.send(postEmployee);
 })
+
+// update employee info
+app.put('/api/employeeDetail/:userId/:teamId/:membId', async function( req,res ){
+    const allId = { 
+        'userId': req.params.userId, 
+        'teamId': req.params.teamId,
+        'membId': req.params.membId
+    }
+    const userEmployee = req.body;
+    const updateEmployee = await orm.updateEmployee( userEmployee, allId );
+    console.log(updateEmployee)
+    res.send(updateEmployee);
+})
+
+
 
 // multer upload
 // const upload = require('multer')({ dest: 'client/public/uploads/' });

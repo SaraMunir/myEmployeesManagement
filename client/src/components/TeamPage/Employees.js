@@ -7,7 +7,7 @@ const userId = localStorage.id
 
 function Employees() {
     const { teamId } = useParams();
-    const {teamRolesDetail} = useContext(UserContext);
+    const { teamRolesDetail } = useContext(UserContext);
     const [lgShow, setLgShow] = useState(false);
     const [ myEmployee, setMyEmployee ] = useState({ membName: "", membDesc: "", membRole: "", membRoleId: "", membSex: "",membPassword: "", userId: `${userId}`, teamId: `${teamId}`});
     const [teamDetail, setTeamDetail]= useState( []);
@@ -36,6 +36,7 @@ function Employees() {
     }
     async function submitEmployee(e){
         // e.preventDefault();
+        console.log("Role List", teamRolesDetail);
         console.log('myEmployee', myEmployee);
         const apiResult = await fetch('/api/employees', 
             {   method: 'post',
@@ -45,18 +46,18 @@ function Employees() {
                 },
                 body: JSON.stringify(myEmployee)
             }).then( result=>result.json());
-            console.log(apiResult.message)
-            setMyEmployee({ membName: "", membDesc: "", membRole: "", membSex: "", userId: `${userId}`, teamId: `${teamId}`})
-            setLgShow(false);
-            loadEmployees()
+        // console.log(apiResult.message)
+        setMyEmployee({ membName: "", membDesc: "", membRole: "", membSex: "", userId: `${userId}`, teamId: `${teamId}`})
+        setLgShow(false);
+        loadEmployees()
     }
     async function loadEmployees(){
         const fetchEmployees = await fetch (`/api/employees/${userId}/${teamId}`).then( res => res.json());
-        console.log('fetched roles are: ', fetchEmployees)
+        // console.log('fetched roles are: ', fetchEmployees)
         setEmployee(fetchEmployees)
     }
     async function deleteEmploye(employeeId){
-        console.log('employee id : ', employeeId)
+        // console.log('employee id : ', employeeId)
         const apiDeleteRole= await fetch(`/api/deleteEmployee/${userId}/${teamId}/${employeeId}`);
         loadEmployees()
     }
@@ -134,7 +135,7 @@ function Employees() {
             </nav>
             {/* <h1>{teamDetail.teamName}</h1> */}
             <div  div class="row">
-                { employee.length == 0 ? 
+                {employee.length == 0 ? 
                 <h4 class="mt-5 mx-auto">You have not added any team mates yet</h4>
                 :
                 employee.map( memb => {
@@ -186,9 +187,8 @@ function Employees() {
                             </Link>
                         </div>
                     </div>;
-                        }
                     }
-                    )}
+                })}
             </div>
         </div>
     )

@@ -34,6 +34,11 @@ let users = new Schema ({
                     membRole: String,
                     membRoleId: String,
                     membSex: String,
+                    email: String,
+                    birthday: String, 
+                    address: String,
+                    phoneNumber: String,
+                    status: String,
                     membSalary: String,
                     membSalaryId: String,
                     membPassword :  { 
