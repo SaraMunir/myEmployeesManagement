@@ -28,7 +28,7 @@ function Employees() {
         if( newInput.length >0){
             const newList = employee.filter(employee=> employee.membName.indexOf(newInput)==0)
             setEmployee( newList);
-        }  
+        }   
         else {
             loadEmployees()
             // setEmployee(employee );
