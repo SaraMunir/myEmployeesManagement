@@ -12,7 +12,8 @@ import LogOut from './components/LogOut';
 import Dashboard from './components/Dashboard';
 import TeamPage from './components/TeamPage/TeamPage';
 import Employees from './components/TeamPage/Employees';
-import MembProfile from './components/TeamPage/MembProfile'
+import MembProfile from './components/TeamPage/MembProfile';
+import MemberLogIn from './components/MembLogIn'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route exact path={["/","/HomePage"]} component={HomePage}/>
         <Route exact path={["/ProfilePage"]} component={ProfilePage}/>
         <Route exact path={["/LogIn"]} component={LogIn}/>
+        <Route exact path={["/MemberLogIn"]} component={MemberLogIn}/>
         <Route exact path={["/SignUp"]} component={SignUp}/>
         <Route exact path={["/MyTeam"]} component={MyTeam}/>
         <Route exact path={["/logout"]} component={LogOut}/>

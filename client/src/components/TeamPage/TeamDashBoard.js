@@ -39,11 +39,11 @@ function TeamDashBoard() {
         setOtherMembersDetail(otherMembArray);
 
         getTeamDetail.teamMembers.forEach(member => {
-            if( member.birthday != "undefined"){
+            if( member.birthday != undefined){
                 if(member.birthday.split("-")[1].slice(1) == value.getMonth()+1){
                     birthdayArray.push(member);
                 }
-            }
+            } 
         })
         setMonthlyBirthday(birthdayArray);
     }

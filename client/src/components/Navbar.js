@@ -18,7 +18,7 @@ function Navbar() {
                         Home
                         </Link>
                     </li> */}
-                    {id ? '':
+                    {
                     <li class="nav-item">
                         <Link to="/HomePage" className={location.pathname === "/HomePage" ? "nav-link active" : "nav-link"}>
                         Home Page

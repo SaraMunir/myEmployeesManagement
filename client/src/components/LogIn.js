@@ -60,7 +60,6 @@ function LogIn() {
             <section class="text-center">
                 <div class="container">
                     <h1>Login</h1>
-                    <p class="lead text-muted">Welcome back to Movie Maniax!</p>
                 </div>
             </section>
             <div class="container">

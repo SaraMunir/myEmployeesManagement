@@ -1,6 +1,56 @@
-import React from 'react'
-
+import React, { useState, useRef } from "react";
+import { Redirect } from 'react-router-dom';
 function MembLogIn() {
+    const [ userData, setUserData ] = useState({ name: "", email: localStorage.email, password: "", rememberMe: true });
+    const [ isLoggedIn, setIsLoggedIn ] = useState( false );
+    const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
+    const inputEmail = useRef();
+    const inputPassword = useRef();
+
+    function handleInputChange( e ){
+        const { id, value } = e.target;
+        setUserData( { ...userData, [id]: value } );
+    }
+    function handleCheckbox(){
+        setUserData( { ...userData, rememberMe: !userData.rememberMe } );
+    }
+    async function loginUser( e ){
+        e.preventDefault();
+        setUserData({ name: "", email: localStorage.email, password: "", rememberMe: true })
+        if( userData.email === "" ) {
+            inputEmail.current.focus();
+            setAlertMessage( { type: 'danger', message: 'Please provide your Email!' } );
+            return;
+        }
+        if( userData.password === "" || userData.password.length < 8 ) {
+            inputPassword.current.focus();
+            setAlertMessage( { type: 'danger', message: 'Please provide your password!' } );
+            return;
+        }
+        const apiResult = await fetch('/api/user/login', 
+            {   method: 'post',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            }).then( result=>result.json())
+
+            localStorage.setItem("email", apiResult.email);
+            localStorage.setItem('id', apiResult.id);
+            localStorage.setItem('name', apiResult.name);
+
+        if( !apiResult.message ){
+            setAlertMessage( { type: 'danger', message: apiResult.error } );
+            return;
+        };
+
+        setAlertMessage( { type: 'success', message: 'Loading, please wait...' } );
+        localStorage.email = ( apiResult.rememberMe ? apiResult.email : '' );
+        setTimeout( function(){ setIsLoggedIn(true); }, 1000 );
+        
+    }
+
     return (
         <div style={{color: "black"}}>
             { isLoggedIn ? <Redirect to='/Dashboard' /> : '' }
