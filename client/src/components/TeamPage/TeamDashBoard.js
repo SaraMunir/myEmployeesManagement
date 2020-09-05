@@ -38,14 +38,14 @@ function TeamDashBoard() {
         setMaleMembersDetail(maleMembArray);
         setOtherMembersDetail(otherMembArray);
 
-        getTeamDetail.teamMembers.forEach(member => {
-            if( member.birthday != undefined){
-                if(member.birthday.split("-")[1].slice(1) == value.getMonth()+1){
-                    birthdayArray.push(member);
-                }
-            } 
-        })
-        setMonthlyBirthday(birthdayArray);
+        // getTeamDetail.teamMembers.map(member => {
+        //     if( member.birthday != undefined){
+        //         if(member.birthday.split("-")[1].slice(1) == value.getMonth()+1){
+        //             birthdayArray.push(member);
+        //         }
+        //     }
+        // })
+        // setMonthlyBirthday(birthdayArray);
     }
     useEffect( function(){
         loadTeamProfile();

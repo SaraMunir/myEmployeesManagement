@@ -24,8 +24,18 @@ app.post('/api/user/signUp', async function( req,res ){
 app.post('/api/user/login', async function( req,res ){
     const userData = req.body;
     const loginResult = await orm.loginUser( userData.email, userData.password );
+    console.log('in server loginResult: ', loginResult)
     loginResult.rememberMe = req.body.rememberMe;
     res.send( loginResult );
+    
+});
+//Member log Login
+app.post('/api/member/login', async function( req,res ){
+    const userData2 = req.body;
+    const memberLoginResult = await orm.loginMember( userData2);
+    console.log('in server loginResult: ', memberLoginResult)
+    // memberLoginResult.rememberMe = req.body.rememberMe;
+    res.send( memberLoginResult );
     
 });
 

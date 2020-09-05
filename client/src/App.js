@@ -14,6 +14,7 @@ import TeamPage from './components/TeamPage/TeamPage';
 import Employees from './components/TeamPage/Employees';
 import MembProfile from './components/TeamPage/MembProfile';
 import MemberLogIn from './components/MembLogIn'
+import MemberDashboard from './components/MemberDashboard'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route exact path={["/MyTeam"]} component={MyTeam}/>
         <Route exact path={["/logout"]} component={LogOut}/>
         <Route exact path={["/Dashboard"]} component={Dashboard}/>
+        <Route exact path={["/MemberDashboard"]} component={MemberDashboard}/>
         <Route path={["/TeamPage/:teamId"]} component={TeamPage} />
         {/* <Route path={["/TeamPage/MembProfile/:teamId/:membId"]} component={MembProfile}/> */}
       </Router>

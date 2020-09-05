@@ -5,6 +5,7 @@ const bcrypt = require ( 'bcrypt' );
 
 mongoose.connect(`mongodb://localhost:27017/myEmployeeManagement`, {useNewUrlParser: true, useFindAndModify: false});
 const db = require( './models' );
+const e = require('express');
 
 async function registerUser( userData ){
     if( !userData.password || !userData.name || !userData.email ){
@@ -32,12 +33,10 @@ async function loginUser( email, password ) {
     if( !userData ) {
         return { error: "Couldn't find that email. Register or try again!" };
     }
-
     const isValidPassword = await bcrypt.compare( password, userData.password );
     if( !isValidPassword ) {
         return { error: "Invalid password" };
     }
-
     // remap the data into the specified fields as we are using camelCase
     return {
         message: "user successfully loggedin",
@@ -46,7 +45,55 @@ async function loginUser( email, password ) {
         email: userData.email,
     };
 }
+async function loginMember( userData ) {
+    // name: "", email: localStorage.email, membLeaderId: "", membTeamId: "", password: "", rememberMe: true 
+    const admindId = userData.membLeaderId;
+    const membTeamId = userData.membTeamId;
+    const email = userData.email;
+    const membPassword = userData.password;
+    console.log('in orm logged in member Info received: ', userData)
+    const memberData = await db.users.findOne({ _id: admindId});
+    console.log('fetched data in orms: ', memberData.teams);
+    if( !memberData ) {
+        return { error: "Couldn't find the Leader Id. Register or try again!" };
+    }
+    // let memberFinalData ={
+    //     name: '',
+    //     id: '',
+    //     team: '',
+    //     leader: '',
+    //     email: '',
+    //     error: ''
+    // };
+    let teamMember={}
+    memberData.teams.forEach(async function(team){
+        if(team._id == membTeamId){
+            // // console.log('team: ', team.teamName)
+            // memberFinalData.name = team.teamName;
+            // memberFinalData.id = team._id;
+            team.teamMembers.forEach(async function(member){
+                if(member.email == email){
+                    teamMember = member
+                }
+            })
 
+        }
+    })
+    console.log('teamMember Now: ', teamMember)
+    const isValidPassword = await bcrypt.compare( membPassword, teamMember.membPassword );
+    if( !isValidPassword ) {
+        return { error: "Invalid password" };
+    }
+    
+    return {
+        message: "user successfully loggedin",
+        id: teamMember.id,
+        name: teamMember.membName,
+        email: teamMember.email,
+        leader: admindId,
+        team: membTeamId
+    };
+}
 async function postTeams( userTeams ){
     const userId = userTeams.adminId
     const teamData = {
@@ -226,6 +273,7 @@ async function updateAvatar( userId, imageUrl ){
 module.exports = {
     registerUser,
     loginUser,
+    loginMember,
     postTeams,
     getTeams, 
     getTeamDetail,

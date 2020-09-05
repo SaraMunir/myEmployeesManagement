@@ -12,7 +12,16 @@ function LogoutPage(){
 
     // call the api to logout (and clear session)
     async function logoutRequest(){
-        localStorage.id = "";
+        localStorage.clear();
+       
+
+//         team	5f2da4a917d7f78fcc7443be	
+// leader	5f2da46817d7f78fcc7443bc	
+// emails	suits@gmail.com	
+// name	suits	
+// id	5f530388aeef6b4434fd5bb6	
+// email		
+
         setTimeout( function(){ setIsLoggedOut(true); }, 500 );
     }
     
