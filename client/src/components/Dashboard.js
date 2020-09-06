@@ -5,7 +5,7 @@ import TeamWindow from './Dashboard/TeamWindow'
 const adminId = localStorage.id
 function Dashboard() {
     const [lgShow, setLgShow] = useState(false);
-    const [ myTeam, setMyTeam ] = useState({ teamName: "", teamDesc: "", adminId: localStorage.id});
+    const [ myTeam, setMyTeam ] = useState({ teamName: "", teamDesc: "", adminId: `${adminId}`});
 
     const [teams, setTeams] = useState([]);
 
@@ -36,8 +36,6 @@ function Dashboard() {
             loadTeams()
     }
     useEffect(function(){
-        const adminId = localStorage.id
-
         console.log('adminId: ', adminId)
         loadTeams();
     },[])
@@ -71,7 +69,6 @@ function Dashboard() {
                 </Modal> 
             </div>
             <TeamWindow teams = {teams} button ={Button}/>
-            
         </div>
     )
 }

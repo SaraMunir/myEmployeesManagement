@@ -139,17 +139,85 @@ app.put('/api/employeeDetail/:userId/:teamId/:membId', async function( req,res )
 })
 
 
+//new stuffs:
+//posting teams
+app.post('/api/newteams', async function( req,res ){
+    const userTeams = req.body;
+    const postNewTeam = await orm.postNewTeam( userTeams );
+    res.send(postNewTeam);
+})
+//fetching teams
+app.get('/api/allTeams/:userId', async(req, res) => {
+    const userId = req.params.userId;
+    const getAllTeams = await orm.getAllTeams( userId );
+    res.json( getAllTeams );
+})
+//posting new roles
+//creating roles
+app.post('/api/newRoles', async function( req,res ){
+    const userRoles = req.body;
+    const postNewRoles = await orm.postNewRoles( userRoles );
+    res.send(postNewRoles);
+})
+//getting all new roles
+app.get('/api/allRoles/:teamId', async(req, res) => {
+    // const userId = req.params.userId;
+    const teamId = req.params.teamId;
+    const getAllRoles = await orm.getAllRoles( teamId );
+    res.json( getAllRoles );
+})
+//deleting roles
+app.get('/api/deleteRole/:teamId/:roleId', async(req, res) => {
+    const adminId= req.params.adminId;
+    const teamId= req.params.teamId;
+    const roleId= req.params.roleId;
+    const allId ={
+        'teamId': req.params.teamId,
+        'roleId': req.params.roleId
+    }
+    const deleteNewRole = await orm.deleteNewRole( allId );
+    res.json( deleteNewRole );
+})
+//team detail
+///api/teamDetail/${teamId}
+app.get('/api/teamDetails/:teamId', async(req, res) => {
+    const teamId = req.params.teamId;
+    const getTeamDetails = await orm.getTeamDetails( teamId );
+    res.json( getTeamDetails );
+})
 
-// multer upload
-// const upload = require('multer')({ dest: 'client/public/uploads/' });
-// app.put( '/api/upload/:userid', upload.single('myFile'), async function( req, res ){
-//     let userId = req.params.userid
-//     const filePath = req.file.path;
-//     const originalName = req.file.originalname;
+//posting member
+//     /api/postMember
 
-//     const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
-//         fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
-//     const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
-//     const imgUploadDb = await orm.updateAvatar( userId, imageUrl );
-//     res.send( imgUploadDb );
-// });
+//creating employees
+app.post('/api/postMember', async function( req,res ){
+    const memberData = req.body;
+    const postMember = await orm.postMember( memberData );
+    res.send(postMember);
+})
+
+
+// /api/member/${teamId}
+
+//fetching members:
+app.get('/api/member/:teamId', async(req, res) => {
+    const teamId = req.params.teamId;
+    const getMembers = await orm.getMembers( teamId );
+    res.json( getMembers );
+})
+
+//     /api/deleteMember/${membId}
+
+//deleting member
+app.get('/api/deleteMember/:membId', async(req, res) => {
+    const memberId= req.params.membId;
+    
+    const deleteMember = await orm.deleteMember( memberId );
+    res.json( deleteMember );
+})
+//fetching members:
+app.get('/api/memberProfile/:membId', async(req, res) => {
+    const membId = req.params.membId;
+    const getMemberDetail = await orm.getMemberDetail( membId );
+    res.json( getMemberDetail[0] );
+})

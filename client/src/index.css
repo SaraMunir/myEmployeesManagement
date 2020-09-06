@@ -6,7 +6,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -24,12 +23,24 @@ code {
   border: 1px solid #1cd8c8;
 }
 img {
- width: 100%;
+  width: 100%;
 }
 .myBtn{
   width: 150px;
   background:  #94d1d1;
   margin: 5px;
+}
+.myBtnNew{
+  width: 150px;
+  background:  #e79fab;
+  padding: 10px;
+  margin: 5px auto;
+  color: white;
+
+}
+.myBtnNew:hover{
+  background:  #fd788e;
+  color: white;
 }
 .myBtn2{
   width: 150px;
@@ -46,20 +57,112 @@ img {
   border-radius: 5px;
   margin-top: 15px;
 }
+.teamWindow2{
+  background: #e79fab;
+  height: 80vh;
+  border-radius: 5px;
+  margin-top: 15px;
+}
 .myCrdImgTp{
-  height: 30vh;
+  height: 25vh;
   object-fit: cover;
 }
 .myCard{
+  background: #f5f5f5;
   margin-top: 10px;
-  width: 30%;
+  width: 28%;
   /* min-height: 40vh; */
-  max-height: 70vh;
+  min-height: 10vh;
+  border-radius: 5px;
+  padding: 10px;
 }
 .sideBar{
   background: #253b3d;
   min-height: 100vh;
   padding: 0;
+}
+.newSideBar{
+  background-image: linear-gradient(135deg , #e79fab , #bd4a5d);
+  min-height: 100vh;
+  padding: 0;
+}
+
+.sidBarItem2:hover{
+  /* list-style: none;
+  text-align: left;
+  padding: 25px 30px; */
+  color: white;
+  background: #fd788e;
+  /* border: 1px solid white; */
+  text-decoration: none;
+}
+.sidBarItem2{
+  margin: 0;
+  width: 100%;
+  list-style: none;
+  text-align: left;
+  padding: 25px 20px;
+  color: white;
+  border: 1px solid #16232400;
+}
+.sidBarItem2Active{
+  background: #e79faba9;
+  margin: 0;
+  width: 100%;
+  list-style: none;
+  text-align: left;
+  padding: 25px 20px;
+  color: black;
+  border: 1px solid #16232400;
+  text-decoration: none;
+}
+.tabBox{
+  /* position: relative;
+  height: ; */
+}
+.tabBAr {
+  width: 100%;
+  /* border-bottom: 2px solid #fd788e; */
+  margin-top: 5px;
+}
+
+.TabActive{
+  background: #ffe9ed;
+  border: 2px solid #fd788e;
+  border-bottom: 2px solid #ffe9ed;;
+  width: 130px;
+  list-style: none;
+  text-align: left;
+  padding: 10px 20px;
+  color: #fd788e;
+  /* border: 1px solid #16232400; */
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  text-decoration: none;
+}
+.Tab{
+  background: #abacaaa9;
+  border: 2px solid #fd788e;
+  width: 130px;
+  list-style: none;
+  text-align: left;
+  padding: 10px 20px;
+  color: #615c5c;
+  border: 1px solid #16232400;
+  text-decoration: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+}
+.myBorder{
+  border: 2px solid #f33555;
+  
+}
+.memDetail{
+  padding: 20px;
+  background: #ffe9ed;
+  border: 2px solid #fd788e;
+  min-height: 40vh;
 }
 .sidBarItem{
   margin: 0;
@@ -80,7 +183,6 @@ img {
   color: black;
   border: 1px solid #16232400;
   text-decoration: none;
-
 }
 .sidBarItem:hover{
   /* list-style: none;
@@ -95,7 +197,7 @@ img {
   color: black;
   text-decoration: none;
 }
-.teamDashboard{
+.teamWindow{
   background: #84a0a3;
   min-height: 100vh;
   /* width: 100%; */
@@ -126,4 +228,42 @@ a:hover{
   height: 10vh;
   width: 10vh;
   object-fit: cover;
+}
+.myHeader{
+  background: #d498a3;
+  color: white;
+  padding: 10px;
+}
+.deleteBtn{
+  cursor: pointer;
+  padding: 5px;
+
+}
+.deleteBtn:hover{
+  cursor: pointer;
+  color: white;
+  background: #df6378;
+  padding: 5px;
+  border-radius: 50%;
+}
+.teamDashboard{
+  width: 100%;
+  background-image: linear-gradient(135deg, #eedcdf, #c9b6d4);
+}
+.myTitle{
+  color: #e6798b;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.mySubTxt{
+  color: #616161;
+  font-style: oblique;
+}
+.profilePhoto{
+  width: 50vh;
+  height: 50vh;
+  object-fit: cover;
+}
+.membAbout {
+  border: 1px solid #bd4a5d;
 }

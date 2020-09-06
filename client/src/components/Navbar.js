@@ -37,6 +37,12 @@ function Navbar() {
                         </Link>
                     </li>}
                     {!id ? '':
+                    <li class="nav-item">
+                        <Link to="/NewTeamsPage" className={location.pathname === "/NewTeamsPage" ? "nav-link active " : "nav-link"}>
+                        New TeamPage
+                        </Link>
+                    </li>}
+                    {!id ? '':
                         <Link to="/logout" style={{color: 'black', paddingLeft: '20px'}} className={location.pathname === "/logout" ? "nav-link active" : "nav-link"}>
                         <div class="btn myBtn" href="#" role="button">Log Out </div>
                         </Link>

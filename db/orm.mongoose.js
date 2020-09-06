@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require ( 'bcrypt' );
 
+const { v4: uuidv4 } = require('uuid');
+var short = require('short-uuid');
+
 // mongoose.connect(`mongodb://${process.env.movieTracker}`,{useNewUrlParser: true});
 
 mongoose.connect(`mongodb://localhost:27017/myEmployeeManagement`, {useNewUrlParser: true, useFindAndModify: false});
@@ -84,7 +87,6 @@ async function loginMember( userData ) {
     if( !isValidPassword ) {
         return { error: "Invalid password" };
     }
-    
     return {
         message: "user successfully loggedin",
         id: teamMember.id,
@@ -239,7 +241,6 @@ async function getTeamDetail( teamId, userId ){
     return teamDetailArr;
 }
 
-
 //updateEmployee Info
 async function updateEmployee( userEmployee, allId  ){
     const updateEmpInfo = await db.users.findOneAndUpdate(
@@ -264,10 +265,118 @@ async function updateEmployee( userEmployee, allId  ){
 async function updateAvatar( userId, imageUrl ){
     const imageData = {
         profileImg: imageUrl
-     };
+    };
     const dbResult = await db.users.findOneAndUpdate({_id: userId}, imageData);
     const userFetch = await db.users.findOneAndUpdate({ _id: userId }, { $push: { friendList: {image: imageData} } });
     return { message: `Thank you, updated` }
+}
+
+//new stuff: 
+//  posting team:
+async function postNewTeam( userTeams ){
+    // const userId = userTeams.adminId
+    const teamData = {
+        'teamName': `${userTeams.teamName}`,
+        'teamDesc': `${userTeams.teamDesc}`,
+        'teamAdmin': `${userTeams.adminId}`,
+        'teamAdminName': `${userTeams.adminName}`,
+    };
+    const dbTeam = new db.teams( teamData );
+    const saveTeam = await dbTeam.save();
+
+    return { 
+        message: "team successfully saved", 
+    };   
+}
+async function getAllTeams( userId ){
+    const getAllTeams = await db.teams.find({
+        "teamAdmin" : userId
+    })
+    return getAllTeams
+}
+//posting roles
+async function postNewRoles( userRoles ){
+    const teamID = userRoles.teamId
+    const userId = userRoles.adminId
+    const roleData = {
+        'roleName': `${userRoles.roleName}`,
+        'roleDesc': `${userRoles.roleDesc}`,
+    };
+    const createRole = await db.teams.findOneAndUpdate(
+        { _id: teamID}, 
+        { $push: { "teamRoles": roleData }});
+    return { 
+        message: "role successfully saved", 
+    };   
+}
+//fetching all roles
+async function getAllRoles( teamId ){
+    const getAllRoles = await db.teams.find({
+        "_id" : teamId 
+    })
+    // console.log('getAllRoles ', getAllRoles[0].teamRoles)
+    return getAllRoles[0]
+}
+// deleteRole
+async function deleteNewRole( allId ){
+    // const userId = allId.adminId
+    const teamId = allId.teamId
+    const roleId = allId.roleId
+    const deleteRole = await db.teams.findOneAndUpdate(
+        { _id: teamId}, 
+        { "$pull": { "teamRoles": {_id: roleId} }});
+    return deleteRole;
+}
+// fetchign team detail
+async function getTeamDetails( teamId ){
+    const getTeams = await db.teams.find({
+        "_id" : teamId
+    })
+    return getTeams[0];
+}
+
+// async function getTeamRoles( teamId ){
+//     const getTeams = await db.teams.find({
+//         "_id" : teamId
+//     })
+//     return getTeams[0].teamRoles;
+// }
+// postMember
+async function postMember( memberInfo ){
+
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(memberInfo.membPassword, saltRounds);    
+    const memberData = {
+        'teamId': `${memberInfo.teamId}`,
+        'name': `${memberInfo.membName}`,
+        'role': `${memberInfo.membRole}`,
+        'email': `${memberInfo.membEmail}`,
+        'sex': `${memberInfo.membSex}`,
+        'membPassword': passwordHash
+    };
+    const dbMember = new db.members( memberData );
+    const saveMember = await dbMember.save();
+    return { 
+        message: "Member successfully saved", 
+    };   
+}
+async function getMembers( teamId ){
+    const getAllMembers = await db.members.find({
+        "teamId" : teamId
+    })
+    return getAllMembers
+}
+async function deleteMember( membId ){
+    const deleteMember = await db.members.deleteOne({
+        "_id" : membId
+    })
+    return deleteMember
+}
+async function getMemberDetail( membId ){
+    const getMembDetail = await db.members.find({
+        "_id" : membId
+    })
+    return getMembDetail
 }
 
 module.exports = {
@@ -285,5 +394,18 @@ module.exports = {
     deleteEmployee,
     updateAvatar,
     getMembDet,
-    updateEmployee
+    updateEmployee, 
+    
+    // new stuffs
+    postNewTeam,
+    getAllTeams,
+    postNewRoles,
+    getAllRoles,
+    deleteNewRole,
+    getTeamDetails,
+    postMember,
+    getMembers,
+    deleteMember,
+    getMemberDetail
+
 }

@@ -15,6 +15,9 @@ import Employees from './components/TeamPage/Employees';
 import MembProfile from './components/TeamPage/MembProfile';
 import MemberLogIn from './components/MembLogIn'
 import MemberDashboard from './components/MemberDashboard'
+//starting fressh from below: 
+import NewTeamsPage from './components/NewTeam/Teams'
+import TeamDetail from './components/NewTeam/TeamDetail'
 
 function App() {
   return (
@@ -31,7 +34,12 @@ function App() {
         <Route exact path={["/Dashboard"]} component={Dashboard}/>
         <Route exact path={["/MemberDashboard"]} component={MemberDashboard}/>
         <Route path={["/TeamPage/:teamId"]} component={TeamPage} />
+        
         {/* <Route path={["/TeamPage/MembProfile/:teamId/:membId"]} component={MembProfile}/> */}
+
+        {/* starting fresh */}
+        <Route exact path={["/NewTeamsPage"]} component={NewTeamsPage}/>
+        <Route path={["/TeamDetail/:teamId"]} component={TeamDetail} />
       </Router>
     </div>
   );
