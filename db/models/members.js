@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 let members = new Schema ({
     type: String,
+    bio: String,
     teamId: String,
     name: String,
     role: String,

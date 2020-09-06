@@ -5,16 +5,13 @@ import { useParams } from "react-router-dom";
 import { UserContext } from '../TeamPage/TeamPage';
 
 function MembProfile() {
-
     const userId = localStorage.id;
-    
     const { teamRolesDetail } = useContext(UserContext);
     const { teamId } = useParams();
     const { membId } = useParams();
     const [membDetail, setMembDetail]= useState( {});
     const [lgShow, setLgShow] = useState(false);
     const [ employeeEdit, setEmployeeEdit ] = useState({ membName:"", membDesc:"", membRole:"", membRoleId:"", status:"", birthday:"", email:"", phoneNumber:"", address:"", membSex: "",membPassword: "", userId: `${userId}`, teamId: `${teamId}`});
-
     async function loadEmpProfile(){
         console.log("teamRolesDetail", teamRolesDetail)
         // console.log('membId: ', membId)
@@ -28,12 +25,10 @@ function MembProfile() {
             }
         });
     }
-
     function handleInputChange( e ){
         const { id, value } = e.target; 
         setEmployeeEdit( { ...employeeEdit, [id]: value } );
     }
-
     async function saveChanges(e){
         e.preventDefault();
         const apiResult = await fetch(`/api/employeeDetail/${userId}/${teamId}/${membId}`, 
@@ -47,7 +42,6 @@ function MembProfile() {
         setMembDetail(apiResult.userEmployee)
         setLgShow(false);
     }
-
     const imgTag = function imageStuff () {
         switch (membDetail.membSex){
             case "F": return <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="employee_avatar" />
@@ -143,7 +137,6 @@ function MembProfile() {
             <div className="card mt-3">
                 <div className="row container mx-auto mt-4 mb-3">
                     <div className="col-4 mx-auto" >
-                        {imgTag()}
                         <h3>{membDetail.membName}</h3>
                         <p><i class="fas fa-map-marked-alt"></i>{membDetail.membDesc ? membDetail.membDesc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. "}</p>
                     </div>

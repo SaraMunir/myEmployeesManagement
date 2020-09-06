@@ -95,7 +95,6 @@ function Members() {
             <h3 class="myHeader" >Team Members</h3>
             <nav class="mt-2 navbar navbar-light bg-light">
                 <form class="form-inline">
-                    
                     <input class="form-control mr-sm-2" type="search" placeholder="Search Employees" aria-label="Search"
                     onChange={handleSearchInputChange}
                     value={searchInput}
@@ -150,8 +149,8 @@ function Members() {
                                             {teamRoles.map( role => 
                                             <option value={role.roleName}>{role.roleName}</option>
                                             )}
-                                        </select>
-                                    </div>
+                                            </select>
+                                        </div>
                                         <div class="col-md-4">
                                         <label for="membSex">Select Sex</label>
                                         <select 
@@ -186,8 +185,8 @@ function Members() {
                                     <img src="https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png" alt="" class="empAvatar"/>
                                     <h5 class="card-title myTitle">{memb.name}</h5>
                                     <p class="card-text mySubTxt">{memb.role}</p>
-                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}`} >
-                                        <div class="myBtnNew" href="#" role="button">view Detail </div>
+                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
+                                        <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
                                     </Link>
                                 </div>
                             </div>
@@ -200,9 +199,9 @@ function Members() {
                                     <img src="https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg" alt="" class="empAvatar"/>
                                     <h5 class="card-title myTitle">{memb.name}</h5>
                                     <p class="card-text mySubTxt">{memb.role}</p>
-                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}`} >
-                                <div class="myBtnNew" href="#" role="button">view Detail </div>
-                            </Link>
+                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
+                                        <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
+                                    </Link>
                                 </div>
                             </div>
                         default:   return <div class="card myCard mx-auto">
@@ -213,8 +212,8 @@ function Members() {
                             <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="" class="empAvatar"/>
                             <h5 class="card-title myTitle">{memb.name}</h5>
                             <p class="card-text mySubTxt">{memb.role}</p>
-                            <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}`} >
-                                <div class="myBtnNew" href="#" role="button">view Detail </div>
+                            <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
+                                <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
                             </Link>
                         </div>
                     </div>;

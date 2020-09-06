@@ -14,7 +14,7 @@ function TabBar(props) {
             </Link>
             <Link class="mr-1" to={`/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/About`} > 
                 <div className={location.pathname === `/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/About` ? "TabActive" : "Tab"}>
-                About</div>
+                <i class="fas fa-user"></i> About</div>
             </Link>
         </div>
     )
