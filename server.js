@@ -6,7 +6,6 @@ const path = require("path");
 const orm = require( './db/orm.mongoose' );
 
 // const { kMaxLength } = require('buffer');
-// const multer  = require('multer');
 const PORT = process.env.PORT || 8080;
 const app = express();
 var server = app.listen( PORT, function(){ console.log( `[myEmployeeManagement], http://localhost:${PORT}` ); });
@@ -220,4 +219,69 @@ app.get('/api/memberProfile/:membId', async(req, res) => {
     const membId = req.params.membId;
     const getMemberDetail = await orm.getMemberDetail( membId );
     res.json( getMemberDetail[0] );
+})
+
+//updating members: 
+//   /api/memberDetailUpdate/${membId}
+
+// update employee info
+app.put('/api/memberDetailUpdate/:membId', async function( req,res ){
+    const membId = req.params.membId
+    
+    const userMember = req.body;
+    const updateMember = await orm.updateMember( userMember, membId );
+    // console.log(updateMember)
+    res.send(updateMember);
+})
+//upload: 
+// const photoData = {
+//     formData: formData,
+//     oldPhoto: oldPhoto
+// }
+
+
+const upload = require('multer')({ dest: 'client/public/uploads/' });
+app.post('/api/deleteOldProfilePIc', async function( req,res ){
+    
+    const oldphoto = req.body;
+    console.log('oldphoto in server: ', oldphoto)
+
+    const path = `client/public/${oldphoto.old}`
+        fs.unlink(path, (err) => {
+            if (err) {
+            console.error(err)
+            return
+            }
+            res.send({ message: `Thank you, updated` });
+            //file removed
+        })
+})
+
+app.put( '/api/upload/:userid', upload.single('myFile'), async function( req, res ){
+    let userId = req.params.userid
+    const filePath = req.file.path;
+    const originalName = req.file.originalname;
+    
+    const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
+        fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
+
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+    const imgUploadDb = await orm.updateAvatar( userId, imageUrl );
+    res.send( imgUploadDb );
+});
+
+
+//creating Houses:
+//creating employees
+app.post('/api/postHouse', async function( req,res ){
+    const houseData = req.body;
+    const postHouse = await orm.postHouse( houseData );
+    res.send(postHouse);
+})
+//fetching houses
+//fetching members:
+app.get('/api/house/:teamId', async(req, res) => {
+    const teamId = req.params.teamId;
+    const getHouses = await orm.getHouses( teamId );
+    res.json( getHouses );
 })

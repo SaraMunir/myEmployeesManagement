@@ -10,7 +10,7 @@ function TabBar(props) {
         <div class="d-flex tabBAr">
             <Link class="mr-1" to={`/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/TimeLine`} >
                 <div className={location.pathname === `/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/TimeLine` ? "TabActive" : "Tab"}>
-                Time Line</div>
+                <i class="fas fa-stream"></i> Time Line</div>
             </Link>
             <Link class="mr-1" to={`/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/About`} > 
                 <div className={location.pathname === `/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/About` ? "TabActive" : "Tab"}>

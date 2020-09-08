@@ -7,16 +7,12 @@ const userId = localStorage.id
 
 function Members() {
     const { teamId } = useParams();
-    // const { teamRoles } = useContext(UserContext);
     const [lgShow, setLgShow] = useState(false);
     const [ newMember, setNewMember ] = useState({ membName: "", membEmail: "", membRole: "", membSex: "",membPassword: "", teamId: `${teamId}`});
     const [teamRoles, setTeamRoles] = useState([])
-    // const [teamDetail, setTeamDetail]= useState( []);
-    // const [roles, setRoles] = useState([]);
     const [member, setMember] = useState([]);
     const [ searchInput, setSearchInput] = useState("");  
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
-
     const inputEmail = useRef();  
     const inputPassword = useRef();
 
@@ -170,7 +166,7 @@ function Members() {
                     </Modal> 
                 </div>
             </nav>
-            <div  div class="row">
+            <div class="row">
                 {member.length == 0 ? 
                 <h4 class="mt-5 mx-auto">You have not added any team mates yet</h4>
                 :
@@ -182,7 +178,9 @@ function Members() {
                                     <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)}></i>
                                 </div>
                                 <div class="card-body">
-                                    <img src="https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png" alt="" class="empAvatar"/>
+                                    <img src={
+                        memb.profileImg ? memb.profileImg : "https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png"
+                    } alt="" class="empAvatar"/>
                                     <h5 class="card-title myTitle">{memb.name}</h5>
                                     <p class="card-text mySubTxt">{memb.role}</p>
                                     <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
@@ -191,12 +189,14 @@ function Members() {
                                 </div>
                             </div>
                         case "M":
-                            return <div class="card myCard mx-auto">
+                            return <div class="myCard mx-auto">
                                 <div className="mb-2 mt-2 mr-2 d-flex justify-content-end">
                                     <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)}></i>
                                 </div>
                                 <div class="card-body">
-                                    <img src="https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg" alt="" class="empAvatar"/>
+                                    <img src={
+                        memb.profileImg ? memb.profileImg : "https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg"
+                    } alt="" class="empAvatar"/>
                                     <h5 class="card-title myTitle">{memb.name}</h5>
                                     <p class="card-text mySubTxt">{memb.role}</p>
                                     <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
@@ -204,12 +204,14 @@ function Members() {
                                     </Link>
                                 </div>
                             </div>
-                        default:   return <div class="card myCard mx-auto">
+                        default:   return <div class="myCard mx-auto">
                         <div className="mb-2 mt-2 mr-2 d-flex justify-content-end">
                             <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)}></i>
                         </div>
                         <div class="card-body">
-                            <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png" alt="" class="empAvatar"/>
+                            <img src={
+                        memb.profileImg ? memb.profileImg : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"
+                    } alt="" class="empAvatar"/>
                             <h5 class="card-title myTitle">{memb.name}</h5>
                             <p class="card-text mySubTxt">{memb.role}</p>
                             <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >

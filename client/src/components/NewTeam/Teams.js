@@ -77,12 +77,12 @@ function Teams() {
                 <h4 class="mt-5 mx-auto">You have not created any Teams yet</h4>
                 :
                 teams.map( team => 
-                    <div class="card myCard mx-auto">
+                    <div class="myCard teamCard mx-auto">
                         <img class="card-img-top myCrdImgTp" src="https://images.squarespace-cdn.com/content/v1/59685a82893fc01de25af303/1526696054881-K3PHNE63S3CR3EBW0D98/ke17ZwdGBToddI8pDm48kA47qaxzGU3oa60Mv3IrElh7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0jBK0T3M-v-AVkQFEHxhNgUudw45kiY-UQ73op4W9iSPFDhmgzum_ZisgY9UJzHOlA/Teams_illustrations_Full+Res-01.png?format=2500w" alt="Card image cap"/>
                         <div class="card-body">
                             <h5 class="card-title">{team.teamName}</h5>
                             <p class="card-text">{team.teamDesc}</p>
-                            <Link to={'/TeamDetail/'+team._id} >
+                            <Link to={`/TeamDetail/${team._id}/TeamDashboard`} >
                                 <div class="btn myBtnNew" href="#" role="button">View Detail </div>
                             </Link>
                         </div>

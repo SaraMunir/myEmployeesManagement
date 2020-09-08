@@ -261,15 +261,15 @@ async function updateEmployee( userEmployee, allId  ){
 
 
 
-//multer
-async function updateAvatar( userId, imageUrl ){
-    const imageData = {
-        profileImg: imageUrl
-    };
-    const dbResult = await db.users.findOneAndUpdate({_id: userId}, imageData);
-    const userFetch = await db.users.findOneAndUpdate({ _id: userId }, { $push: { friendList: {image: imageData} } });
-    return { message: `Thank you, updated` }
-}
+// //multer
+// async function updateAvatar( userId, imageUrl ){
+//     const imageData = {
+//         profileImg: imageUrl
+//     };
+//     const dbResult = await db.users.findOneAndUpdate({_id: userId}, imageData);
+//     const userFetch = await db.users.findOneAndUpdate({ _id: userId }, { $push: { friendList: {image: imageData} } });
+//     return { message: `Thank you, updated` }
+// }
 
 //new stuff: 
 //  posting team:
@@ -379,6 +379,67 @@ async function getMemberDetail( membId ){
     return getMembDetail
 }
 
+
+// const createTeam = await db.users.findOneAndUpdate({ _id: userId }, { $push: {teams: teamData} });
+
+//updating member Info
+async function updateMember( userEmployee, membId  ){
+    console.log('in orm: ', userEmployee.address)
+    const updateMembInfo = await db.members.findOneAndUpdate(
+        { _id: membId},
+            { "$set": userEmployee}
+    );
+    return { 
+        message: "Member successfully Updated", 
+    };
+
+}
+
+//uploading image
+
+async function updateAvatar( userId, imageUrl ){
+    const imageData = {
+        profileImg: imageUrl
+    };
+    console.log('imageData : ', imageData)
+    const dbResult = await db.members.findOneAndUpdate(
+        {_id: userId}, {"$set": imageData});
+    // const userFetch = await db.users.findOneAndUpdate({ _id: userId }, { $push: { friendList: {image: imageData} } });
+
+    return { message: `Thank you, updated` }
+}
+// postMember
+        //      houseName: "", 
+        //      about: "", 
+        //      housePin: "", 
+        //      teamId: `${teamId}`, 
+        //      houseLeader:{}});
+
+async function postHouse( memberInfo ){
+
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(memberInfo.housePin, saltRounds);    
+    const houseData = {
+        'houseName': `${memberInfo.houseName}`,
+        'about': `${memberInfo.about}`,
+        'teamId': `${memberInfo.teamId}`,
+        'houseLeader': memberInfo.houseLeader,
+        'houseColor': memberInfo.houseColor,
+        'housePin': passwordHash
+    };
+    const dbHouse = new db.house( houseData );
+    const saveHouse = await dbHouse.save();
+    return { 
+        message: "House successfully saved", 
+    };   
+}
+
+async function getHouses( teamId ){
+    const getAllHouses = await db.house.find({
+        "teamId" : teamId
+    })
+    return getAllHouses
+}
 module.exports = {
     registerUser,
     loginUser,
@@ -406,6 +467,9 @@ module.exports = {
     postMember,
     getMembers,
     deleteMember,
-    getMemberDetail
+    getMemberDetail,
+    updateMember,
+    postHouse,
+    getHouses
 
 }

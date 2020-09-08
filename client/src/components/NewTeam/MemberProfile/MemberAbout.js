@@ -3,7 +3,7 @@ import { UserContext } from './MemberProfile';
 function MemberAbout(props) {
     const { memberDetail } = useContext(UserContext);
     return (
-        <div className="myBorder">
+        <div className="membAbout">
             <div className="d-flex justify-content-between">
                 <p className="subHeader col-3 text-left"><i class="fas fa-envelope"></i> Email:</p>
                 <p className="col-9 text-left">{memberDetail.email}</p>
@@ -14,7 +14,11 @@ function MemberAbout(props) {
             </div>
             <div className="d-flex justify-content-between">
                 <p className="subHeader col-3 text-left"><i class="fas  fa-phone-square"></i> Phone:</p>
-                <p className="col-9 text-left">{memberDetail.phone ? memberDetail.phone : "phone number not yet provided"}</p>
+                <p className="col-9 text-left">{memberDetail.phoneNumber ? memberDetail.phoneNumber : "phone number not yet provided"}</p>
+            </div>
+            <div className="d-flex justify-content-between">
+                <p className="subHeader col-3 text-left"><i class="fas fa-birthday-cake"></i> Birthday:</p>
+                <p className="col-9 text-left">{memberDetail.birthday ? memberDetail.birthday : "Birthday has not been added yet"}</p>
             </div>
         </div>
     )

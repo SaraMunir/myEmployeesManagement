@@ -39,9 +39,7 @@ function Roles() {
     useEffect(function(){
         console.log('adminId: ', adminId)
         loadAllRoles();
-
     },[])
-
     return (
         <div>
             <div className="d-flex justify-content-end mb-2 mt-2">

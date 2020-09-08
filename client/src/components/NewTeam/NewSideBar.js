@@ -15,9 +15,15 @@ function NewSideBar(props) {
                     </li>
                 </Link>
                 {/*   /TeamDetail/:teamId/Members    */}
-                <Link to={`/TeamDetail/${props.teamId}/Roles`} className="try"> 
+                {/* <Link to={`/TeamDetail/${props.teamId}/Roles`} className="try"> 
                     <li class={location.pathname === `/TeamDetail/${props.teamId}/Roles` ? "sidBarItem2Active" : "sidBarItem2"}>
                         Roles
+                    </li>
+                </Link> */}
+                {/* "/TeamDetail/:teamId/Settings */}
+                <Link to={`/TeamDetail/${props.teamId}/Settings`} className="try"> 
+                    <li class={location.pathname === `/TeamDetail/${props.teamId}/Settings` ? "sidBarItem2Active" : "sidBarItem2"}>
+                    <i class="fas fa-cog"></i>  Settings
                     </li>
                 </Link>
                 <Link to={`/TeamDetail/${props.teamId}/Members`} className="try"> 

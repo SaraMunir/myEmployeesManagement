@@ -31,6 +31,7 @@ img {
   margin: 5px;
 }
 .myBtnNew{
+  text-align: center;
   width: 150px;
   background:  #e79fab;
   padding: 10px;
@@ -72,11 +73,14 @@ img {
 .myCard{
   background: #f5f5f5;
   margin-top: 10px;
-  width: 28%;
+  margin-bottom: 20px;
+  min-width: 28%;
   /* min-height: 40vh; */
   min-height: 10vh;
   border-radius: 5px;
   padding: 10px;
+  box-shadow: 1px 2px 3px #998893;
+
 }
 .sideBar{
   background: #253b3d;
@@ -132,7 +136,7 @@ img {
   background: #ffe9ed;
   border: 2px solid #fd788e;
   border-bottom: 2px solid #ffe9ed;;
-  width: 130px;
+  min-width: 130px;
   list-style: none;
   text-align: left;
   padding: 10px 20px;
@@ -160,9 +164,12 @@ img {
   border: 2px solid #f33555;
   
 }
+.membAbout{
+  padding: 20px;
+}
 .memDetail{
   padding: 20px;
-  background: #ffe9ed;
+  background: #ffffff;
   border: 2px solid #fd788e;
   min-height: 40vh;
 }
@@ -250,7 +257,7 @@ a:hover{
 }
 .teamDashboard{
   width: 100%;
-  background-image: linear-gradient(135deg, #eedcdf, #c9b6d4);
+  background-image: linear-gradient(135deg, #faf2f3, #e8dcf0);
 }
 .myTitle{
   color: #e6798b;
@@ -273,13 +280,32 @@ a:hover{
   border-radius: 50%;
 }
 .membAbout {
-  border: 1px solid #bd4a5d;
+  /* border: 1px solid #bd4a5d; */
+  padding: 40px;
 }
 .editBtn{
+  padding: 11px 24px;
   cursor: pointer;
+  border-radius: 3px;
+  /* background: #a3a3a3; */
+}
+.editBtn:hover{
+  background: #d4d4d4;
 }
 .closeBtn{
   cursor: pointer;
+  padding: 2px;
+  border-radius: 50%;
+  
+}
+.closeBtn:hover{
+  color: white;
+  background: #585858;
+  
+}
+
+.d-hide{
+  display: none;
 }
 .hide{
   display: none;
@@ -315,4 +341,49 @@ a:hover{
   border-radius: 50%;
   top: 8px;
   right: 32px; */
+}
+.teamCard{
+  max-width: 200px;
+  height: 60vh;
+}
+.imgThmbnail{
+  width: 10vh;
+  height: 10vh;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 5px 10px;
+}
+.houseCard{
+  background: crimson;
+  width: 42vh;
+  padding: 30px;
+  border-radius: 4px;
+}
+.dropDnParnt{
+  position: relative;
+  
+}
+.housDropDwn{
+  background: white;
+  text-align: left;
+  width: 80%;
+  position: absolute;
+  top: 23px;
+  right: 5px;
+  padding: 10px;
+  /* margin: 20px; */
+}
+.dropDwnIcon{
+  /* background: #d3d3d362; */
+  padding: 10px;
+  border-radius: 3px;
+}
+.dropDwnIcon:hover{
+  background: #d3d3d3bb;
+}
+.dropDwnItem{
+  padding: 10px;
+}
+.dropDwnItem:hover{
+  background: #ececec
 }
