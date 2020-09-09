@@ -5,7 +5,6 @@ import { UserContext } from './TeamPage';
 import { Link, useParams } from "react-router-dom";
 import "./TeamDashBoard.css"
 
-
 function TeamDashBoard() {
     const { teamId } = useParams();
     const [teamDetail, setTeamDetail]= useState([]);

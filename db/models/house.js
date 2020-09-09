@@ -8,6 +8,7 @@ let house = new Schema ({
     profileImg: String,
     coverImg: String,
     houseColor: String,
+    houseProfileImg: String,
     houseLeader: {
         Name: String,
         memberId: String,

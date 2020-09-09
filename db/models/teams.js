@@ -9,24 +9,7 @@ let teams = new Schema ({
     teamDesc: String,
     teamMembers: [
         {
-            // membName: String,
             membId: String,
-            // membDesc: String,
-            // membRole: String,
-            // membRoleId: String,
-            // membSex: String,
-            // email: String,
-            // birthday: String, 
-            // address: String,
-            // phoneNumber: String,
-            // status: String,
-            // membSalary: String,
-            // membSalaryId: String,
-            // membPassword :  { 
-            //     type: String, 
-            //     required: true, 
-            //     trim: true
-            // }
         }
     ],
     teamRoles: [

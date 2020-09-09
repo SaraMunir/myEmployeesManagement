@@ -17,6 +17,7 @@ let members = new Schema ({
     membSalary: String,
     membSalaryId: String,
     profileImg: String,
+    house: String,
     membPassword :  { 
         type: String, 
         required: true, 

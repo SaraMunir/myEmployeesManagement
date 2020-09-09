@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 
 function NewSideBar(props) {
     const location = useLocation();
+    const userId = localStorage.id
+    const userType = localStorage.type
 
     return (
         <div className="col-2 newSideBar">
@@ -11,7 +13,7 @@ function NewSideBar(props) {
                 {/*    /TeamDashboard/:teamId    */}
                 <Link to={`/TeamDetail/${props.teamId}/TeamDashboard`} className="try"> 
                     <li class={location.pathname === `/TeamDetail/${props.teamId}/TeamDashboard` ? "sidBarItem2Active" : "sidBarItem2"}>
-                        Dashboard
+                        <i class="fas fa-tachometer-alt"></i>  Dashboard
                     </li>
                 </Link>
                 {/*   /TeamDetail/:teamId/Members    */}
@@ -21,14 +23,14 @@ function NewSideBar(props) {
                     </li>
                 </Link> */}
                 {/* "/TeamDetail/:teamId/Settings */}
-                <Link to={`/TeamDetail/${props.teamId}/Settings`} className="try"> 
+                {userType == 'Admin' ? <Link to={`/TeamDetail/${props.teamId}/Settings`} className="try"> 
                     <li class={location.pathname === `/TeamDetail/${props.teamId}/Settings` ? "sidBarItem2Active" : "sidBarItem2"}>
                     <i class="fas fa-cog"></i>  Settings
                     </li>
-                </Link>
+                </Link> : ""}
                 <Link to={`/TeamDetail/${props.teamId}/Members`} className="try"> 
                     <li class={location.pathname === `/TeamDetail/${props.teamId}/Members` ? "sidBarItem2Active" : "sidBarItem2"}>
-                        Members
+                    <i class="fas fa-users"></i>  Members
                     </li>
                 </Link>
                 

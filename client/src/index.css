@@ -39,7 +39,6 @@ img {
   color: white;
   border-radius: 3px;
   cursor: pointer;
-
 }
 .myBtnNew:hover{
   background:  #fd788e;
@@ -243,16 +242,21 @@ a:hover{
   color: white;
   padding: 10px;
 }
+.myTeamName{
+  background: #555555;
+  color: white;
+  padding: 10px;
+  text-transform: uppercase;
+  margin: 0 auto;
+
+}
 .deleteBtn{
   cursor: pointer;
-  padding: 5px;
 
 }
 .deleteBtn:hover{
   cursor: pointer;
-  color: white;
-  background: #df6378;
-  padding: 5px;
+  color: #df6378;
   border-radius: 50%;
 }
 .teamDashboard{
@@ -315,10 +319,21 @@ a:hover{
   margin: 10px auto;
   padding: 10px;
 }
+.membIntro{
+  position: relative;
+}
+.membHosImg{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20vh;
+  height: 20vh;
+}
 .membProImg{
   position: relative;
   
 }
+
 .uploadIcon{
   cursor: pointer;
   font-size: 1.7rem;
@@ -332,15 +347,7 @@ a:hover{
   border: 2px solid white;
 }
 .uploadIcon:hover{
-  /* cursor: pointer;
-  font-size: 1.7rem;
-  color: #3d3d3d; */
   background: #f7b5b5;
-  /* position: absolute;
-  padding: 10px;
-  border-radius: 50%;
-  top: 8px;
-  right: 32px; */
 }
 .teamCard{
   max-width: 200px;
@@ -358,6 +365,7 @@ a:hover{
   width: 42vh;
   padding: 30px;
   border-radius: 4px;
+  min-height: 40vh;
 }
 .dropDnParnt{
   position: relative;
@@ -387,3 +395,108 @@ a:hover{
 .dropDwnItem:hover{
   background: #ececec
 }
+.capLetter{
+  text-transform: capitalize;
+}
+.logInWndow{
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgb(78, 78, 78);
+  padding: 50px;
+
+}
+.houseLogingForm{
+  background: white;
+  width: 60%;
+  margin: 0 auto;
+  padding: 40px;
+}
+.houseColor{
+  /* background: ; */
+  padding: 20px;
+  width: 100%;
+  height: 22vh;
+  /* background-image: radial-gradient(rgb(182, 182, 182), black), co; */
+}
+.houseImg{
+  width: 30vh;
+  height: 30vh;
+  margin-top: -8vh;
+  margin-right: 10vh;
+  border-radius: 15px;
+  /* background: #303030; */
+}
+.houseTitle{
+  padding: 20px;
+}
+.houseAvatar{
+  position: relative;
+}
+.hseBtn{
+  text-align: center;
+  width: 150px;
+  background:  #979797;
+  padding: 10px;
+  /* margin: 5px; */
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.hseBtn:hover{
+  background:  #5e5e5e;
+  
+}
+.uploadIcon2{
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #3d3d3d;
+  background: #fad4d4;
+  position: absolute;
+  padding: 6px;
+  border-radius: 50%;
+  top: -10vh;
+  right: 8vh;
+  border: 2px solid white;
+}
+.houseMateSec{
+  padding: 30px;
+  background: #b1b1b1;
+}
+.houseMmb{
+  width: 10vh;
+  height: 10vh;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid;
+  margin-left: -10px;
+}
+.hoverShwo{
+  position: relative;
+
+}
+.houseMmbHovr{
+  width: 18vh;
+  height: 18vh;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid;
+  margin-left: -10px;
+}
+.hoverName{
+  min-width: 30vh;
+  background: white;
+  padding: 40px;
+  position: absolute;
+  visibility: hidden;
+  bottom: -162px;
+  right: 24px;
+  border-radius: 8px;
+}
+.hoverShwo:hover .hoverName{
+  visibility: visible;
+}
+ 

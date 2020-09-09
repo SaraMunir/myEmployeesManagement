@@ -38,7 +38,7 @@ function App() {
         {/* <Route path={["/TeamPage/MembProfile/:teamId/:membId"]} component={MembProfile}/> */}
 
         {/* starting fresh */}
-        <Route exact path={["/NewTeamsPage"]} component={NewTeamsPage}/>
+        <Route path={["/NewTeamsPage"]} component={NewTeamsPage}/>
         <Route path={["/TeamDetail/:teamId"]} component={TeamDetail} />
       </Router>
     </div>

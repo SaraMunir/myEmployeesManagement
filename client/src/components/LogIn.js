@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
-import { Redirect } from 'react-router-dom';
+import { Redirect , useHistory } from 'react-router-dom';
 function LogIn() {
+    let history = useHistory();
     const [ userData, setUserData ] = useState({ name: "", email: localStorage.email, password: "", rememberMe: true });
     const [ isLoggedIn, setIsLoggedIn ] = useState( false );
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
@@ -15,7 +16,7 @@ function LogIn() {
         setUserData( { ...userData, rememberMe: !userData.rememberMe } );
     }
     async function loginUser( e ){
-        e.preventDefault();
+        // e.preventDefault();
         setUserData({ name: "", email: localStorage.email, password: "", rememberMe: true })
         if( userData.email === "" ) {
             inputEmail.current.focus();
@@ -39,21 +40,20 @@ function LogIn() {
             localStorage.setItem("email", apiResult.email);
             localStorage.setItem('id', apiResult.id);
             localStorage.setItem('name', apiResult.name);
+            localStorage.setItem('type', 'Admin');
 
         if( !apiResult.message ){
             setAlertMessage( { type: 'danger', message: apiResult.error } );
             return;
         };
-
         setAlertMessage( { type: 'success', message: 'Loading, please wait...' } );
         localStorage.email = ( apiResult.rememberMe ? apiResult.email : '' );
         setTimeout( function(){ setIsLoggedIn(true); }, 1000 );
-        
     }
 
     return (
         <div style={{color: "black"}}>
-            { isLoggedIn ? <Redirect to='/Dashboard' /> : '' }
+            { isLoggedIn ? <Redirect to='/NewTeamsPage' /> : '' }
             <div className={ alertMessage.type ? `alert alert-${alertMessage.type}` : 'd-hide' } role="alert">
                 {alertMessage.message}
             </div>

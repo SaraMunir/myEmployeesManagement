@@ -4,11 +4,12 @@ import { UserContext } from '../TeamPage/TeamPage';
 import { Link, useParams } from "react-router-dom";
 
 const userId = localStorage.id
-
+const userType = localStorage.type
 function Members() {
     const { teamId } = useParams();
     const [lgShow, setLgShow] = useState(false);
     const [ newMember, setNewMember ] = useState({ membName: "", membEmail: "", membRole: "", membSex: "",membPassword: "", teamId: `${teamId}`});
+    const [houses, setHouses] = useState([]);
     const [teamRoles, setTeamRoles] = useState([])
     const [member, setMember] = useState([]);
     const [ searchInput, setSearchInput] = useState("");  
@@ -16,7 +17,6 @@ function Members() {
     const inputEmail = useRef();  
     const inputPassword = useRef();
 
-    // const {teamDetail} = useContext(UserContext);
     function handleInputChange( e ){
         const { id, value } = e.target; 
         setNewMember( { ...newMember, [id]: value } );
@@ -73,17 +73,20 @@ function Members() {
         console.log('fetched roles are: ', fetchRoles.teamRoles)
         setTeamRoles(fetchRoles.teamRoles)
     }
-
     async function deleteMember(membId){
         // console.log('member id : ', employeeId)
         const apiDeleteMember= await fetch(`/api/deleteMember/${membId}`);
         loadMember()
     }
+    async function loadHouse(){
+        const fetchHouses = await fetch (`/api/house/${teamId}`).then( res => res.json());
+        console.log('fetched houses are: ', fetchHouses)
+        setHouses(fetchHouses)
+    }
     useEffect(function(){
-        
         loadMember()
         loadTeamRoles()
-        // console.log('teamDetail: ', teamDetail)
+        loadHouse()
     },[])
 
     return (
@@ -98,7 +101,7 @@ function Members() {
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 <div className="som">
-                    <Button onClick={() => setLgShow(true)}>Add Member</Button>
+                    {userType == 'Admin' ? <Button onClick={() => setLgShow(true)}>Add Member</Button>: ""}
                     <Modal
                     size="lg"
                     show={lgShow}
@@ -143,7 +146,7 @@ function Members() {
                                         onChange={handleInputChange} >
                                             <option selected>Choose...</option>
                                             {teamRoles.map( role => 
-                                            <option value={role.roleName}>{role.roleName}</option>
+                                            <option key={`r-${role}`}  value={role.roleName}>{role.roleName}</option>
                                             )}
                                             </select>
                                         </div>
@@ -166,16 +169,19 @@ function Members() {
                     </Modal> 
                 </div>
             </nav>
-            <div class="row">
+            <div class="row col-12">
                 {member.length == 0 ? 
                 <h4 class="mt-5 mx-auto">You have not added any team mates yet</h4>
                 :
-                member.map( memb => {
+                member.map( (memb, idx) => {
                     switch (memb.sex){
                         case "F":
-                            return <div class="myCard mx-auto">
-                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-end">
-                                    <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)}></i>
+                            return <div key={`member${idx}`}  class="myCard mx-auto">
+                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                                {houses.map(house=>
+                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
+                                )}
+                                {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
                                 </div>
                                 <div class="card-body">
                                     <img src={
@@ -189,9 +195,12 @@ function Members() {
                                 </div>
                             </div>
                         case "M":
-                            return <div class="myCard mx-auto">
-                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-end">
-                                    <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)}></i>
+                            return <div key={`member${idx}`} class="myCard mx-auto">
+                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                                {houses.map(house=>
+                                    house.houseColor ? house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : '' : <i class="fas fa-2x fa-bookmark"></i>
+                                    )}
+                                    {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
                                 </div>
                                 <div class="card-body">
                                     <img src={
@@ -204,9 +213,12 @@ function Members() {
                                     </Link>
                                 </div>
                             </div>
-                        default:   return <div class="myCard mx-auto">
-                        <div className="mb-2 mt-2 mr-2 d-flex justify-content-end">
-                            <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)}></i>
+                        default:   return <div key={`member${idx}`} class="myCard mx-auto">
+                        <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                            {houses.map(house=>
+                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
+                                )}
+                        {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
                         </div>
                         <div class="card-body">
                             <img src={
@@ -220,7 +232,8 @@ function Members() {
                         </div>
                     </div>;
                     }
-                })}
+                })
+                }
             </div>
         </div>
     )

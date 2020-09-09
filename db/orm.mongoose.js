@@ -440,6 +440,55 @@ async function getHouses( teamId ){
     })
     return getAllHouses
 }
+async function deleteHouse( houseId ){
+    const deleteHouse = await db.house.deleteOne({
+        "_id" : houseId
+    })
+    return deleteHouse
+}
+
+async function loginHouse(  houseData, houseId ) {
+    console.log( 'in orm id received is: ', houseId)
+    const userData = await db.house.findOne({ _id: houseId });
+    console.log('received data in orm: ', userData)
+    if( !userData ) {
+        return { error: "Couldn't find such house. Register or try again!" };
+    }
+    const isValidPassword = await bcrypt.compare( houseData.housePin, userData.housePin );
+    if( !isValidPassword ) {
+        return { error: "Invalid Pin" };
+    }
+    // remap the data into the specified fields as we are using camelCase
+    return {
+        message: "user successfully loggedin",
+        // id: userData._id,
+        // name: userData.name,
+        // email: userData.email,
+    };
+}
+
+// getHouseDetail
+async function getHouseDetail( houseId ){
+    const getHouseDetail = await db.house.find({
+        "_id" : houseId
+    })
+    return getHouseDetail
+}
+
+//uploading image
+
+async function updateHouseAvatar( userId, imageUrl ){
+    const imageData = {
+        profileImg: imageUrl
+    };
+    const dbResult = await db.house.findOneAndUpdate(
+        {_id: userId}, {"$set": imageData});
+    // const userFetch = await db.users.findOneAndUpdate({ _id: userId }, { $push: { friendList: {image: imageData} } });
+
+    return { message: `Thank you, updated` }
+}
+
+
 module.exports = {
     registerUser,
     loginUser,
@@ -470,6 +519,10 @@ module.exports = {
     getMemberDetail,
     updateMember,
     postHouse,
-    getHouses
+    getHouses,
+    deleteHouse,
+    loginHouse,
+    getHouseDetail,
+    updateHouseAvatar
 
 }

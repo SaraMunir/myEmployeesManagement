@@ -7,6 +7,9 @@ import About from './MemberAbout'
 import TabBar from './TabBar'
 export const UserContext = React.createContext();
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+const userId = localStorage.id
+const userType = localStorage.type
+
 function MemberProfile() {
     const location = useLocation();
     const { membId } = useParams();
@@ -15,14 +18,17 @@ function MemberProfile() {
     const [lgShow, setLgShow] = useState(false);
     const [lgShow2, setLgShow2] = useState(false);
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
-    const [ employeeEdit, setEmployeeEdit ] = useState({ name: "", email: "", role: "", birthday: "", phone: "",  membPassword: "", teamId: `${teamId}`});
-    const [ teamRoles, setTeamRoles] = useState([])
+    const [ employeeEdit, setEmployeeEdit ] = useState({ name: "", email: "", role: "", house: "", birthday: "", phone: "",  membPassword: "", teamId: `${teamId}`});
+    const [ teamRoles, setTeamRoles] = useState([]);
+    const [houses, setHouses] = useState([]);
+
     const [ dropDownEmail, setDropDownEmail ] = useState( { type: ""} );
     const [ dropDownAddress, setDropDownAddress ] = useState( { type: ""} );
     const [ dropDownPhone, setDropDownPhone ] = useState( { type: ""} );
     const [ dropDownRole, setDropDownRole ] = useState( { type: ""} );
     const [ dropDownBio, setDropDownBio ] = useState( { type: ""} );
     const [ dropDownBirthday, setDropDownBirthday ] = useState( { type: ""} );
+    const [ dropDownHouse, setDropDownHouse ] = useState( { type: ""} );
     const [ dropDownUpload, setDropDownUpload ] = useState( { type: ""} );
     const [ trial, setTrial ] = useState({})
     const [ myPic, setMyPic] = useState ( '' );
@@ -43,16 +49,8 @@ function MemberProfile() {
         const getEmpDetail = await fetch (`/api/memberProfile/${membId}`).then( res => res.json());
         console.log('fetched Member detail is: ', getEmpDetail)
         setMemberDetail(getEmpDetail);
-        Object.keys(getEmpDetail).forEach(key => {
-            if(employeeEdit.hasOwnProperty(key)){
-                employeeEdit[key] = getEmpDetail[key];
-                setEmployeeEdit(employeeEdit);
-            }
-        });
     }
-    async function updateMember(){
-        console.log('update member', trial)
-    }
+
     function showForm(typeForm){
         console.log(typeForm)
         if(typeForm === "email"){
@@ -91,7 +89,24 @@ function MemberProfile() {
             } else {
                 setDropDownBirthday( { type: '' } )
             }
+        } else if(typeForm === "house"){
+            if(dropDownHouse.type==''){
+                setDropDownHouse( { type: 'myMenu'} )
+            } else {
+                setDropDownHouse( { type: '' } )
+            }
         }
+    }
+    async function loadHouse(){
+        const fetchHouses = await fetch (`/api/house/${teamId}`).then( res => res.json());
+        console.log('fetched houses are: ', fetchHouses)
+        // fetchHouses.map(house=>{
+        //     if (house._id == memberDetail.house){
+        //         setMemberDetail( { ...memberDetail, houseImg: house.profileImg } );
+        //     }
+        // })
+        setHouses(fetchHouses);
+        // loadMemberProfile()
     }
     async function updateMembDetail(){
         // console.log('employeeEdit: ',employeeEdit)
@@ -176,19 +191,25 @@ function MemberProfile() {
         if (key==='bio'){
             setDropDownBio( { type: '' } )
         }
+        if (key==='house'){
+            setDropDownHouse( { type: '' } )
+        }
     }     
     useEffect(function(){
         loadMemberProfile();
-        loadTeamRoles()
+        loadTeamRoles();
+        loadHouse()
+
     },[])
     return (
         <div className="container-fluid">
-            <div className="row mx-auto">
+            <div className="row mx-auto membIntro">
                 <div className="membProImg col-lg-4">
                     <img className="profilePhoto mx-auto" src={
                         memberDetail.profileImg ? memberDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"
                     } alt="memberImg"/>
-                    <i class="fas fa-camera uploadIcon"  onClick={() => setLgShow2(true)}></i>
+                    {userType == 'Admin' ? <i className="fas fa-camera uploadIcon"  onClick={() => setLgShow2(true)}></i>: ''}
+                    {userType == 'Member' &&  userId == memberDetail._id ? <i className="fas fa-camera uploadIcon"  onClick={() => setLgShow2(true)}></i>: ''}
                     <Modal
                         size="lg"
                         show={lgShow2}
@@ -200,16 +221,16 @@ function MemberProfile() {
                                 </Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <form class="input-group mb-3" id='myForm' role="form" encType="multipart/form-data" >
-                                    <div class="custom-file">
+                                <form className="input-group mb-3" id='myForm' role="form" encType="multipart/form-data" >
+                                    <div className="custom-file">
                                         <input 
                                         type="file" 
-                                        name="myFile" class="custom-file-input" 
+                                        name="myFile" className="custom-file-input" 
                                         onChange={handleChange}/>
-                                        <label class="custom-file-label" for="inputGroupFile02" onChange={handleChange}>Choose file</label>
+                                        <label className="custom-file-label" for="inputGroupFile02" onChange={handleChange}>Choose file</label>
                                     </div>
                                 </form>
-                                <div class="myBtnNew" onClick={handleUpload}>Upload</div> 
+                                <div className="myBtnNew" onClick={handleUpload}>Upload</div> 
                             </Modal.Body>
                     </Modal>
                 </div>
@@ -218,28 +239,29 @@ function MemberProfile() {
                     <h5 className="mySubTxt text-left"> {memberDetail.role}</h5>
                     <p className="text-left"> {memberDetail.bio ? memberDetail.bio : 'Bio has yet not been added yet..'}</p>
                     <div className="edit">
-                        <div class="myBtnNew" onClick={() => setLgShow(true)}> <i class="fas fa-user-edit"></i> Update Info</div>
+                    {userType == 'Admin' ? <div className="myBtnNew" onClick={() => setLgShow(true)}> <i className="fas fa-user-edit"></i> Update Info</div>: ''}
+                    {userType == 'Member' &&  userId == memberDetail._id ?<div className="myBtnNew" onClick={() => setLgShow(true)}> <i className="fas fa-user-edit"></i> Update Info</div>: ''}
                         <Modal
                         size="lg"
                         show={lgShow}
                         onHide={() => setLgShow(false)}
                         aria-labelledby="example-modal-sizes-title-lg">
                             <div className="card-body d-flex justify-content-end">
-                                <i class="fas fa-2x fa-times-circle closeBtn" onClick={closeBtn}></i>
+                                <i className="fas fa-2x fa-times-circle closeBtn" onClick={closeBtn}></i>
                             </div>
                                 <h3 className="text-center">Edit Member</h3>
                             <Modal.Body>
                                 <div className="card-body">
                                     <div className="email">
                                         <div className="d-flex justify-content-between">
-                                            <p className="subHeader col-3 text-left"><i class="fas fa-envelope"></i> Email:</p>
+                                            <p className="subHeader col-3 text-left"><i className="fas fa-envelope"></i> Email:</p>
                                             <p className="col-8 text-left">{memberDetail.email}</p>
-                                            <i class="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("email")}></i>
+                                            <i className="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("email")}></i>
                                         </div>
                                         <div className="myDropDown">
-                                            <div class={ dropDownEmail.type ? `${dropDownEmail.type} col-12` : 'hide' }>
+                                            <div className={ dropDownEmail.type ? `${dropDownEmail.type} col-12` : 'hide' }>
                                                 <div className="form-group">
-                                                    <input type="text" class="form-control" 
+                                                    <input type="text" className="form-control" 
                                                     id="email" aria-describedby="taskHelp" placeholder={memberDetail.email !== "undefined" ? "email": memberDetail.email} onChange={handleInputChange} 
                                                     value={employeeEdit.email}/>
                                                     <div className="d-flex justify-content-end">
@@ -253,14 +275,14 @@ function MemberProfile() {
                                     <hr/>
                                     <div className="address">
                                         <div className="d-flex justify-content-between">
-                                            <p className="subHeader col-3 text-left"><i class="fas fa-map-marked-alt"></i> Address:</p>
+                                            <p className="subHeader col-3 text-left"><i className="fas fa-map-marked-alt"></i> Address:</p>
                                             <p className="col-8 text-left">{memberDetail.address ? memberDetail.address : "address not yet provided"}</p>
-                                            <i class="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("address")}></i>
+                                            <i className="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("address")}></i>
                                         </div>
                                         <div className="myDropDown">
-                                            <div class={ dropDownAddress.type ? `${dropDownAddress.type} col-12` : 'hide' }>
+                                            <div className={ dropDownAddress.type ? `${dropDownAddress.type} col-12` : 'hide' }>
                                                 <div className="form-group">
-                                                    <input type="text" class="form-control" 
+                                                    <input type="text" className="form-control" 
                                                     id="address" aria-describedby="taskHelp" placeholder={memberDetail.address !== "undefined" ? "address": memberDetail.address} onChange={handleInputChange} 
                                                     value={employeeEdit.address}/>
                                                     <div className="d-flex justify-content-end">
@@ -274,14 +296,14 @@ function MemberProfile() {
                                     <hr/>
                                     <div  className="phoneNumber">
                                         <div className="d-flex justify-content-between">
-                                            <p className="subHeader col-3 text-left"><i class="fas  fa-phone-square"></i> Phone:</p>
+                                            <p className="subHeader col-3 text-left"><i className="fas  fa-phone-square"></i> Phone:</p>
                                             <p className="col-8 text-left">{memberDetail.phoneNumber ? memberDetail.phoneNumber : "phone number not yet provided"}</p>
-                                            <i class="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("phoneNumber")}></i>
+                                            <i className="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("phoneNumber")}></i>
                                         </div>
                                         <div className="myDropDown">
-                                            <div class={ dropDownPhone.type ? `${dropDownPhone.type} col-12` : 'hide' }>
+                                            <div className={ dropDownPhone.type ? `${dropDownPhone.type} col-12` : 'hide' }>
                                                 <div className="form-group">
-                                                    <input type="text" class="form-control" 
+                                                    <input type="text" className="form-control" 
                                                     id="phoneNumber" aria-describedby="taskHelp" placeholder={memberDetail.phoneNumber !== "undefined" ? "phoneNumber": memberDetail.phoneNumber} onChange={handleInputChange} 
                                                     value={employeeEdit.phoneNumber}/>
                                                     <div className="d-flex justify-content-end">
@@ -295,20 +317,20 @@ function MemberProfile() {
                                     <hr/>
                                     <div className="role">
                                         <div className="d-flex justify-content-between">
-                                            <p className="subHeader col-3 text-left"><i class="fas fa-user-tag"></i> Role:</p>
+                                            <p className="subHeader col-3 text-left"><i className="fas fa-user-tag"></i> Role:</p>
                                             <p className="col-8 text-left">{memberDetail.role ? memberDetail.role : "role number not yet provided"}</p>
-                                            <i class="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("role")}></i>
+                                            <i className="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("role")}></i>
                                         </div>
                                         <div className="myDropDown">
-                                            <div class={ dropDownRole.type ? `${dropDownRole.type} col-12` : 'hide' }>
+                                            <div className={ dropDownRole.type ? `${dropDownRole.type} col-12` : 'hide' }>
                                                 <div className="form-group">
                                                     <label for="role">Select Role</label>
                                                     <select 
-                                                    id="role" class="form-control" value={employeeEdit.role} 
+                                                    id="role" className="form-control" value={employeeEdit.role} 
                                                     onChange={handleInputChange} >
                                                         <option selected>Choose...</option>
                                                         {teamRoles.map( role => 
-                                                        <option value={role.roleName}>{role.roleName}</option>
+                                                        <option key={`r-${role}`} value={role.roleName}>{role.roleName}</option>
                                                         )}
                                                     </select>
                                                     <div className="d-flex justify-content-end">
@@ -320,16 +342,47 @@ function MemberProfile() {
                                         </div>
                                     </div>
                                     <hr/>
-                                    <div className="bio">
+                                    <div className="house">
                                         <div className="d-flex justify-content-between">
-                                            <p className="subHeader col-3 text-left"><i class="far fa-address-card"></i> Bio:</p>
-                                            <p className="col-8 text-left">{memberDetail.bio ? memberDetail.bio : "bio not yet provided"}</p>
-                                            <i class="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("bio")}></i>
+                                            <p className="subHeader col-3 text-left"><i className="fas fa-user-tag"></i> House:</p>
+                                            {houses.map( house => 
+
+                                                memberDetail.house == house._id ?
+                                                <p className="col-8 text-left" key={`r-${house}`} >{house.houseName}</p>: ''
+                                            )}
+                                            <i className="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("house")}></i>
                                         </div>
                                         <div className="myDropDown">
-                                            <div class={ dropDownBio.type ? `${dropDownBio.type} col-12` : 'hide' }>
+                                            <div className={ dropDownHouse.type ? `${dropDownHouse.type} col-12` : 'hide' }>
+                                                <div className="form-group">
+                                                    <label for="house">Select House</label>
+                                                    <select 
+                                                    id="house" className="form-control" value={employeeEdit.house} 
+                                                    onChange={handleInputChange} >
+                                                        <option selected>Choose...</option>
+                                                        {houses.map( house => 
+                                                        <option key={`r-${house}`} value={house._id}>{house.houseName}</option>
+                                                        )}
+                                                    </select>
+                                                    <div className="d-flex justify-content-end">
+                                                        <div className="myBtnNew text-center" onClick={()=>setDropDownHouse( { type: '' })}>cancel</div>
+                                                        <div className="myBtnNew text-center" onClick={updateMembDetail}>save</div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div className="bio">
+                                        <div className="d-flex justify-content-between">
+                                            <p className="subHeader col-3 text-left"><i className="far fa-address-card"></i> Bio:</p>
+                                            <p className="col-8 text-left">{memberDetail.bio ? memberDetail.bio : "bio not yet provided"}</p>
+                                            <i className="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("bio")}></i>
+                                        </div>
+                                        <div className="myDropDown">
+                                            <div className={ dropDownBio.type ? `${dropDownBio.type} col-12` : 'hide' }>
                                             <div className="form-group">
-                                                <input type="text" class="form-control" 
+                                                <input type="text" className="form-control" 
                                                 id="bio" aria-describedby="taskHelp" placeholder={memberDetail.bio !== "undefined" ? "bio": memberDetail.bio} onChange={handleInputChange} 
                                                 value={employeeEdit.bio}/>
                                                     <div className="d-flex justify-content-end">
@@ -344,15 +397,15 @@ function MemberProfile() {
 
                                     <div className="birthday">
                                         <div className="d-flex justify-content-between">
-                                            <p className="subHeader col-3 text-left"><i class="fas fa-birthday-cake"></i> Birthday:</p>
+                                            <p className="subHeader col-3 text-left"><i className="fas fa-birthday-cake"></i> Birthday:</p>
                                             <p className="col-8 text-left">{memberDetail.birthday ? memberDetail.birthday : "birthday not yet provided"}</p>
-                                            <i class="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("birthday")}></i>
+                                            <i className="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("birthday")}></i>
                                         </div>
                                         <div className="myDropDown">
-                                            <div class={ dropDownBirthday.type ? `${dropDownBirthday.type} col-12` : 'hide' }>
-                                                <div class="form-group col-md-6">
+                                            <div className={ dropDownBirthday.type ? `${dropDownBirthday.type} col-12` : 'hide' }>
+                                                <div className="form-group col-md-6">
                                                     <label for="phaseDate">Select Birthday</label>
-                                                    <input type="date" class="form-control" id="birthday" aria-describedby="birthday" onChange={handleInputChange} value={employeeEdit.birthday}/>
+                                                    <input type="date" className="form-control" id="birthday" aria-describedby="birthday" onChange={handleInputChange} value={employeeEdit.birthday}/>
                                                 </div>
                                                 <div className="d-flex justify-content-end">
                                                     <div className="myBtnNew text-center" onClick={()=>setDropDownBirthday( { type: '' })}>cancel</div>
@@ -365,6 +418,11 @@ function MemberProfile() {
                             </Modal.Body>
                         </Modal> 
                     </div>
+                </div>
+                <div className="membHosImg">
+                {houses.map( house => 
+                    memberDetail.house == house._id ?
+                    <img className="col-12" src={house.profileImg} alt="bdsb"/> : '')}
                 </div>
             </div>
             <div className="row mx-auto">

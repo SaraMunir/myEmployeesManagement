@@ -233,13 +233,6 @@ app.put('/api/memberDetailUpdate/:membId', async function( req,res ){
     // console.log(updateMember)
     res.send(updateMember);
 })
-//upload: 
-// const photoData = {
-//     formData: formData,
-//     oldPhoto: oldPhoto
-// }
-
-
 const upload = require('multer')({ dest: 'client/public/uploads/' });
 app.post('/api/deleteOldProfilePIc', async function( req,res ){
     
@@ -285,3 +278,31 @@ app.get('/api/house/:teamId', async(req, res) => {
     const getHouses = await orm.getHouses( teamId );
     res.json( getHouses );
 })
+
+////deleting house
+app.get('/api/deleteHouse/:houseId', async(req, res) => {
+    const houseId= req.params.houseId;
+    const deleteHouse = await orm.deleteHouse( houseId );
+    res.json( deleteHouse );
+})
+
+app.get('/api/houseDetail/:houseId', async(req, res) => {
+    const houseId = req.params.houseId;
+    const getHouseDetail = await orm.getHouseDetail( houseId );
+    res.json( getHouseDetail[0] );
+})
+
+
+//uploading house image
+app.put( '/api/uploadHouseImg/:houseId', upload.single('myFile'), async function( req, res ){
+    let hosueId = req.params.houseId
+    const filePath = req.file.path;
+    const originalName = req.file.originalname;
+    
+    const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
+        fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
+
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+    const imgUploadDb = await orm.updateHouseAvatar( hosueId, imageUrl );
+    res.send( imgUploadDb );
+});
