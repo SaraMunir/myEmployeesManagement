@@ -38,6 +38,13 @@ app.post('/api/member/login', async function( req,res ){
     
 });
 
+//fetching admin detail: 
+app.get('/api/adminProfile/:userId', async(req, res) => {
+    const userId = req.params.userId;
+    const getAdmin = await orm.getAdmin( userId );
+    res.json( getAdmin );
+})
+
 //creating Teams
 
 app.post('/api/teams', async function( req,res ){

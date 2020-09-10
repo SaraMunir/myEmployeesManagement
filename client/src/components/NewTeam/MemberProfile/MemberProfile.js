@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect, useRef } from 'react';
 import { Link, useParams , useLocation } from "react-router-dom";
-import {Modal, Button} from 'react-bootstrap'
+import {Modal} from 'react-bootstrap'
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import TimeLine from './MemberTimeLine'
 import About from './MemberAbout'
@@ -29,7 +29,7 @@ function MemberProfile() {
     const [ dropDownBio, setDropDownBio ] = useState( { type: ""} );
     const [ dropDownBirthday, setDropDownBirthday ] = useState( { type: ""} );
     const [ dropDownHouse, setDropDownHouse ] = useState( { type: ""} );
-    const [ dropDownUpload, setDropDownUpload ] = useState( { type: ""} );
+    const [ dropDownPassword, setDropDownPassword ] = useState( { type: ""} );
     const [ trial, setTrial ] = useState({})
     const [ myPic, setMyPic] = useState ( '' );
     const [ showForm2, setShowForm2] = useState( false )
@@ -95,7 +95,16 @@ function MemberProfile() {
             } else {
                 setDropDownHouse( { type: '' } )
             }
+        } else if(typeForm === "membPassword"){
+            if(dropDownPassword.type==''){
+                setDropDownPassword( { type: 'myMenu'} )
+            } else {
+                setDropDownPassword( { type: '' } )
+            }
         }
+    }
+    async function updatePassword(){
+        prompt('not available yet')
     }
     async function loadHouse(){
         const fetchHouses = await fetch (`/api/house/${teamId}`).then( res => res.json());
@@ -109,10 +118,8 @@ function MemberProfile() {
         // loadMemberProfile()
     }
     async function updateMembDetail(){
-        // console.log('employeeEdit: ',employeeEdit)
         console.log('trial: ',trial)
         console.log('trial.id: ',trial.id)
-        // e.preventDefault();
         const apiResult = await fetch(`/api/memberDetailUpdate/${membId}`, 
             {   method: 'PUT',
                 headers:{
@@ -124,7 +131,6 @@ function MemberProfile() {
         loadMemberProfile();
         let key = Object.keys(trial)[0];
         closeEditBtns(key)
-        
     }
 //   upload
     function handleChange(e){
@@ -394,7 +400,6 @@ function MemberProfile() {
                                         </div>
                                     </div>
                                     <hr/>
-
                                     <div className="birthday">
                                         <div className="d-flex justify-content-between">
                                             <p className="subHeader col-3 text-left"><i className="fas fa-birthday-cake"></i> Birthday:</p>
@@ -410,6 +415,26 @@ function MemberProfile() {
                                                 <div className="d-flex justify-content-end">
                                                     <div className="myBtnNew text-center" onClick={()=>setDropDownBirthday( { type: '' })}>cancel</div>
                                                     <div className="myBtnNew text-center"  onClick={updateMembDetail}>save</div>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div className="membPassword">
+                                        <div className="d-flex justify-content-between">
+                                            <p className="subHeader col-3 text-left"><i className="fas fa-password-cake"></i> Password:</p>
+                                            <p className="col-8 text-left">****************</p>
+                                            <i className="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("membPassword")}></i>
+                                        </div>
+                                        <div className="myDropDown">
+                                            <div className={ dropDownBirthday.type ? `${dropDownBirthday.type} col-12` : 'hide' }>
+                                                <div className="form-group col-md-6">
+                                                    <label for="phaseDate">Select Birthday</label>
+                                                    <input type="password" className="form-control" id="membPassword" aria-describedby="password" minlength="8" onChange={handleInputChange} value={employeeEdit.membPassword}/>
+                                                </div>
+                                                <div className="d-flex justify-content-end">
+                                                    <div className="myBtnNew text-center" onClick={()=>setDropDownPassword( { type: '' })}>cancel</div>
+                                                    <div className="myBtnNew text-center"  onClick={updatePassword}>save</div>
                                                 </div>
                                             </div> 
                                         </div>

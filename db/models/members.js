@@ -13,6 +13,7 @@ let members = new Schema ({
     birthday: String, 
     address: String,
     phoneNumber: String,
+    homeNumber: String,
     status: String,
     membSalary: String,
     membSalaryId: String,

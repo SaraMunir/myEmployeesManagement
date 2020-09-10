@@ -331,9 +331,7 @@ a:hover{
 }
 .membProImg{
   position: relative;
-  
 }
-
 .uploadIcon{
   cursor: pointer;
   font-size: 1.7rem;
@@ -349,6 +347,39 @@ a:hover{
 .uploadIcon:hover{
   background: #f7b5b5;
 }
+
+.myBodyWrapper{
+  padding: 30px;
+}
+.adminCov{
+  border: 2px solid rebeccapurple;
+  /* padding: 30px; */
+
+}
+.adminCovImg{
+  background: rebeccapurple;
+  height: 30vh;
+}
+.adminProImg{
+  position: relative;
+  width: 50vh;
+  height: 50vh;
+  margin-left: 50px;
+  margin-top: -150px;
+}
+.admiUpIcon{
+  cursor: pointer;
+  font-size: 1.7rem;
+  color: #3d3d3d;
+  background: #af4343;
+  position: absolute;
+  padding: 10px;
+  border-radius: 50%;
+  top: 10px;
+  right: 10px;
+  border: 2px solid white;
+}
+
 .teamCard{
   max-width: 200px;
   height: 60vh;

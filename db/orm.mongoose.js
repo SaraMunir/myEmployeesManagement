@@ -48,6 +48,13 @@ async function loginUser( email, password ) {
         email: userData.email,
     };
 }
+// getTeams
+async function getAdmin( userId ){
+    const getAdmin = await db.users.findOne({
+        "_id" : userId
+    })
+    return getAdmin
+}
 async function loginMember( userData ) {
     // name: "", email: localStorage.email, membLeaderId: "", membTeamId: "", password: "", rememberMe: true 
     const admindId = userData.membLeaderId;
@@ -107,7 +114,6 @@ async function postTeams( userTeams ){
         message: "team successfully saved", 
     };   
 }
-
 async function postRoles( userRoles ){
     const teamID = userRoles.teamId
     const userId = userRoles.adminId
@@ -147,7 +153,6 @@ async function postEmployee( employee ){
         message: "employee successfully created", 
     };   
 }
-
 // getTeams
 async function getTeams( userId ){
     const getTeams = await db.users.find({
@@ -155,7 +160,6 @@ async function getTeams( userId ){
     })
     return getTeams
 }
-
 // getRoles
 async function getRoles( userId, teamId ){
     const getRoles = await db.users.find({
@@ -182,7 +186,6 @@ async function getEmployees( userId, teamId ){
     })
     return teamsEmployeeArr
 }
-
 // getEmployee detail
 async function getMembDet( userId, teamId, membId ){
     const getMembDetail = await db.users.find({
@@ -202,7 +205,6 @@ async function getMembDet( userId, teamId, membId ){
     })
     return memberDetail
 }
-
 // deleteRole
 async function deleteRole( allId ){
     const userId = allId.adminId
@@ -213,7 +215,6 @@ async function deleteRole( allId ){
         { "$pull": { "teams.$.teamRoles": {_id: roleId} }});
     return deleteRole;
 }
-
 // deleteEmployee
 async function deleteEmployee( allId ){
     const userId = allId.adminId
@@ -225,8 +226,6 @@ async function deleteEmployee( allId ){
         { "$pull": { "teams.$.teamMembers": {_id: employeeId} }});
     return deleteEmployee;
 }
-
-
 // getTeams
 async function getTeamDetail( teamId, userId ){
     const getTeams = await db.users.find({
@@ -334,13 +333,6 @@ async function getTeamDetails( teamId ){
     })
     return getTeams[0];
 }
-
-// async function getTeamRoles( teamId ){
-//     const getTeams = await db.teams.find({
-//         "_id" : teamId
-//     })
-//     return getTeams[0].teamRoles;
-// }
 // postMember
 async function postMember( memberInfo ){
 
@@ -378,11 +370,6 @@ async function getMemberDetail( membId ){
     })
     return getMembDetail
 }
-
-
-// const createTeam = await db.users.findOneAndUpdate({ _id: userId }, { $push: {teams: teamData} });
-
-//updating member Info
 async function updateMember( userEmployee, membId  ){
     console.log('in orm: ', userEmployee.address)
     const updateMembInfo = await db.members.findOneAndUpdate(
@@ -394,9 +381,7 @@ async function updateMember( userEmployee, membId  ){
     };
 
 }
-
 //uploading image
-
 async function updateAvatar( userId, imageUrl ){
     const imageData = {
         profileImg: imageUrl
@@ -408,13 +393,6 @@ async function updateAvatar( userId, imageUrl ){
 
     return { message: `Thank you, updated` }
 }
-// postMember
-        //      houseName: "", 
-        //      about: "", 
-        //      housePin: "", 
-        //      teamId: `${teamId}`, 
-        //      houseLeader:{}});
-
 async function postHouse( memberInfo ){
 
     const saltRounds = 10;
@@ -433,7 +411,6 @@ async function postHouse( memberInfo ){
         message: "House successfully saved", 
     };   
 }
-
 async function getHouses( teamId ){
     const getAllHouses = await db.house.find({
         "teamId" : teamId
@@ -446,7 +423,6 @@ async function deleteHouse( houseId ){
     })
     return deleteHouse
 }
-
 async function loginHouse(  houseData, houseId ) {
     console.log( 'in orm id received is: ', houseId)
     const userData = await db.house.findOne({ _id: houseId });
@@ -466,7 +442,6 @@ async function loginHouse(  houseData, houseId ) {
         // email: userData.email,
     };
 }
-
 // getHouseDetail
 async function getHouseDetail( houseId ){
     const getHouseDetail = await db.house.find({
@@ -474,9 +449,7 @@ async function getHouseDetail( houseId ){
     })
     return getHouseDetail
 }
-
 //uploading image
-
 async function updateHouseAvatar( userId, imageUrl ){
     const imageData = {
         profileImg: imageUrl
@@ -492,6 +465,7 @@ async function updateHouseAvatar( userId, imageUrl ){
 module.exports = {
     registerUser,
     loginUser,
+    getAdmin,
     loginMember,
     postTeams,
     getTeams, 
