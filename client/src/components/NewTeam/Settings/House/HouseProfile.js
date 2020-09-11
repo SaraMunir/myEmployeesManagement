@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
-import {Modal, Button} from 'react-bootstrap'
+import {Modal} from 'react-bootstrap'
 
 function HouseProfile() {
     const { teamId } = useParams();

@@ -1,11 +1,7 @@
-import React, {useState, useContext, useEffect} from 'react';
-import { Link, useLocation, useParams } from "react-router-dom";
-import { Redirect } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import { Link } from "react-router-dom";
 import {Modal, Button} from 'react-bootstrap'
-// import TeamWindow from './Dashboard/TeamWindow'
 const adminId = localStorage.id
-// const adminName = localStorage.name
-// const userId = localStorage.id
 function Teams() {
 
     const [lgShow, setLgShow] = useState(false);
@@ -20,10 +16,15 @@ function Teams() {
         const { id, value } = e.target; 
         setNewTeam( { ...newTeam, [id]: value } );
     }
+    async function pinTeam(teamId){
+        const fetchTeams = await fetch (`/api/pinTeam/${teamId}`).then( res => res.json());
+        console.log('fetched all teams are: ', fetchTeams)
+        loadAllTeams();
+    }
     async function submitTeam(e){
         console.log('team create?')
         e.preventDefault();
-        const apiResult = await fetch('/api/newteams', 
+        await fetch('/api/newteams', 
             {   method: 'post',
                 headers: {
                     'Accept': 'application/json, text/plain, */*',
@@ -43,7 +44,6 @@ function Teams() {
     },[])
     return (
         <div class="container mt-2">
-        {/* { userId ? <Redirect to='/NewTeamsPage' /> : <Redirect to='/HomePage' /> } */}
             <div className="d-flex justify-content-end">
                 {/* <div className="myBtn2">Create Team</div> */}
                 <Button onClick={() => setLgShow(true)}>Create Team
@@ -78,18 +78,20 @@ function Teams() {
                 :
                 teams.map( (team, idx) => 
                     {
-                        
-                        return(
-                        <div key={`team_${idx}`} class="myCard teamCard mx-auto">
+                    return(
+                    <div key={`team_${idx}`} class="myCard teamCard mx-auto">
+                        <div className="d-flex">
+                            { team.pinned == false ? <i class="fas fa-thumbtack pin" onClick={()=>pinTeam(team._id)}></i> : <i class="fas fa-thumbtack pinned" onClick={()=>pinTeam(team._id)}></i>}
+                        </div>
+                        <div class="card-body">
                             <img class="card-img-top myCrdImgTp" src="https://images.squarespace-cdn.com/content/v1/59685a82893fc01de25af303/1526696054881-K3PHNE63S3CR3EBW0D98/ke17ZwdGBToddI8pDm48kA47qaxzGU3oa60Mv3IrElh7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0jBK0T3M-v-AVkQFEHxhNgUudw45kiY-UQ73op4W9iSPFDhmgzum_ZisgY9UJzHOlA/Teams_illustrations_Full+Res-01.png?format=2500w" alt="Card image cap"/>
-                            <div class="card-body">
-                                <h5 class="card-title">{team.teamName}</h5>
-                                <p class="card-text">{team.teamDesc}</p>
-                                <Link to={`/TeamDetail/${team._id}/TeamDashboard`} >
-                                    <div class="btn myBtnNew" href="#" role="button">View Detail </div>
-                                </Link>
-                            </div>
-                        </div>)}
+                            <h5 class="card-title">{team.teamName}</h5>
+                            <p class="card-text">{team.teamDesc}</p>
+                            <Link to={`/TeamDetail/${team._id}/TeamDashboard`} >
+                                <div class="btn myBtnNew" href="#" role="button">View Detail </div>
+                            </Link>
+                        </div>
+                    </div>)}
                     )
                 }
             </div>

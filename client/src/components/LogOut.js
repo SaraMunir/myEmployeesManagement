@@ -13,7 +13,11 @@ function LogoutPage(){
     // call the api to logout (and clear session)
     async function logoutRequest(){
         localStorage.clear();
-        setTimeout( function(){ setIsLoggedOut(true); }, 500 );
+        setTimeout( function(){ 
+            setIsLoggedOut(true); 
+            document.location.reload(true)
+
+        }, 500 );
     }
     return (
         <div>

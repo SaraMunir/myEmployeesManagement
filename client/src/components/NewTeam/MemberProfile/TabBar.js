@@ -1,6 +1,5 @@
-import React, {useState, useContext, useEffect, useRef } from 'react';
+import React, {} from 'react';
 import { Link, useParams , useLocation } from "react-router-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 function TabBar(props) {
     const location = useLocation();
     const { teamId } = useParams();

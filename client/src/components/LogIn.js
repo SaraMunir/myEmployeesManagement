@@ -41,6 +41,7 @@ function LogIn() {
             localStorage.setItem('id', apiResult.id);
             localStorage.setItem('name', apiResult.name);
             localStorage.setItem('type', 'Admin');
+            localStorage.setItem('theme', 'Light');
 
         if( !apiResult.message ){
             setAlertMessage( { type: 'danger', message: apiResult.error } );
@@ -48,7 +49,10 @@ function LogIn() {
         };
         setAlertMessage( { type: 'success', message: 'Loading, please wait...' } );
         localStorage.email = ( apiResult.rememberMe ? apiResult.email : '' );
-        setTimeout( function(){ setIsLoggedIn(true); }, 1000 );
+        setTimeout( function(){ 
+            setIsLoggedIn(true); 
+            document.location.reload(true);
+        }, 1000 );
     }
 
     return (

@@ -1,5 +1,5 @@
-import React, {useState, useContext, useEffect, useRef } from 'react';
-import {Modal, Button} from 'react-bootstrap'
+import React, {useState, useEffect } from 'react';
+import {Modal} from 'react-bootstrap'
 
 
 const userId = localStorage.id
@@ -9,7 +9,7 @@ function ProfilePage() {
     const [lgShow, setLgShow] = useState(false);
     const [lgShow2, setLgShow2] = useState(false);
     const [ myPic, setMyPic] = useState ( '' );
-    const [ showForm2, setShowForm2] = useState( false )
+    // const [ showForm2, setShowForm2] = useState( false )
     const [ dropDownEmail, setDropDownEmail ] = useState( { type: ""} );
     const [ dropDownAddress, setDropDownAddress ] = useState( { type: ""} );
     const [ dropDownPhone, setDropDownPhone ] = useState( { type: ""} );
@@ -27,17 +27,13 @@ function ProfilePage() {
         const file = e.target.files[0];
         setMyPic(file)
     }
-    function uploadPic( e ){
-        e.preventDefault();
-        setShowForm2(false);
-    } 
+
     async function handleUpload(e){
         e.preventDefault();
-        uploadPic(e);
         if(myPic){
             let myForm = document.getElementById('myForm');
             let formData = new FormData(myForm);
-            const uploadPic = await fetch(`/api/upload/${userId}`, 
+            const uploadPic = await fetch(`/api/adminUpload/${userId}`, 
                 {
                     method: 'PUT',
                     body: formData
@@ -65,10 +61,10 @@ function ProfilePage() {
         setAdminEdit( { ...adminEdit, [id]: value } );
         setTrial ({ [id]: value })
         }
-    async function updateMembDetail(){
+    async function updateDetDetail(){
         console.log('trial: ',trial)
         console.log('trial.id: ',trial.id)
-        const apiResult = await fetch(`/api/memberDetailUpdate/${userId}`, 
+        const apiResult = await fetch(`/api/adminDetailUpdate/${userId}`, 
             {   method: 'PUT',
                 headers:{
                     'Content-Type': 'application/json'
@@ -104,8 +100,7 @@ function ProfilePage() {
         if (key==='house'){
             setDropDownHouse( { type: '' } )
         }
-    }   
-    
+    }
     function showForm(typeForm){
         console.log(typeForm)
         if(typeForm === "email"){
@@ -223,7 +218,7 @@ function ProfilePage() {
                                                         value={adminEdit.email}/>
                                                         <div className="d-flex justify-content-end">
                                                             <div className="myBtnNew text-center" onClick={()=>setDropDownEmail( { type: '' } )}>cancel</div>
-                                                            <div className="myBtnNew text-center" onClick={updateMembDetail}>save</div>
+                                                            <div className="myBtnNew text-center" onClick={updateDetDetail}>save</div>
                                                         </div>
                                                     </div>
                                                 </div> 
@@ -244,7 +239,7 @@ function ProfilePage() {
                                                         value={adminEdit.address}/>
                                                         <div className="d-flex justify-content-end">
                                                             <div className="myBtnNew text-center" onClick={()=>setDropDownAddress( { type: '' })}>cancel</div>
-                                                            <div className="myBtnNew text-center" onClick={updateMembDetail}>save</div>
+                                                            <div className="myBtnNew text-center" onClick={updateDetDetail}>save</div>
                                                         </div>
                                                     </div>
                                                 </div> 
@@ -265,7 +260,7 @@ function ProfilePage() {
                                                         value={adminEdit.phoneNumber}/>
                                                         <div className="d-flex justify-content-end">
                                                             <div className="myBtnNew text-center"  onClick={()=>setDropDownPhone( { type: '' } )}>cancel</div>
-                                                            <div className="myBtnNew text-center" onClick={updateMembDetail}>save</div>
+                                                            <div className="myBtnNew text-center" onClick={updateDetDetail}>save</div>
                                                         </div>
                                                     </div>
                                                 </div> 
@@ -286,7 +281,7 @@ function ProfilePage() {
                                                     value={adminEdit.bio}/>
                                                         <div className="d-flex justify-content-end">
                                                             <div className="myBtnNew text-center" onClick={()=>setDropDownBio( { type: '' })}>cancel</div>
-                                                            <div className="myBtnNew text-center" onClick={updateMembDetail}>save</div>
+                                                            <div className="myBtnNew text-center" onClick={updateDetDetail}>save</div>
                                                         </div>
                                                     </div>
                                                 </div> 
@@ -307,7 +302,7 @@ function ProfilePage() {
                                                     </div>
                                                     <div className="d-flex justify-content-end">
                                                         <div className="myBtnNew text-center" onClick={()=>setDropDownBirthday( { type: '' })}>cancel</div>
-                                                        <div className="myBtnNew text-center"  onClick={updateMembDetail}>save</div>
+                                                        <div className="myBtnNew text-center"  onClick={updateDetDetail}>save</div>
                                                     </div>
                                                 </div> 
                                             </div>

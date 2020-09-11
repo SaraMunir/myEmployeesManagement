@@ -1,10 +1,12 @@
-import React, {useState, useContext, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import {Modal, Button} from 'react-bootstrap'
-import { UserContext } from '../TeamPage/TeamPage';
+// import { UserContext } from '../TeamPage/TeamPage';
 import { Link, useParams } from "react-router-dom";
 
 const userId = localStorage.id
 const userType = localStorage.type
+const theme = localStorage.theme;
+
 function Members() {
     const { teamId } = useParams();
     const [lgShow, setLgShow] = useState(false);
@@ -16,6 +18,7 @@ function Members() {
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
     const inputEmail = useRef();  
     const inputPassword = useRef();
+
 
     function handleInputChange( e ){
         const { id, value } = e.target; 
@@ -91,17 +94,17 @@ function Members() {
 
     return (
         <div>
-            <h3 class="myHeader" >Team Members</h3>
-            <nav class="mt-2 navbar navbar-light bg-light">
-                <form class="form-inline">
+            <h3 >Team Members</h3>
+            <hr/>
+            <div class="d-flex justify-content-between">
+                <form class="d-flex pl-4 col-5">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search Employees" aria-label="Search"
                     onChange={handleSearchInputChange}
                     value={searchInput}
                     />
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 <div className="som">
-                    {userType == 'Admin' ? <Button onClick={() => setLgShow(true)}>Add Member</Button>: ""}
+                    {userType == 'Admin' ? <div className="myBtnNew" onClick={() => setLgShow(true)}>Add Member</div>: ""}
                     <Modal
                     size="lg"
                     show={lgShow}
@@ -168,15 +171,15 @@ function Members() {
                         </Modal.Body>
                     </Modal> 
                 </div>
-            </nav>
+            </div>
             <div class="row col-12">
                 {member.length == 0 ? 
                 <h4 class="mt-5 mx-auto">You have not added any team mates yet</h4>
                 :
                 member.map( (memb, idx) => {
                     switch (memb.sex){
-                        case "F":
-                            return <div key={`member${idx}`}  class="myCard mx-auto">
+                        case "F": //{ theme === 'Dark' ? "myCardDark
+                            return <div key={`member${idx}`}  class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
                                 <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
                                 {houses.map(house=>
                                 house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
@@ -195,7 +198,7 @@ function Members() {
                                 </div>
                             </div>
                         case "M":
-                            return <div key={`member${idx}`} class="myCard mx-auto">
+                            return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
                                 <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
                                 {houses.map(house=>
                                     house.houseColor ? house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : '' : <i class="fas fa-2x fa-bookmark"></i>
@@ -213,7 +216,7 @@ function Members() {
                                     </Link>
                                 </div>
                             </div>
-                        default:   return <div key={`member${idx}`} class="myCard mx-auto">
+                        default:   return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
                         <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
                             {houses.map(house=>
                                 house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''

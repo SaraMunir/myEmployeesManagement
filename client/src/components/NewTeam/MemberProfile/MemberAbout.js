@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useRef } from 'react';
+import React, { useContext  } from 'react';
 import { UserContext } from './MemberProfile';
 function MemberAbout(props) {
     const { memberDetail } = useContext(UserContext);

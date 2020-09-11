@@ -1,10 +1,9 @@
-import React, {useState, useContext, useEffect, useRef } from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 
-import {Modal, Button} from 'react-bootstrap'
+import {Modal} from 'react-bootstrap'
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from '../TeamDetail';
 function House() {
-    const userId = localStorage.id
     const { teamId } = useParams();
     const [lgShow, setLgShow] = useState(false);
     const [lgShow2, setLgShow2] = useState(false);

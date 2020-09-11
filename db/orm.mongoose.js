@@ -293,6 +293,31 @@ async function getAllTeams( userId ){
     })
     return getAllTeams
 }
+// pinning team:
+async function pinTeam( teamId ){
+    const apiResult = await db.teams.findOne({
+        "_id" : teamId
+    })
+    if (apiResult.pinned == false){
+        const pinTeam = await db.teams.findOneAndUpdate(
+            { _id: teamId},
+                { "$set": {
+                    "pinned" : true,
+                }}
+        );
+        return pinTeam
+    }
+    if (apiResult.pinned == true){
+        const pinTeam = await db.teams.findOneAndUpdate(
+            { _id: teamId},
+                { "$set": {
+                    "pinned" : false,
+                }}
+        );
+        return pinTeam
+    }
+}
+
 //posting roles
 async function postNewRoles( userRoles ){
     const teamID = userRoles.teamId
@@ -379,7 +404,16 @@ async function updateMember( userEmployee, membId  ){
     return { 
         message: "Member successfully Updated", 
     };
-
+}
+async function updateAdmin( userEmployee, membId  ){
+    console.log('in orm: ', userEmployee.address)
+    const updateMembInfo = await db.users.findOneAndUpdate(
+        { _id: membId},
+            { "$set": userEmployee}
+    );
+    return { 
+        message: "Member successfully Updated", 
+    };
 }
 //uploading image
 async function updateAvatar( userId, imageUrl ){
@@ -389,12 +423,22 @@ async function updateAvatar( userId, imageUrl ){
     console.log('imageData : ', imageData)
     const dbResult = await db.members.findOneAndUpdate(
         {_id: userId}, {"$set": imageData});
-    // const userFetch = await db.users.findOneAndUpdate({ _id: userId }, { $push: { friendList: {image: imageData} } });
 
     return { message: `Thank you, updated` }
 }
-async function postHouse( memberInfo ){
+//uploading Admin image
+async function updateAdminAvatar( userId, imageUrl ){
+    const imageData = {
+        profileImg: imageUrl
+    };
+    console.log('imageData : ', imageData)
+    const dbResult = await db.users.findOneAndUpdate(
+        {_id: userId}, {"$set": imageData});
 
+    return { message: `Thank you, updated` }
+}
+
+async function postHouse( memberInfo ){
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(memberInfo.housePin, saltRounds);    
     const houseData = {
@@ -497,6 +541,9 @@ module.exports = {
     deleteHouse,
     loginHouse,
     getHouseDetail,
-    updateHouseAvatar
+    updateHouseAvatar,
+    updateAdminAvatar,
+    updateAdmin,
+    pinTeam
 
 }

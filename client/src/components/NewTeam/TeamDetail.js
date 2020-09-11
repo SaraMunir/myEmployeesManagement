@@ -1,5 +1,5 @@
-import React, {useState, useContext, useEffect} from 'react';
-import { Link, useLocation, useParams } from "react-router-dom";
+import React, {useState, useEffect} from 'react';
+import { useParams } from "react-router-dom";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import TeamDashboard from './TeamDashboard';
 import Members from './Members';
@@ -10,11 +10,9 @@ import MyHouse from './Settings/House/HouseProfile'
 import NewSideBar from './NewSideBar';
 import MembersProfile from './MemberProfile/MemberProfile';
 import Settings from './Settings/Settings';
-const userId = localStorage.id
-const userType = localStorage.type
-
 export const UserContext = React.createContext();
 function TeamDetail() {
+    const theme = localStorage.theme;
     const { teamId } = useParams();
     const [teamDetail, setTeamDetail]= useState( {});
     async function loadTeamDetail(){
@@ -29,11 +27,11 @@ function TeamDetail() {
         <div >
             <h3 class="myTeamName" >{teamDetail.teamName}</h3>
             <div className="d-flex wrapper">
-
             <UserContext.Provider value ={{teamDetail}}> 
                 <Router>
                 <NewSideBar teamId={teamId}/>
-                <div className="teamDashboard">
+                {/* "teamDashboard" */}
+                <div className={ theme === 'Dark'? 'fullWidth': "teamDashboard"}>
                     <Route path={["/TeamDetail/:teamId/TeamDashboard"]} component={TeamDashboard} />
                     <Route path={["/TeamDetail/:teamId/Roles"]} component={Roles} />
                     <Route exact path={["/TeamDetail/:teamId/House"]} component={House} />

@@ -11,7 +11,7 @@ code {
     monospace;
 }
 .hero {
-  /* background-image: url(./components/assets/2522219.jpg); */
+
   background-size: cover;
   height: 90vh;
   background-position: center;
@@ -40,6 +40,15 @@ img {
   border-radius: 3px;
   cursor: pointer;
 }
+.themeBtn{
+  text-align: center;
+  background:  #e79fab;
+  padding: 10px;
+  margin: 5px;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
 .myBtnNew:hover{
   background:  #fd788e;
   color: white;
@@ -61,7 +70,7 @@ img {
 }
 .teamWindow2{
   background: #e79fab;
-  height: 80vh;
+  min-height: 80vh;
   border-radius: 5px;
   margin-top: 15px;
 }
@@ -79,7 +88,20 @@ img {
   border-radius: 5px;
   padding: 10px;
   box-shadow: 1px 2px 3px #998893;
-
+}
+.myCardDark{
+  background: #3e444b;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  min-width: 28%;
+  /* min-height: 40vh; */
+  min-height: 10vh;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 1px 2px 3px #1d2024;
+}
+hr{
+  border-top: 1px solid #525963;
 }
 .sideBar{
   background: #253b3d;
@@ -121,16 +143,11 @@ img {
   border: 1px solid #16232400;
   text-decoration: none;
 }
-.tabBox{
-  /* position: relative;
-  height: ; */
-}
 .tabBAr {
   width: 100%;
   /* border-bottom: 2px solid #fd788e; */
   margin-top: 5px;
 }
-
 .TabActive{
   background: #ffe9ed;
   border: 2px solid #fd788e;
@@ -243,7 +260,7 @@ a:hover{
   padding: 10px;
 }
 .myTeamName{
-  background: #555555;
+  background: #484f57;
   color: white;
   padding: 10px;
   text-transform: uppercase;
@@ -262,6 +279,10 @@ a:hover{
 .teamDashboard{
   width: 100%;
   background-image: linear-gradient(135deg, #faf2f3, #e8dcf0);
+}
+.fullWidth{
+  width: 100%;
+
 }
 .myTitle{
   color: #e6798b;
@@ -530,4 +551,64 @@ a:hover{
 .hoverShwo:hover .hoverName{
   visibility: visible;
 }
- 
+
+.sideBarListItem{
+  padding: 8px;
+  /* background: #d8e4e4; */
+  border-radius: 8px;
+}
+.sideBarListItem:hover{
+  background: #f5d1d1;
+}
+.groupThmImg{
+  width: 8vh;
+  height: 8vh;
+  object-fit: cover;
+  border-radius: 10px;
+  background: white;
+}
+.groupThmFnt{
+  color: #202020;
+  font-weight: bold;
+  text-transform: capitalize;
+  padding: 10px;
+  font-size: 1.1rem;
+}
+.greyHeading{
+  color: #e09d9d;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
+}
+.pin{
+  color: #cccccc;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 1.4;
+}
+.pin:hover{
+  color: #eb8e8e;
+  cursor: pointer;
+}
+.pinned{
+  font-size: 1.4;
+  color: #eb8e8e;
+  cursor: pointer;
+  padding: 5px;
+}
+.tryngWindow{
+  position: relative;
+}
+.groupList{
+  background: #f0f0f0;
+  position: sticky;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.darkBackGrnd{
+  background: #343a40;
+  color: #c5c5c5;
+  min-height: 100vh;
+}

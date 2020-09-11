@@ -7,6 +7,9 @@ let teams = new Schema ({
     teamId: String,
     teamName: String,
     teamDesc: String,
+    pinned: {
+        type: Boolean, 
+        default: false},
     teamMembers: [
         {
             membId: String,

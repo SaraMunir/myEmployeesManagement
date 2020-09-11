@@ -25,6 +25,9 @@ let users = new Schema ({
         required: true, 
         trim: true
     },
+    pinnedTeams:[
+        {teamId: String}
+    ],
     profileImg : String,
     teams:[
         {   teamName: String,
@@ -32,7 +35,7 @@ let users = new Schema ({
             teamMembers: [
                 {
                     membName: String,
-               s     membDesc: String,
+                    membDesc: String,
                     membRole: String,
                     membRoleId: String,
                     membSex: String,

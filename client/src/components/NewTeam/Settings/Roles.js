@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useParams } from "react-router-dom";
 import {Modal, Button} from 'react-bootstrap'
 const adminId = localStorage.id

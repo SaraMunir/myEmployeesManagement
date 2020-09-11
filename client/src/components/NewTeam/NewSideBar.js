@@ -9,7 +9,6 @@ function NewSideBar(props) {
     return (
         <div className="col-2 newSideBar">
             <ul class="list-group pt-4">
-
                 {/*    /TeamDashboard/:teamId    */}
                 <Link to={`/TeamDetail/${props.teamId}/TeamDashboard`} className="try"> 
                     <li class={location.pathname === `/TeamDetail/${props.teamId}/TeamDashboard` ? "sidBarItem2Active" : "sidBarItem2"}>

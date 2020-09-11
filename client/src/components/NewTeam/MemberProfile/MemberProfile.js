@@ -1,5 +1,5 @@
-import React, {useState, useContext, useEffect, useRef } from 'react';
-import { Link, useParams , useLocation } from "react-router-dom";
+import React, {useState, useEffect, useRef } from 'react';
+import {  useParams , useLocation } from "react-router-dom";
 import {Modal} from 'react-bootstrap'
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import TimeLine from './MemberTimeLine'
@@ -11,7 +11,6 @@ const userId = localStorage.id
 const userType = localStorage.type
 
 function MemberProfile() {
-    const location = useLocation();
     const { membId } = useParams();
     const { teamId } = useParams();
     const [ memberDetail, setMemberDetail ]= useState({});

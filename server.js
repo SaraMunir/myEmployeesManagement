@@ -158,6 +158,15 @@ app.get('/api/allTeams/:userId', async(req, res) => {
     const getAllTeams = await orm.getAllTeams( userId );
     res.json( getAllTeams );
 })
+
+//pinning team:
+
+app.get('/api/pinTeam/:teamId', async(req, res) => {
+    const teamId= req.params.teamId;
+    
+    const pinTeam = await orm.pinTeam( teamId );
+    res.json( pinTeam );
+})
 //posting new roles
 //creating roles
 app.post('/api/newRoles', async function( req,res ){
@@ -234,11 +243,18 @@ app.get('/api/memberProfile/:membId', async(req, res) => {
 // update employee info
 app.put('/api/memberDetailUpdate/:membId', async function( req,res ){
     const membId = req.params.membId
-    
     const userMember = req.body;
     const updateMember = await orm.updateMember( userMember, membId );
-    // console.log(updateMember)
     res.send(updateMember);
+})
+// update employee info
+app.put('/api/adminDetailUpdate/:membId', async function( req,res ){
+    const membId = req.params.membId
+    
+    const userMember = req.body;
+    const updateAdmin = await orm.updateAdmin( userMember, membId );
+    // console.log(updateAdmin)
+    res.send(updateAdmin);
 })
 const upload = require('multer')({ dest: 'client/public/uploads/' });
 app.post('/api/deleteOldProfilePIc', async function( req,res ){
@@ -267,6 +283,18 @@ app.put( '/api/upload/:userid', upload.single('myFile'), async function( req, re
 
         const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
     const imgUploadDb = await orm.updateAvatar( userId, imageUrl );
+    res.send( imgUploadDb );
+});
+app.put( '/api/adminUpload/:userid', upload.single('myFile'), async function( req, res ){
+    let userId = req.params.userid
+    const filePath = req.file.path;
+    const originalName = req.file.originalname;
+    
+    const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
+        fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
+
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+    const imgUploadDb = await orm.updateAdminAvatar( userId, imageUrl );
     res.send( imgUploadDb );
 });
 
