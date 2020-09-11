@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import OnHoverScrollContainer from "./scroll/CustomScrollDiv";
 
 const adminId = localStorage.id
+const theme = localStorage.theme;
 
 function AdminDashboard() {
     const [ adminDetail, setAdminDetail ]= useState({});
@@ -25,8 +26,8 @@ function AdminDashboard() {
     return (
         <div>
             <h4 className="myTeamName">admins dashboard</h4> 
-            <div className="d-flex tryngWindow">
-                <div className="groupList col-3">
+            <div className="d-flex tryngWindow">            
+                <div className={ theme === 'Dark' ? "groupListDark col-3": "groupList col-3"}>
                 <OnHoverScrollContainer>
                     <div className="myPinnedTeams">
                         <h5 className="greyHeading">Pinned Teams</h5>
@@ -35,7 +36,7 @@ function AdminDashboard() {
                             <Link to={`/TeamDetail/${team._id}/TeamDashboard`} >
                                 <div key={team} class="sideBarListItem d-flex">
                                     <img class="groupThmImg" src="https://squalio.com/wp-content/uploads/2018/08/teams-2.jpg" alt=""/>
-                                    <p class="groupThmFnt"> {team.teamName}</p>
+                                    <p class={ theme === 'Dark' ? "groupThmFntDark": "groupThmFnt"}> {team.teamName}</p>
                                 </div>
                             </Link> : ''
                         )}
@@ -52,7 +53,7 @@ function AdminDashboard() {
                                     <Link to={`/TeamDetail/${team._id}/TeamDashboard`} >
                                         <div key={team+idx} class="sideBarListItem d-flex">
                                             <img class="groupThmImg" src="https://squalio.com/wp-content/uploads/2018/08/teams-2.jpg" alt=""/>
-                                            <p class="groupThmFnt"> {team.teamName}</p>
+                                            <p class={ theme === 'Dark' ? "groupThmFntDark": "groupThmFnt"}> {team.teamName}</p>
                                         </div>
                                     </Link>
                                 </div>

@@ -9,6 +9,7 @@ export const UserContext = React.createContext();
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 const userId = localStorage.id
 const userType = localStorage.type
+const theme = localStorage.theme;
 
 function MemberProfile() {
     const { membId } = useParams();
@@ -456,7 +457,8 @@ function MemberProfile() {
                         <div className="d-flexb tabBox">
                             <TabBar teamId={teamId} membName={memberDetail.name} membId={memberDetail._id}/>
                         </div>
-                        <div className="memDetail">
+                        {/* <div className="memDetail"> */}
+                        <div className={ theme === 'Dark' ? "memDetailDark" : "memDetail" }>
                             <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/TimeLine"]} component={TimeLine} />
                             <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/About"]} component={About} memberDetail={memberDetail} />
                         </div>

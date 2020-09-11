@@ -1,4 +1,6 @@
 import React from 'react';
+import NavIcon from './assets/group.png';
+
 import { Link, useLocation } from "react-router-dom";
 function Navbar() {
     const location = useLocation();
@@ -15,13 +17,13 @@ function Navbar() {
     return (
         //"navbar navbar-expand-lg navbar-light bg-light"
         <nav class={ theme === 'Dark' ? "navbar navbar-expand-lg navbar-dark bg-dark" : "navbar navbar-expand-lg navbar-light bg-light" }>
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#"><img className="navIcon" src={NavIcon} alt=""/></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto">
-                    {
+                    {id ? '':
                     <li class="nav-item">
                         <Link to="/HomePage" className={location.pathname === "/HomePage" ? "nav-link active" : "nav-link"}>
                         <i class="fas fa-2x fa-home"></i> Home Page

@@ -41,6 +41,7 @@ img {
   cursor: pointer;
 }
 .themeBtn{
+  width: 50px;
   text-align: center;
   background:  #e79fab;
   padding: 10px;
@@ -49,7 +50,7 @@ img {
   border-radius: 3px;
   cursor: pointer;
 }
-.myBtnNew:hover{
+.myBtnNew:hover, themeBtn:hover{
   background:  #fd788e;
   color: white;
 }
@@ -189,6 +190,12 @@ hr{
   border: 2px solid #fd788e;
   min-height: 40vh;
 }
+.memDetailDark{
+  padding: 20px;
+  background: #3e444b;
+  border: 2px solid #fd788e;
+  min-height: 40vh;
+}
 .sidBarItem{
   margin: 0;
   width: 100%;
@@ -296,7 +303,10 @@ a:hover{
 .subHeader{
   color: #474747;
   font-weight: bold;
-
+}
+.subHeaderDark{
+  color: #7c8692;
+  font-weight: bold;
 }
 .profilePhoto{
   width: 50vh;
@@ -574,6 +584,13 @@ a:hover{
   padding: 10px;
   font-size: 1.1rem;
 }
+.groupThmFntDark{
+  color: #828a92;
+  font-weight: bold;
+  text-transform: capitalize;
+  padding: 10px;
+  font-size: 1.1rem;
+}
 .greyHeading{
   color: #e09d9d;
   font-weight: bold;
@@ -606,9 +623,21 @@ a:hover{
   top: 0;
   left: 0;
 }
+.groupListDark{
+  background: #3e444b;
+  position: sticky;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  color: white;
+}
 
 .darkBackGrnd{
   background: #343a40;
   color: #c5c5c5;
   min-height: 100vh;
+}
+.navIcon{
+  width: 50px;
+  height: 50px;
 }

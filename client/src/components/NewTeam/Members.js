@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useRef } from 'react';
 import {Modal, Button} from 'react-bootstrap'
-// import { UserContext } from '../TeamPage/TeamPage';
 import { Link, useParams } from "react-router-dom";
 
 const userId = localStorage.id

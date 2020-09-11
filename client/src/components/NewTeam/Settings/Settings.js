@@ -7,7 +7,6 @@ const theme = localStorage.theme;
 
 function Settings() {
     const { teamId } = useParams();
-
     return (
         <div>
             <h3>Setup your Team</h3>
