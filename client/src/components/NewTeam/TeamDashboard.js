@@ -84,10 +84,10 @@ function TeamDashboard() {
                 <Link style={{color: "#b1b1b1"}} to={`/TeamDetail/${teamId}/Members`}>
                     <div className="hoverShwo">
                         <div className="houseMmb ">
-                            <h6 className="pt-3"> + {members.length-17}</h6>
+                            <h6 className="pt-3">  {members.length ? + members.length-17 : ''}</h6>
                         </div>
                             <div className="hoverName">
-                                <p>{members.length-17} More</p>
+                                <p>{members.length ? members.length-17 : ''} More</p>
                             </div>
                     </div>
                 </Link>
