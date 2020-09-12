@@ -49,17 +49,27 @@ function Navbar() {
                     </li>}
                 </ul>
                 {!id ? '':
-                    <Link to="/logout" style={{color: 'black', paddingLeft: '20px'}} className='myBtnNew'>
-                    <i class="fas fa-2x fa-sign-out-alt"></i> Log Out 
-                    
-                    </Link>
-                }
-                {
-                    !id ? '':
-                <div className="themeBtn" onClick={()=>changeTheme()}>
-                    {  theme === 'Dark' ? <i class="fas fa-2x fa-sun"></i> : <i class="fas fa-2x fa-moon"></i>}
-                </div>
-                }
+                    <div class="dropdown show">
+                        <a class="myBtnNew dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Show More
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <Link className="dropdown-item" to="/logout" style={{color: 'black', padding: '20px'}}>
+                                <i class="fas fa-sign-out-alt"></i> Log Out
+                            </Link>
+                            <div className="themeBtn" onClick={()=>changeTheme()}>
+                                { theme === 'Dark' ? 
+                                <div  className="d-flex justify-content-between">
+                                    <i class="fas fa-2x fa-sun"></i> Day
+                                </div>
+                                    : 
+                                <div className="d-flex justify-content-between"> 
+                                    <i class="fas fa-2x fa-moon"></i> Night
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>}
             </div>
         </nav>
     )

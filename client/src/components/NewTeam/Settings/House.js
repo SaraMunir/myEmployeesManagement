@@ -222,14 +222,6 @@ function House() {
                                 el.className = 'hide';
                             }
                         }
-                        function showLoginForm(id){
-                            const el = document.getElementById(id);
-                            if (el.className === 'logInWndow hide'){
-                                el.className = 'logInWndow';
-                            } else {
-                                el.className = 'logInWndow hide';
-                            }
-                        }
                         return (
                         <div key={`house_${idx}`} className="houseCard mx-auto" style={{background: house.houseColor ? house.houseColor: "pink", position: "relative"}}
                         >

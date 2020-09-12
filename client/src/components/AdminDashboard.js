@@ -19,6 +19,7 @@ function AdminDashboard() {
         console.log('fetched all teams are: ', fetchTeams)
         setTeams(fetchTeams)
     }
+    
     useEffect(function(){
         loadAdminProfile();
         loadAllTeams()
@@ -65,7 +66,7 @@ function AdminDashboard() {
                 </OnHoverScrollContainer>
                 </div>
                 <div className="otherContent">
-                    
+                    {adminDetail.name}
                 </div>
             </div>
         </div>

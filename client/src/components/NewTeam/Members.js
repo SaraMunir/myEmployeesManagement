@@ -15,9 +15,10 @@ function Members() {
     const [member, setMember] = useState([]);
     const [ searchInput, setSearchInput] = useState("");  
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
+    const [ view, setView] = useState("Grid")
+    const [ membAvatar, setMembAvatar] = useState("empAvatar")
     const inputEmail = useRef();  
     const inputPassword = useRef();
-
 
     function handleInputChange( e ){
         const { id, value } = e.target; 
@@ -84,6 +85,16 @@ function Members() {
         const fetchHouses = await fetch (`/api/house/${teamId}`).then( res => res.json());
         console.log('fetched houses are: ', fetchHouses)
         setHouses(fetchHouses)
+    }
+    function SetView(typeView){
+        if(typeView=='List'){
+            setView('List');
+            setMembAvatar('listEmpAvatar')
+        }
+        if(typeView=='Grid'){
+            setView('Grid')
+            setMembAvatar('empAvatar')
+        }
     }
     useEffect(function(){
         loadMember()
@@ -170,14 +181,35 @@ function Members() {
                         </Modal.Body>
                     </Modal> 
                 </div>
+                <div className="listGrid d-flex">
+                    <div className="myBtnNew">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    {/* { view == 'Grid' ?
+                    <div className="myBtnNew" onClick={()=>setView('List')}>
+                        <i class="fas fa-list"></i>
+                    </div> :
+                    <div className="myBtnNew" onClick={()=>setView('Grid')}>
+                        <i class="fas fa-th"></i>
+                    </div>
+                    } */}
+                    { view == 'Grid' ?
+                    <div className="myBtnNew" onClick={()=>SetView('List')}>
+                        <i class="fas fa-list"></i>
+                    </div> :
+                    <div className="myBtnNew" onClick={()=>SetView('Grid')}>
+                        <i class="fas fa-th"></i>
+                    </div>
+                    }
+                </div>
             </div>
-            <div class="row col-12">
+            <div class={view}>
                 {member.length == 0 ? 
                 <h4 class="mt-5 mx-auto">You have not added any team mates yet</h4>
                 :
                 member.map( (memb, idx) => {
                     switch (memb.sex){
-                        case "F": //{ theme === 'Dark' ? "myCardDark
+                        case "F": 
                             return <div key={`member${idx}`}  class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
                                 <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
                                 {houses.map(house=>
@@ -186,11 +218,11 @@ function Members() {
                                 {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
                                 </div>
                                 <div class="card-body">
-                                    <img src={
-                        memb.profileImg ? memb.profileImg : "https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png"
-                    } alt="" class="empAvatar"/>
-                                    <h5 class="card-title myTitle">{memb.name}</h5>
-                                    <p class="card-text mySubTxt">{memb.role}</p>
+                                    <img src={memb.profileImg ? memb.profileImg : "https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png"} alt="" class={membAvatar}/>
+                                    <div className='pl-4 pr-4 col-7 text-left'>
+                                        <h5 class="card-title myTitle">{memb.name}</h5>
+                                        <p class="card-text mySubTxt">{memb.role}</p>
+                                    </div>
                                     <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
                                         <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
                                     </Link>
@@ -205,29 +237,27 @@ function Members() {
                                     {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
                                 </div>
                                 <div class="card-body">
-                                    <img src={
-                        memb.profileImg ? memb.profileImg : "https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg"
-                    } alt="" class="empAvatar"/>
-                                    <h5 class="card-title myTitle">{memb.name}</h5>
-                                    <p class="card-text mySubTxt">{memb.role}</p>
-                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
-                                        <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
-                                    </Link>
+                                    <img src={ memb.profileImg ? memb.profileImg : "https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg" } alt="" class={membAvatar}/>
+                                    <div className='pl-4 pr-4 col-7 text-left'>
+                                        <h5 class="card-title myTitle">{memb.name}</h5>
+                                        <p class="card-text mySubTxt">{memb.role}</p>
+                                    </div>
+                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} ><div class="myBtnNew mx-auto" href="#" role="button">view Detail </div></Link>
                                 </div>
                             </div>
                         default:   return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
                         <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
                             {houses.map(house=>
                                 house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
-                                )}
-                        {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                                )} {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
                         </div>
                         <div class="card-body">
-                            <img src={
-                        memb.profileImg ? memb.profileImg : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"
-                    } alt="" class="empAvatar"/>
-                            <h5 class="card-title myTitle">{memb.name}</h5>
-                            <p class="card-text mySubTxt">{memb.role}</p>
+                            <img src={memb.profileImg ? memb.profileImg : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" } alt="" class={membAvatar}/>
+                            <div className='pl-4 pr-4 col-7 text-left'>
+                                <h5 class="card-title myTitle">{memb.name}</h5>
+                                <p class="card-text mySubTxt">{memb.role}</p>
+
+                            </div>
                             <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
                                 <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
                             </Link>

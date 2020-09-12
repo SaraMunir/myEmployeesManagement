@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 let members = new Schema ({
     type: String,
+    theme: {
+        type: String,
+        default: 'Day'},
     bio: String,
     teamId: String,
     name: String,

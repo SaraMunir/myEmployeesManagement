@@ -103,7 +103,7 @@ function HouseProfile() {
                 </div>
                 <div className="houseMateSec d-flex">
                     {member.map((memb, idx)=>
-                    memb.house ==houseDetail._id ?
+                    memb.house == houseDetail._id ?
                     <div key={idx}  className="hoverShwo">
                         <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
                             <img className="houseMmb" src={memb.profileImg?memb.profileImg: "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"} alt="housemembThumb" style={{borderColor: `${houseDetail.houseColor}`}}/>

@@ -160,7 +160,7 @@ function ProfilePage() {
             <div className="adminCov">
                 <div className="adminCovImg"></div>
                 <div className="shorSum row col">
-                    <div className="adminProImg border">
+                    <div className="adminProImg">
                         <img className="profilePhoto" src={adminDetail.profileImg ? adminDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"
                         } alt="memberImg"/>
                         <i className="fas fa-camera admiUpIcon"  onClick={() => setLgShow2(true)}></i>
@@ -188,7 +188,7 @@ function ProfilePage() {
                                 </Modal.Body>
                         </Modal>
                     </div>
-                    <div className="membAbout border col">
+                    <div className="membAbout col">
                         <h2 className="myTitle text-left"> {adminDetail.name} </h2>
                         <p className="text-left"> {adminDetail.bio ? adminDetail.bio : 'Bio has yet not been added yet..'}</p>
                         <div className="edit">

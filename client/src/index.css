@@ -13,7 +13,7 @@ code {
 .hero {
 
   background-size: cover;
-  height: 90vh;
+  height: 84vh;
   background-position: center;
 }
 .brd1 {
@@ -41,7 +41,7 @@ img {
   cursor: pointer;
 }
 .themeBtn{
-  width: 50px;
+  max-width: 100px;
   text-align: center;
   background:  #e79fab;
   padding: 10px;
@@ -49,6 +49,7 @@ img {
   color: white;
   border-radius: 3px;
   cursor: pointer;
+  margin: 0 auto;
 }
 .myBtnNew:hover, themeBtn:hover{
   background:  #fd788e;
@@ -84,7 +85,6 @@ img {
   margin-top: 10px;
   margin-bottom: 20px;
   min-width: 28%;
-  /* min-height: 40vh; */
   min-height: 10vh;
   border-radius: 5px;
   padding: 10px;
@@ -95,7 +95,6 @@ img {
   margin-top: 10px;
   margin-bottom: 20px;
   min-width: 28%;
-  /* min-height: 40vh; */
   min-height: 10vh;
   border-radius: 5px;
   padding: 10px;
@@ -246,7 +245,9 @@ ul {
 .sp {
   color: red;
 }
-
+a{
+  color: #444a5c;
+}
 a:hover{
   text-decoration: none;
   /* text-emphasis: none; */
@@ -254,6 +255,11 @@ a:hover{
 .empAvatar{
   height: 35vh;
   width: 35vh;
+  object-fit: cover;
+}
+.listEmpAvatar{
+  height: 15vh;
+  width: 15vh;
   object-fit: cover;
 }
 .empAvatarThmb{
@@ -289,6 +295,7 @@ a:hover{
 }
 .fullWidth{
   width: 100%;
+  background-image: linear-gradient(135deg, #faf2f300, #e8dcf000);
 
 }
 .myTitle{
@@ -360,6 +367,13 @@ a:hover{
   width: 20vh;
   height: 20vh;
 }
+.houseThmbs{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin: 10px;
+}
 .membProImg{
   position: relative;
 }
@@ -383,7 +397,7 @@ a:hover{
   padding: 30px;
 }
 .adminCov{
-  border: 2px solid rebeccapurple;
+  /* border: 2px solid rebeccapurple; */
   /* padding: 30px; */
 
 }
@@ -529,16 +543,19 @@ a:hover{
   background: #b1b1b1;
 }
 .houseMmb{
+  background: #444a5c;
   width: 10vh;
   height: 10vh;
   object-fit: cover;
   border-radius: 50%;
   border: 2px solid;
-  margin-left: -10px;
 }
 .hoverShwo{
+  margin-left: -10px;
+  width: 10vh;
+  height: 10vh;
   position: relative;
-
+  cursor: pointer;
 }
 .houseMmbHovr{
   width: 18vh;
@@ -549,26 +566,25 @@ a:hover{
   margin-left: -10px;
 }
 .hoverName{
-  min-width: 30vh;
+  width: 100px;
+  font-size: .8rem;
   background: white;
-  padding: 40px;
-  position: absolute;
+  padding: 8px;
   visibility: hidden;
-  bottom: -162px;
-  right: 24px;
+  position: absolute;
+  bottom: 58px;
+  right: 30px;
   border-radius: 8px;
 }
 .hoverShwo:hover .hoverName{
   visibility: visible;
 }
-
 .sideBarListItem{
   padding: 8px;
-  /* background: #d8e4e4; */
   border-radius: 8px;
 }
 .sideBarListItem:hover{
-  background: #f5d1d1;
+  background: #e6b3b3;
 }
 .groupThmImg{
   width: 8vh;
@@ -619,19 +635,18 @@ a:hover{
 .groupList{
   background: #f0f0f0;
   position: sticky;
-  height: 100vh;
+  height: 78vh;
   top: 0;
   left: 0;
 }
 .groupListDark{
   background: #3e444b;
   position: sticky;
-  height: 100vh;
+  height: 78vh;
   top: 0;
   left: 0;
   color: white;
 }
-
 .darkBackGrnd{
   background: #343a40;
   color: #c5c5c5;
@@ -640,4 +655,38 @@ a:hover{
 .navIcon{
   width: 50px;
   height: 50px;
+}
+.Grid{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.List{
+  display: flex;
+  flex-direction: column;
+}
+/* , .membersBirthday .myCard, .membersBirthday .myCardDark */
+
+.List .myCard, .List .myCardDark {
+  width: 80%;
+}
+.List .card-body{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.loginSect{
+  background: #444a5c;
+  color: #cbd1e4;
+}
+.otherCard{
+  padding: 10px;
+  background: #343a40;
+}
+.description{
+  padding: 0px 10px;
+}
+
+.react-calendar{
+  margin: 0 auto;
 }

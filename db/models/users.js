@@ -7,6 +7,9 @@ let users = new Schema ({
         trim: true,
         required: true
     },
+    theme: {
+        type: String,
+        default: 'Day'},
     bio: String,
     sex: String,
     birthday: String, 

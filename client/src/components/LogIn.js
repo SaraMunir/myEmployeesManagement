@@ -41,7 +41,7 @@ function LogIn() {
             localStorage.setItem('id', apiResult.id);
             localStorage.setItem('name', apiResult.name);
             localStorage.setItem('type', 'Admin');
-            localStorage.setItem('theme', 'Light');
+            localStorage.setItem('theme', apiResult.theme);
 
         if( !apiResult.message ){
             setAlertMessage( { type: 'danger', message: apiResult.error } );

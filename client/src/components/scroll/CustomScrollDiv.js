@@ -122,7 +122,7 @@ export default function CustomScrollDiv({ children, className, ...restProps }) {
       <div className={"scroll-bar"} style={{ opacity: hovering ? 1 : 0 }}>
         <div
           className={"scroll-thumb"}
-          style={{ height: scrollBoxHeight, top: scrollBoxTop }}
+          style={{ height: "75%", top: scrollBoxTop }}
           onMouseDown={handleScrollThumbMouseDown}
         />
       </div>
