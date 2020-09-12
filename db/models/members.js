@@ -5,7 +5,7 @@ let members = new Schema ({
     type: String,
     theme: {
         type: String,
-        default: 'Day'},
+        default: 'Light'},
     bio: String,
     teamId: String,
     name: String,

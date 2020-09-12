@@ -46,6 +46,7 @@ async function loginUser( email, password ) {
         id: userData._id,
         name: userData.name,
         email: userData.email,
+        theme: userData.theme,
     };
 }
 // getTeams
@@ -67,14 +68,6 @@ async function loginMember( userData ) {
     if( !memberData ) {
         return { error: "Couldn't find the Leader Id. Register or try again!" };
     }
-    // let memberFinalData ={
-    //     name: '',
-    //     id: '',
-    //     team: '',
-    //     leader: '',
-    //     email: '',
-    //     error: ''
-    // };
     let teamMember={}
     memberData.teams.forEach(async function(team){
         if(team._id == membTeamId){
@@ -99,6 +92,7 @@ async function loginMember( userData ) {
         id: teamMember.id,
         name: teamMember.membName,
         email: teamMember.email,
+        theme: teamMember.theme,
         leader: admindId,
         team: membTeamId
     };
@@ -257,21 +251,6 @@ async function updateEmployee( userEmployee, allId  ){
     return { userEmployee: userEmployee }
 
 }
-
-
-
-// //multer
-// async function updateAvatar( userId, imageUrl ){
-//     const imageData = {
-//         profileImg: imageUrl
-//     };
-//     const dbResult = await db.users.findOneAndUpdate({_id: userId}, imageData);
-//     const userFetch = await db.users.findOneAndUpdate({ _id: userId }, { $push: { friendList: {image: imageData} } });
-//     return { message: `Thank you, updated` }
-// }
-
-//new stuff: 
-//  posting team:
 async function postNewTeam( userTeams ){
     // const userId = userTeams.adminId
     const teamData = {

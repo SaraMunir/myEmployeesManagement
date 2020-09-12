@@ -36,7 +36,6 @@ function LogIn() {
                 },
                 body: JSON.stringify(userData)
             }).then( result=>result.json())
-
             localStorage.setItem("email", apiResult.email);
             localStorage.setItem('id', apiResult.id);
             localStorage.setItem('name', apiResult.name);

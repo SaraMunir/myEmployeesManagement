@@ -9,7 +9,7 @@ let users = new Schema ({
     },
     theme: {
         type: String,
-        default: 'Day'},
+        default: 'Light'},
     bio: String,
     sex: String,
     birthday: String, 

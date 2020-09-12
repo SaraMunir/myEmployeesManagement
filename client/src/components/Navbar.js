@@ -8,7 +8,7 @@ function Navbar() {
     const userName = localStorage.name;
     const theme = localStorage.theme;
     function changeTheme(e){
-        if(localStorage.theme== 'Light'){
+        if(localStorage.theme == 'Light'){
         localStorage.setItem('theme', 'Dark');}
         else 
         localStorage.setItem('theme', 'Light');

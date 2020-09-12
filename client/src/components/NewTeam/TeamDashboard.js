@@ -70,7 +70,7 @@ function TeamDashboard() {
                     <img key={idx} class="houseThmbs" src={house.profileImg} alt="bdsb"/>
                 ): ''}
             </div>
-            <div className={ theme === 'Dark' ? "myCardDark row mx-auto col-11" : "myCard mx-auto row col-11"} style={{padding: '30px'}}>
+            <div className={ theme === 'Dark' ? "myCardDark mx-auto row col-11" : "myCard mx-auto row col-11"} style={{padding: '30px'}}>
             {members.slice(0,17).map((memb, idx)=>
                 <div key={idx} className="hoverShwo">
                     <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
@@ -83,12 +83,17 @@ function TeamDashboard() {
                 )}
                 <Link style={{color: "#b1b1b1"}} to={`/TeamDetail/${teamId}/Members`}>
                     <div className="hoverShwo">
+                            { members.length <= 17 ? '':
                         <div className="houseMmb ">
-                            <h6 className="pt-3">  {members.length ? + members.length-17 : ''}</h6>
+                                <h6 className="pt-3">  {members.length ? `+ ${members.length-17}` : ''}</h6>
                         </div>
-                            <div className="hoverName">
-                                <p>{members.length ? members.length-17 : ''} More</p>
-                            </div>
+                            }
+                        { members.length <= 17 ? '':
+                        <div className="hoverName">
+                            <p>{members.length ? members.length-17 : ''} More</p>
+                        </div>
+                        }
+                            
                     </div>
                 </Link>
             </div>
