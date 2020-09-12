@@ -32,15 +32,9 @@ function App() {
         <Route exact path={["/LogIn"]} component={LogIn}/>
         <Route exact path={["/MemberLogIn"]} component={MemberLogIn}/>
         <Route exact path={["/SignUp"]} component={SignUp}/>
-        {/* <Route exact path={["/MyTeam"]} component={MyTeam}/> */}
         <Route exact path={["/logout"]} component={LogOut}/>
         <Route exact path={["/Dashboard"]} component={Dashboard}/>
         <Route exact path={["/MemberDashboard"]} component={MemberDashboard}/>
-        {/* <Route path={["/TeamPage/:teamId"]} component={TeamPage} /> */}
-        
-        {/* <Route path={["/TeamPage/MembProfile/:teamId/:membId"]} component={MembProfile}/> */}
-
-        {/* starting fresh */}
         <Route path={["/NewTeamsPage"]} component={NewTeamsPage}/>
         <Route path={["/TeamDetail/:teamId"]} component={TeamDetail} />
       </Router>

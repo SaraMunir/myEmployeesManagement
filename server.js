@@ -58,6 +58,14 @@ app.get('/api/teams/:userId', async(req, res) => {
     const getTeams = await orm.getTeams( userId );
     res.json( getTeams );
 })
+// update employee info
+app.put('/api/updateTheme/:userId', async function( req,res ){
+    const userId = req.params.userId
+    const theme = req.body;
+    console.log('in server the theme: ', theme)
+    const updateTheme = await orm.updateTheme( theme, userId );
+    res.json(updateTheme);
+})
 
 app.get('/api/roles/:userId/:teamId', async(req, res) => {
     const userId = req.params.userId;
@@ -202,18 +210,12 @@ app.get('/api/teamDetails/:teamId', async(req, res) => {
 })
 
 //posting member
-//     /api/postMember
-
 //creating employees
 app.post('/api/postMember', async function( req,res ){
     const memberData = req.body;
     const postMember = await orm.postMember( memberData );
     res.send(postMember);
 })
-
-
-// /api/member/${teamId}
-
 //fetching members:
 app.get('/api/member/:teamId', async(req, res) => {
     const teamId = req.params.teamId;

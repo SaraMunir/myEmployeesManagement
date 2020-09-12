@@ -15,6 +15,8 @@ function Members() {
     const [member, setMember] = useState([]);
     const [ searchInput, setSearchInput] = useState("");  
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
+    // const [ listStuff, setListStuff ] = useState( "pl-4 pr-4 col-7 text-left" );
+    const [ listStuff, setListStuff ] = useState( "pl-4 pr-4 text-center" );
     const [ view, setView] = useState("Grid")
     const [ membAvatar, setMembAvatar] = useState("empAvatar")
     const inputEmail = useRef();  
@@ -90,11 +92,16 @@ function Members() {
         if(typeView=='List'){
             setView('List');
             setMembAvatar('listEmpAvatar')
+            setListStuff('pl-4 pr-4 col-7 text-left')
         }
         if(typeView=='Grid'){
             setView('Grid')
             setMembAvatar('empAvatar')
+            setListStuff('pl-4 pr-4 text-center')
         }
+    }
+    function sortMembers(){
+        console.log('sorting starts')
     }
     useEffect(function(){
         loadMember()
@@ -182,17 +189,26 @@ function Members() {
                     </Modal> 
                 </div>
                 <div className="listGrid d-flex">
-                    <div className="myBtnNew">
-                        <i class="fas fa-filter"></i>
+                    <a class="myBtnNew dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-filter"></i> Sort
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Light')} >
+                            By Name
+                        </div>
+                        <hr/>
+                        <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Light')} >
+                            By Age
+                        </div>
+                        <hr/>
+                        <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Light')} >
+                            By House
+                        </div>
+                        <hr/>
+                        <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Light')} >
+                            By Role
+                        </div>
                     </div>
-                    {/* { view == 'Grid' ?
-                    <div className="myBtnNew" onClick={()=>setView('List')}>
-                        <i class="fas fa-list"></i>
-                    </div> :
-                    <div className="myBtnNew" onClick={()=>setView('Grid')}>
-                        <i class="fas fa-th"></i>
-                    </div>
-                    } */}
                     { view == 'Grid' ?
                     <div className="myBtnNew" onClick={()=>SetView('List')}>
                         <i class="fas fa-list"></i>
@@ -219,7 +235,7 @@ function Members() {
                                 </div>
                                 <div class="card-body">
                                     <img src={memb.profileImg ? memb.profileImg : "https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png"} alt="" class={membAvatar}/>
-                                    <div className='pl-4 pr-4 col-7 text-left'>
+                                    <div className={listStuff}>
                                         <h5 class="card-title myTitle">{memb.name}</h5>
                                         <p class="card-text mySubTxt">{memb.role}</p>
                                     </div>
@@ -238,7 +254,7 @@ function Members() {
                                 </div>
                                 <div class="card-body">
                                     <img src={ memb.profileImg ? memb.profileImg : "https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg" } alt="" class={membAvatar}/>
-                                    <div className='pl-4 pr-4 col-7 text-left'>
+                                    <div className={listStuff}>
                                         <h5 class="card-title myTitle">{memb.name}</h5>
                                         <p class="card-text mySubTxt">{memb.role}</p>
                                     </div>
@@ -253,7 +269,7 @@ function Members() {
                         </div>
                         <div class="card-body">
                             <img src={memb.profileImg ? memb.profileImg : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" } alt="" class={membAvatar}/>
-                            <div className='pl-4 pr-4 col-7 text-left'>
+                            <div className={listStuff}>
                                 <h5 class="card-title myTitle">{memb.name}</h5>
                                 <p class="card-text mySubTxt">{memb.role}</p>
 

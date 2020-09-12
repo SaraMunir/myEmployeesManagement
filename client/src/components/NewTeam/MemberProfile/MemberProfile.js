@@ -118,7 +118,7 @@ function MemberProfile() {
         // loadMemberProfile()
     }
     async function updateMembDetail(){
-        console.log('trial: ',trial)
+        console.log('trial: ',trial) 
         console.log('trial.id: ',trial.id)
         const apiResult = await fetch(`/api/memberDetailUpdate/${membId}`, 
             {   method: 'PUT',

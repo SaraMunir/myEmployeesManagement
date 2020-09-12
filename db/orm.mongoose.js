@@ -384,6 +384,18 @@ async function updateMember( userEmployee, membId  ){
         message: "Member successfully Updated", 
     };
 }
+async function updateTheme( theme, userId  ){
+    console.log('in orm: ', theme)
+    const updateMembInfo = await db.users.findOneAndUpdate(
+        { _id: userId},
+            { "$set": theme}
+    );
+    const getTheme = await db.users.findOne(
+        { _id: userId}
+    );
+    console.log('in orm received', getTheme.theme)
+    return getTheme.theme;
+}
 async function updateAdmin( userEmployee, membId  ){
     console.log('in orm: ', userEmployee.address)
     const updateMembInfo = await db.users.findOneAndUpdate(
@@ -523,6 +535,7 @@ module.exports = {
     updateHouseAvatar,
     updateAdminAvatar,
     updateAdmin,
-    pinTeam
+    pinTeam,
+    updateTheme
 
 }
