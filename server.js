@@ -18,6 +18,12 @@ app.post('/api/user/signUp', async function( req,res ){
     const registerResult = await orm.registerUser( userData );
     res.send(registerResult);
 })
+//getting all user email
+app.get('/api/checkEmail', async(req, res) => {
+    // const userId = req.params.userId;
+    const getAllEmail = await orm.getAllEmail();
+    res.json( getAllEmail );
+})
 
 //Login
 app.post('/api/user/login', async function( req,res ){

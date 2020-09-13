@@ -1,20 +1,24 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect} from 'react'
 import { Redirect } from 'react-router-dom';
 function SignUp() {
     const [ userData, setUserData ] = useState({ name: "", email: "", password: ""});
-
     const [ isRegistered, setIsRegistered ] = useState( false );
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
-
+    const [ emails, setEmails ] = useState([]);
     const inputEmail = useRef();
     const inputPassword = useRef();
-
-
     async function handleInputChange( e ){
         const { id, value } = e.target;
         setUserData( { ...userData, [id]: value });
     }
+    async function loadUserEmail(){
+        const fetchEmail = await fetch (`/api/checkEmail`).then( res => res.json());
+        setEmails(fetchEmail)
+    }
     async function signUpUser( e ){
+        let checkEmailExist = false;
+        emails.map(email=>
+            {if(userData.email == email){checkEmailExist = true;} })
         e.preventDefault();
         if( userData.email === "" ) {
             inputEmail.current.focus();
@@ -26,19 +30,21 @@ function SignUp() {
             setAlertMessage( { type: 'danger', message: 'Please provide a valid Email!' } );
             return;
         }
-
         if( userData.password === "" ) {
             inputPassword.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide a password!' } );
             return;
         }
-
         if( userData.password.length < 8 ) {
             inputPassword.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide a longer password (8 characters min)!' } );
             return;
+        } 
+        if ( checkEmailExist == true ){
+            inputEmail.current.focus();
+            setAlertMessage( { type: 'danger', message: 'Email address already exist, please provide a different email address!' } );
+            return;
         }
-
         localStorage.clear();
         console.log('finished?')
         const registerUser = await fetch('/api/user/signUp',
@@ -60,6 +66,9 @@ function SignUp() {
             }
             setUserData({ name: "", email: "", password: ""})
     }
+    useEffect(function(){
+        loadUserEmail()
+    },[])
     return (
         <div class="container-fluid text-left">
             { isRegistered ? <Redirect to='/login' /> : '' }

@@ -22,6 +22,8 @@ function Members() {
     const [ view, setView ] = useState("Grid")
     const [ filterCategory, setFilterCategory ] = useState([])
     const [ membAvatar, setMembAvatar ] = useState("empAvatar")
+    // const [ checkEmailExist, setCheckEmailExist ]= useState(false);
+    
     const inputEmail = useRef();  
     const inputPassword = useRef();
 
@@ -44,9 +46,17 @@ function Members() {
         }
     }
     async function submitMember(e){
+        let checkEmailExist = false;
+        member.map(memb=>
+            {
+                if(newMember.membEmail == memb.email){
+                    checkEmailExist = true;
+                }
+            } )
+        console.log('checkEmail: ', checkEmailExist)
         e.preventDefault();
         console.log('newMember', newMember);
-        if (newMember.membEmail == ''){
+        if (newMember.membEmail == ""){
             inputEmail.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide the members Email!' } );
             return;
@@ -54,6 +64,11 @@ function Members() {
         if ( newMember.membPassword === "" || newMember.membPassword.length < 8 ){
             inputPassword.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide the members password!' } );
+            return;
+        }
+        if ( checkEmailExist == true){
+            inputEmail.current.focus();
+            setAlertMessage( { type: 'danger', message: 'Email address already exist, please provide a different email address!' } );
             return;
         }
         const apiResult = await fetch('/api/postMember', 
@@ -64,7 +79,6 @@ function Members() {
                 },
                 body: JSON.stringify(newMember)
             }).then( result=>result.json());
-        // console.log(apiResult.message)
         setNewMember({ membName: "", membEmail: "", membRole: "", membSex: "", teamId: `${teamId}`})
         setLgShow(false);
         loadMember()
@@ -75,7 +89,6 @@ function Members() {
         setMember(fetchMembers)
         setOriginalMember(fetchMembers)
     }
-    
     async function loadTeamRoles(){
         const fetchRoles = await fetch (`/api/allRoles/${teamId}`).then( res => res.json());
         console.log('fetched roles are: ', fetchRoles.teamRoles)

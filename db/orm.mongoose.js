@@ -31,6 +31,16 @@ async function registerUser( userData ){
         name: saveUser.name 
     };           
 }
+async function getAllEmail(  ){
+    const getAllUsers = await db.users.find({})
+    let allEmail = []
+    getAllUsers.map(users=>
+        allEmail.push(users.email)
+        )
+    // console.log('getAllRoles ', getAllRoles[0].teamRoles)
+
+    return allEmail;
+}
 async function loginUser( email, password ) {
     const userData = await db.users.findOne({ email: email });
     if( !userData ) {
@@ -499,6 +509,7 @@ async function updateHouseAvatar( userId, imageUrl ){
 
 module.exports = {
     registerUser,
+    getAllEmail,
     loginUser,
     getAdmin,
     loginMember,
