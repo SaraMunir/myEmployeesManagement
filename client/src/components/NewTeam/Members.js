@@ -10,15 +10,18 @@ function Members() {
     const { teamId } = useParams();
     const [lgShow, setLgShow] = useState(false);
     const [ newMember, setNewMember ] = useState({ membName: "", membEmail: "", membRole: "", membSex: "",membPassword: "", teamId: `${teamId}`});
-    const [houses, setHouses] = useState([]);
-    const [teamRoles, setTeamRoles] = useState([])
-    const [member, setMember] = useState([]);
-    const [ searchInput, setSearchInput] = useState("");  
+    const [ houses, setHouses ] = useState([]);
+    const [ teamRoles, setTeamRoles ] = useState([])
+    const [ member, setMember ] = useState([]);
+    // const [ memberFiltered, setMemberFiltered ] = useState([]);
+    const [ originalMember, setOriginalMember ] = useState([]);
+    const [ searchInput, setSearchInput ] = useState("");  
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
-    // const [ listStuff, setListStuff ] = useState( "pl-4 pr-4 col-7 text-left" );
     const [ listStuff, setListStuff ] = useState( "pl-4 pr-4 text-center" );
-    const [ view, setView] = useState("Grid")
-    const [ membAvatar, setMembAvatar] = useState("empAvatar")
+    const [ filterType, setFilterType] = useState('')
+    const [ view, setView ] = useState("Grid")
+    const [ filterCategory, setFilterCategory ] = useState([])
+    const [ membAvatar, setMembAvatar ] = useState("empAvatar")
     const inputEmail = useRef();  
     const inputPassword = useRef();
 
@@ -29,13 +32,12 @@ function Members() {
     function handleSearchInputChange(e){
         const newInput2 = e.target.value;
         const newInput = newInput2.toLowerCase();
-
         setSearchInput(newInput);
         if( newInput.length >0){
             const newList = member.filter(mem=> 
                 mem.name.toLowerCase().indexOf(newInput)==0)
             setMember( newList);
-        }   
+        }
         else {
             loadMember()
             setMember( member );
@@ -71,6 +73,7 @@ function Members() {
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
         console.log('fetched members are: ', fetchMembers)
         setMember(fetchMembers)
+        setOriginalMember(fetchMembers)
     }
     
     async function loadTeamRoles(){
@@ -100,8 +103,55 @@ function Members() {
             setListStuff('pl-4 pr-4 text-center')
         }
     }
-    function sortMembers(){
-        console.log('sorting starts')
+    function sortMembers(catgeory){
+        console.log('sorting catgeory: ', catgeory)
+        if(catgeory == 'Name'){
+            
+            const sortedList = [...member].sort(function(a, b){
+            let name1 = a.name.trim().toLowerCase();
+            let name2 = b.name.trim().toLowerCase();
+            return (name1 > name2 ? 1 : -1 )});
+            console.log(sortedList)
+            setMember(sortedList);
+        } else
+        if(catgeory == 'Role'){
+        const sortedList = [...member].sort(function(a, b){
+            let role1 = a.role;
+            let role2 = b.role;
+            return (role1 > role2 ? 1 : -1 )});
+            setMember(sortedList);
+        } else
+        if(catgeory == 'House'){
+        const sortedList = [...member].sort(function(a, b){
+            let house1 = a.house;
+            let house2 = b.house;
+            return (house1 > house2 ? 1 : -1 )});
+            setMember(sortedList);
+        } else
+        if(catgeory == 'Sex'){
+        const sortedList = [...member].sort(function(a, b){
+            let sex1 = a.sex;
+            let sex2 = b.sex;
+            return (sex1 > sex2 ? 1 : -1 )});
+            setMember(sortedList);
+        }
+    }
+    function filterMembers(catgeory){
+        console.log('sorting catgeory: ', catgeory)
+        console.log('sorting catgeory: ', originalMember)
+        // setMember();
+        // teamRoles.map((role)=>
+        //     { 
+        //         if(role.roleName == catgeory){
+        //             console.log(`role.roleName: `, role.roleName)
+        //             console.log(`catgeory: `, catgeory)
+        //             const newList = originalMember.filter(mem=> mem.role == catgeory)
+        //             console.log('newList: ',newList)
+        //             console.log('memberFiltered: ',memberFiltered)
+        //             setMemberFiltered(oldArray => [...oldArray, ...newList]);
+        //             setFilterCategory(oldArray => [...oldArray, catgeory])
+        //         }
+        //     })
     }
     useEffect(function(){
         loadMember()
@@ -113,7 +163,7 @@ function Members() {
         <div>
             <h3 >Team Members</h3>
             <hr/>
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between col-11 mx-auto">
                 <form class="d-flex pl-4 col-5">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search Employees" aria-label="Search"
                     onChange={handleSearchInputChange}
@@ -121,7 +171,7 @@ function Members() {
                     />
                 </form>
                 <div className="som">
-                    {userType == 'Admin' ? <div className="myBtnNew" onClick={() => setLgShow(true)}>Add Member</div>: ""}
+                    {userType == 'Admin' ? <div className="myBtnNew2" onClick={() => setLgShow(true)}><i class="fas fa-user-plus"></i> Add Member</div>: ""}
                     <Modal
                     size="lg"
                     show={lgShow}
@@ -189,40 +239,58 @@ function Members() {
                     </Modal> 
                 </div>
                 <div className="listGrid d-flex">
-                    <a class="myBtnNew dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-filter"></i> Sort
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Light')} >
-                            By Name
+                    <div className="Filtering btn-group">
+                        <a class="myBtnNew2 dropdown-toggle" href="#" role="button" id="dropDownFilter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-filter"></i>
+                        Filter
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropDownFilter">
+                            <div  className="text-left dropdown-item mx-auto listToHover">
+                                <div className="list1"> <i class="fas fa-angle-left"></i> &nbsp; By Roles</div>
+                                <div className="listHoverDiv">
+                                    {teamRoles.map( (role,idx) => 
+                                        <div>
+                                            <div className="listHoverItem" key={`r-${idx}`} onClick={()=>filterMembers(`${role.roleName}`)}>{role.roleName}</div> 
+                                        </div>
+                                    )}
+                                </div>
+                            
+                            </div>
+                            <hr/>
+                            <div  className="text-left dropdown-item mx-auto" onClick={()=>filterMembers('Sex')}>By Sex</div>
                         </div>
-                        <hr/>
-                        <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Light')} >
-                            By Age
+                    </div>
+                    <div class="Sorting btn-group">
+                        <div type="button" class="myBtnNew2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-sort-amount-up-alt"></i>Sort
                         </div>
-                        <hr/>
-                        <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Light')} >
-                            By House
-                        </div>
-                        <hr/>
-                        <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Light')} >
-                            By Role
+                        <div class="dropdown-menu">
+                            <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Name')}>By Name</div>
+                            <hr/>
+                            <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Role')}> By Role</div>
+                            <hr/>
+                            <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('House')}>By House</div>
+                            <hr/>
+                            <div  className="text-left dropdown-item mx-auto" onClick={()=>sortMembers('Sex')} >By Sex </div>
                         </div>
                     </div>
                     { view == 'Grid' ?
-                    <div className="myBtnNew" onClick={()=>SetView('List')}>
+                    <div className="myBtnNew2" onClick={()=>SetView('List')}>
                         <i class="fas fa-list"></i>
                     </div> :
-                    <div className="myBtnNew" onClick={()=>SetView('Grid')}>
+                    <div className="myBtnNew2" onClick={()=>SetView('Grid')}>
                         <i class="fas fa-th"></i>
                     </div>
                     }
                 </div>
             </div>
+            <div className="d-flex">
+                {filterCategory? filterCategory.map(cat=> <div className="filterName">{cat}</div>): ''}
+            </div>
             <div class={view}>
-                {member.length == 0 ? 
-                <h4 class="mt-5 mx-auto">You have not added any team mates yet</h4>
-                :
+                <div className="d-flex">
+                </div>
+                {
                 member.map( (memb, idx) => {
                     switch (memb.sex){
                         case "F": 
@@ -280,8 +348,70 @@ function Members() {
                         </div>
                     </div>;
                     }
+                })}
+                
+                {/* {!memberFiltered ? 
+                <h4 class="mt-5 mx-auto">You have not added any team mates yet</h4>
+                :
+                memberFiltered.map( (memb, idx) => {
+                    switch (memb.sex){
+                        case "F": 
+                            return <div key={`member${idx}`}  class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
+                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                                {houses.map(house=>
+                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
+                                )}
+                                {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                                </div>
+                                <div class="card-body">
+                                    <img src={memb.profileImg ? memb.profileImg : "https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png"} alt="" class={membAvatar}/>
+                                    <div className={listStuff}>
+                                        <h5 class="card-title myTitle">{memb.name}</h5>
+                                        <p class="card-text mySubTxt">{memb.role}</p>
+                                    </div>
+                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
+                                        <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
+                                    </Link>
+                                </div>
+                            </div>
+                        case "M":
+                            return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
+                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                                {houses.map(house=>
+                                    house.houseColor ? house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : '' : <i class="fas fa-2x fa-bookmark"></i>
+                                    )}
+                                    {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                                </div>
+                                <div class="card-body">
+                                    <img src={ memb.profileImg ? memb.profileImg : "https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg" } alt="" class={membAvatar}/>
+                                    <div className={listStuff}>
+                                        <h5 class="card-title myTitle">{memb.name}</h5>
+                                        <p class="card-text mySubTxt">{memb.role}</p>
+                                    </div>
+                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} ><div class="myBtnNew mx-auto" href="#" role="button">view Detail </div></Link>
+                                </div>
+                            </div>
+                        default:   return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
+                        <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                            {houses.map(house=>
+                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
+                                )} {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                        </div>
+                        <div class="card-body">
+                            <img src={memb.profileImg ? memb.profileImg : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" } alt="" class={membAvatar}/>
+                            <div className={listStuff}>
+                                <h5 class="card-title myTitle">{memb.name}</h5>
+                                <p class="card-text mySubTxt">{memb.role}</p>
+
+                            </div>
+                            <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
+                                <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
+                            </Link>
+                        </div>
+                    </div>;
+                    }
                 })
-                }
+                } */}
             </div>
         </div>
     )

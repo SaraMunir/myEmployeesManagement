@@ -13,7 +13,9 @@ let members = new Schema ({
     roleId: String,
     sex: String,
     email: String,
-    birthday: String, 
+    birthday: {
+        type: String,
+        default: 'Not Provided'},
     address: String,
     phoneNumber: String,
     homeNumber: String,
@@ -21,7 +23,9 @@ let members = new Schema ({
     membSalary: String,
     membSalaryId: String,
     profileImg: String,
-    house: String,
+    house: {
+        type: String,
+        default: 'Not Provided'},
     membPassword :  { 
         type: String, 
         required: true, 
