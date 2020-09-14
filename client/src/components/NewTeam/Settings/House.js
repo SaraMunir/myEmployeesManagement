@@ -139,8 +139,6 @@ function House() {
 
     return (
         <div class="brd1">
-            
-
             <div className="createHouseSection">
                 <div className="myBtnNew mx-auto"  onClick={() => setLgShow(true)}>Add House</div>
                 <Modal

@@ -25,6 +25,18 @@ function Navbar() {
             localStorage.setItem('theme', apiResult);
             document.location.reload(true);
         }
+        if (type == 'Member'){
+            const apiResult = await fetch(`/api/updateMemTheme/${id}`, 
+                {   method: 'PUT',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(theme)
+                }).then( result => result.json());
+            console.log(' received theme: ', apiResult)
+            localStorage.setItem('theme', apiResult);
+            document.location.reload(true);
+        }
     }
     return (
         //"navbar navbar-expand-lg navbar-light bg-light"
@@ -41,19 +53,25 @@ function Navbar() {
                         <i class="fas fa-2x fa-home"></i> Home Page
                         </Link>
                     </li>}
-                    {!id ? '':
+                    {id && type == 'Admin' ? 
                     <li class="nav-item  mx-auto">
                         <Link to="/ProfilePage" className={location.pathname === "/ProfilePage" ? "nav-link active " : "nav-link"}>
                         <i class="fas fa-2x fa-user-circle"></i> Profile
                         </Link>
-                    </li>}
-                    {!id ? '':
+                    </li> : ''}
+                    {id && type == 'Admin' ? 
                     <li class="nav-item  mx-auto">
                         <Link to="/Dashboard" className={location.pathname === "/Dashboard" ? "nav-link active " : "nav-link"}>
-                        <i class="fas fa-2x fa-chart-line"></i> Dashboard
+                        <i class="fas fa-2x fa-user-circle"></i> Dashboard
                         </Link>
-                    </li>}
-                    {!id ? '':
+                    </li> : ''}
+                    {id && type === 'Member' ?
+                    <li class="nav-item  mx-auto">
+                        <Link to="/MemberProfile" className={location.pathname === "/MemberProfile" ? "nav-link active " : "nav-link"}>
+                        <i class="fas fa-2x fa-user-circle"></i> Profile
+                        </Link>
+                    </li> : ''}
+                    {!id || type != 'Admin'  ? '':
                     <li class="nav-item  mx-auto">
                         <Link to="/NewTeamsPage" className={location.pathname === "/NewTeamsPage" ? "nav-link active " : "nav-link"}>
                         <i class="fas fa-2x fa-users"></i> Teams

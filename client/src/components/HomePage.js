@@ -1,14 +1,15 @@
 import React from 'react'
 import heroImg from './assets/corporate-portrait-office-workers-employees/5471.jpg';
 import { Link, useLocation } from "react-router-dom";
-// import { Redirect } from 'react-router-dom';
-
+import { Redirect } from 'react-router-dom';
+const userType = localStorage.type
 const userId = localStorage.id
 // const userType = localStorage.type
 function HomePage() {
     return (
         <div class="container mx-auto row hero">
-            {/* { userId ? <Redirect to='/NewTeamsPage' /> : <Redirect to='/HomePages } */}
+            { userId && userType=='Admin' ? <Redirect to='/NewTeamsPage'/> : '' }
+            { userId && userType=='Member' ? <Redirect to='/MemberProfile'/> : ''}
             <div class="col-10 mx-auto">
                 <img src={heroImg} alt=""style={{height: "40vh", width: "100%", objectFit:"cover"}}/>
             </div> 

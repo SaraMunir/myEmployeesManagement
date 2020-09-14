@@ -66,45 +66,24 @@ async function getAdmin( userId ){
     })
     return getAdmin
 }
-async function loginMember( userData ) {
-    // name: "", email: localStorage.email, membLeaderId: "", membTeamId: "", password: "", rememberMe: true 
-    const admindId = userData.membLeaderId;
-    const membTeamId = userData.membTeamId;
-    const email = userData.email;
-    const membPassword = userData.password;
-    console.log('in orm logged in member Info received: ', userData)
-    const memberData = await db.users.findOne({ _id: admindId});
-    console.log('fetched data in orms: ', memberData.teams);
+async function loginMember( email, password ) {
+    const memberData = await db.members.findOne({ email: email });
+    console.log('in orm logged in member Info received: ', memberData);
     if( !memberData ) {
-        return { error: "Couldn't find the Leader Id. Register or try again!" };
+        return { error: "Couldn't find that email. Try again!" };
     }
-    let teamMember={}
-    memberData.teams.forEach(async function(team){
-        if(team._id == membTeamId){
-            // // console.log('team: ', team.teamName)
-            // memberFinalData.name = team.teamName;
-            // memberFinalData.id = team._id;
-            team.teamMembers.forEach(async function(member){
-                if(member.email == email){
-                    teamMember = member
-                }
-            })
-
-        }
-    })
-    console.log('teamMember Now: ', teamMember)
-    const isValidPassword = await bcrypt.compare( membPassword, teamMember.membPassword );
+    const isValidPassword = await bcrypt.compare( password, memberData.membPassword );
     if( !isValidPassword ) {
         return { error: "Invalid password" };
     }
+    
     return {
         message: "user successfully loggedin",
-        id: teamMember.id,
-        name: teamMember.membName,
-        email: teamMember.email,
-        theme: teamMember.theme,
-        leader: admindId,
-        team: membTeamId
+        id: memberData.id,
+        name: memberData.name,
+        email: memberData.email,
+        theme: memberData.theme,
+        teamId: memberData.teamId,
     };
 }
 async function postTeams( userTeams ){
@@ -394,6 +373,18 @@ async function updateMember( userEmployee, membId  ){
         message: "Member successfully Updated", 
     };
 }
+async function updateMemberPass( member, membId  ){
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(member.membPassword, saltRounds); 
+
+    const updateMembInfo = await db.members.findOneAndUpdate(
+        { _id: membId},
+            { "$set": {membPassword: passwordHash}}
+    );
+    return { 
+        message: "Member Password successfully Updated", 
+    };
+}
 async function updateTheme( theme, userId  ){
     console.log('in orm: ', theme)
     const updateMembInfo = await db.users.findOneAndUpdate(
@@ -401,6 +392,18 @@ async function updateTheme( theme, userId  ){
             { "$set": theme}
     );
     const getTheme = await db.users.findOne(
+        { _id: userId}
+    );
+    console.log('in orm received', getTheme.theme)
+    return getTheme.theme;
+}
+async function updateMembTheme( theme, userId  ){
+    console.log('in orm: ', theme)
+    const updateMembInfo = await db.members.findOneAndUpdate(
+        { _id: userId},
+            { "$set": theme}
+    );
+    const getTheme = await db.members.findOne(
         { _id: userId}
     );
     console.log('in orm received', getTheme.theme)
@@ -547,6 +550,8 @@ module.exports = {
     updateAdminAvatar,
     updateAdmin,
     pinTeam,
-    updateTheme
+    updateTheme,
+    updateMembTheme,
+    updateMemberPass
 
 }

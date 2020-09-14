@@ -1,7 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import {Modal} from 'react-bootstrap'
 
-
 const userId = localStorage.id
 const userType = localStorage.type
 function ProfilePage() {
@@ -158,7 +157,7 @@ function ProfilePage() {
     return (
         <div className="">
             <div className="adminCov">
-                <div className="adminCovImg"></div>
+                <div className="CovImg"></div>
                 <div className="shorSum row col">
                     <div className="adminProImg">
                         <img className="profilePhoto" src={adminDetail.profileImg ? adminDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"

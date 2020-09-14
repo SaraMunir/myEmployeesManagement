@@ -369,12 +369,26 @@ a:hover{
 .membIntro{
   position: relative;
 }
-.membHosImg{
+.links{
+  padding: 20px;
   position: absolute;
-  top: 0;
+  top: -60px;
   right: 0;
-  width: 20vh;
-  height: 20vh;
+}
+.membHosImg{
+  /* position: absolute;
+  top: 0;
+  right: 0; */
+  width: 21vh;
+  height: 21vh;
+}
+.teamBox{
+  width: 15vh;
+  height: 15vh;
+  background-color: #e6798b;
+  border-radius: 5px;
+  border: 2px solid white;
+  margin: 5px;
 }
 .houseThmbs{
   width: 100px;
@@ -410,7 +424,7 @@ a:hover{
   /* padding: 30px; */
 
 }
-.adminCovImg{
+.CovImg{
   background: rebeccapurple;
   height: 30vh;
 }
@@ -736,3 +750,4 @@ a:hover{
   background-color: #324f52;
   width: 100px;
 }
+

@@ -1,7 +1,8 @@
 import React, {useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
 import {Modal} from 'react-bootstrap'
-
+const userId = localStorage.id
+const userType = localStorage.type
 function HouseProfile() {
     const { teamId } = useParams();
     const [lgShow2, setLgShow2] = useState(false);
@@ -68,14 +69,14 @@ function HouseProfile() {
     return (
         <div>
             <div className="houseColor" style={{background:`${houseDetail.houseColor ? houseDetail.houseColor: '#303030' }`}}>
-                <div className="hseBtn">Edit &nbsp;<i class="fas fa-edit"></i></div>
+           { userType == 'Admin' ? <div className="hseBtn">Edit &nbsp;<i class="fas fa-edit"></i></div>:''}
             </div>
             <div className="detail">
                 <div className="row col-12 justify-content-end">
                     <h3 className="houseTitle" >{houseDetail.houseName}</h3>
                     <div className="houseAvatar">
                         <img className="houseImg" src={houseDetail.profileImg? houseDetail.profileImg : "https://cdn.pixabay.com/photo/2014/04/03/00/38/shield-308943_1280.png"}/>
-                        <i className="fas fa-camera uploadIcon2" style={{background: `${houseDetail.houseColor}`, color: "white"}}  onClick={() => setLgShow2(true)}></i>
+                        { userType == 'Admin' || userType == 'HouseLeader'  ? <i className="fas fa-camera uploadIcon2" style={{background: `${houseDetail.houseColor}`, color: "white"}}  onClick={() => setLgShow2(true)}></i> :''}
                         <Modal
                             size="lg"
                             show={lgShow2}

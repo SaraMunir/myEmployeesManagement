@@ -10,11 +10,9 @@ import SignUp from './components/SignUp';
 // import MyTeam from './components/MyTeam';
 import LogOut from './components/LogOut';
 import Dashboard from './components/AdminDashboard';
-// import TeamPage from './components/TeamPage/TeamPage';
-// import Employees from './components/TeamPage/Employees';
-// import MembProfile from './components/TeamPage/MembProfile';
 import MemberLogIn from './components/MembLogIn'
-import MemberDashboard from './components/MemberDashboard'
+import MemberDashboard from './components/NewTeam/TeamDashboard'
+import MemberProfile from './components/LoggedMember/MemberProfile'
 //starting fressh from below: 
 import NewTeamsPage from './components/NewTeam/Teams'
 import TeamDetail from './components/NewTeam/TeamDetail'
@@ -34,7 +32,7 @@ function App() {
         <Route exact path={["/SignUp"]} component={SignUp}/>
         <Route exact path={["/logout"]} component={LogOut}/>
         <Route exact path={["/Dashboard"]} component={Dashboard}/>
-        <Route exact path={["/MemberDashboard"]} component={MemberDashboard}/>
+        <Route path={["/MemberProfile"]} component={MemberProfile}/>
         <Route path={["/NewTeamsPage"]} component={NewTeamsPage}/>
         <Route path={["/TeamDetail/:teamId"]} component={TeamDetail} />
       </Router>

@@ -29,17 +29,18 @@ app.get('/api/checkEmail', async(req, res) => {
 app.post('/api/user/login', async function( req,res ){
     const userData = req.body;
     const loginResult = await orm.loginUser( userData.email, userData.password );
-    console.log('in server loginResult: ', loginResult)
+    // console.log('in server loginResult: ', loginResult)
     loginResult.rememberMe = req.body.rememberMe;
     res.send( loginResult );
     
 });
 //Member log Login
 app.post('/api/member/login', async function( req,res ){
-    const userData2 = req.body;
-    const memberLoginResult = await orm.loginMember( userData2);
-    console.log('in server loginResult: ', memberLoginResult)
-    // memberLoginResult.rememberMe = req.body.rememberMe;
+    const memberData = req.body;
+    const memberLoginResult = await orm.loginMember(  memberData.email, memberData.password );
+    // console.log('in server loginResult: ', memberLoginResult)
+    memberLoginResult.rememberMe = req.body.rememberMe;
+
     res.send( memberLoginResult );
     
 });
@@ -64,13 +65,21 @@ app.get('/api/teams/:userId', async(req, res) => {
     const getTeams = await orm.getTeams( userId );
     res.json( getTeams );
 })
-// update employee info
+// update admin theme
 app.put('/api/updateTheme/:userId', async function( req,res ){
     const userId = req.params.userId
     const theme = req.body;
     console.log('in server the theme: ', theme)
     const updateTheme = await orm.updateTheme( theme, userId );
     res.json(updateTheme);
+})
+// update member theme
+app.put('/api/updateMemTheme/:userId', async function( req,res ){
+    const userId = req.params.userId
+    const theme = req.body;
+    console.log('in server the theme: ', theme)
+    const updateMembTheme = await orm.updateMembTheme( theme, userId );
+    res.json(updateMembTheme);
 })
 
 app.get('/api/roles/:userId/:teamId', async(req, res) => {
@@ -254,6 +263,13 @@ app.put('/api/memberDetailUpdate/:membId', async function( req,res ){
     const userMember = req.body;
     const updateMember = await orm.updateMember( userMember, membId );
     res.send(updateMember);
+})
+// update employee info
+app.put('/api/memberPasswordUpdate/:membId', async function( req,res ){
+    const membId = req.params.membId
+    const userMember = req.body;
+    const updateMemberPass = await orm.updateMemberPass( userMember, membId );
+    res.send(updateMemberPass);
 })
 // update employee info
 app.put('/api/adminDetailUpdate/:membId', async function( req,res ){
