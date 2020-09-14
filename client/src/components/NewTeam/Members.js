@@ -13,7 +13,7 @@ function Members() {
     const [ houses, setHouses ] = useState([]);
     const [ teamRoles, setTeamRoles ] = useState([])
     const [ member, setMember ] = useState([]);
-    // const [ memberFiltered, setMemberFiltered ] = useState([]);
+    const [ memberFiltered, setMemberFiltered ] = useState([]);
     const [ originalMember, setOriginalMember ] = useState([]);
     const [ searchInput, setSearchInput ] = useState("");  
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
@@ -21,8 +21,8 @@ function Members() {
     const [ filterType, setFilterType] = useState('')
     const [ view, setView ] = useState("Grid")
     const [ filterCategory, setFilterCategory ] = useState([])
+    const [ clearFilterBtn, setClearFilterBtn ] = useState()
     const [ membAvatar, setMembAvatar ] = useState("empAvatar")
-    // const [ checkEmailExist, setCheckEmailExist ]= useState(false);
     
     const inputEmail = useRef();  
     const inputPassword = useRef();
@@ -149,22 +149,52 @@ function Members() {
             setMember(sortedList);
         }
     }
-    function filterMembers(catgeory){
-        console.log('sorting catgeory: ', catgeory)
-        console.log('sorting catgeory: ', originalMember)
-        // setMember();
-        // teamRoles.map((role)=>
-        //     { 
-        //         if(role.roleName == catgeory){
-        //             console.log(`role.roleName: `, role.roleName)
-        //             console.log(`catgeory: `, catgeory)
-        //             const newList = originalMember.filter(mem=> mem.role == catgeory)
-        //             console.log('newList: ',newList)
-        //             console.log('memberFiltered: ',memberFiltered)
-        //             setMemberFiltered(oldArray => [...oldArray, ...newList]);
-        //             setFilterCategory(oldArray => [...oldArray, catgeory])
-        //         }
-        //     })
+    function filterMembers(category, type){
+        console.log('sorting category: ', category)
+        console.log('sorting type: ', type)
+        // setMember([])
+        if(type == 'Role'){    
+            teamRoles.map((role)=>
+                { 
+                    if(role.roleName == category){
+                        console.log(`role.roleName: `, role.roleName)
+                        console.log(`category: `, category)
+                        const newList = originalMember.filter(mem=> mem.role == category)
+                        let cat ={
+                            category: category,
+                            type: type
+                        }
+                        console.log('newList: ',newList)
+                        console.log('memberFiltered: ',memberFiltered)
+                        setMemberFiltered(oldArray => [...oldArray, ...newList]);
+                        setFilterCategory(oldArray => [...oldArray, cat])
+                    }
+                })}
+    }
+    function removeFilter(category, type){
+        console.log(category)
+        if(type == 'Role'){  
+        teamRoles.map((role)=>
+            { 
+                if(role.roleName == category){
+                    console.log(`role.roleName: `, role.roleName)
+                    console.log(`category: `, category)
+                    const newList = memberFiltered.filter(mem=> mem.role !== category)
+                    const newCatList = filterCategory.filter(cat=> cat.category !== category)
+                    console.log('newList: ',newList)
+                    console.log('memberFiltered: ',memberFiltered)
+                    setMemberFiltered(oldArray => [...newList]);
+                    setFilterCategory(oldArray => [...newCatList])
+                }
+            })
+        }
+            console.log('originalMember ', originalMember)
+            console.log('memberFiltered ', memberFiltered.length)
+    }
+    function clearFilter(){
+        console.log('someething to be cleared')
+        setMemberFiltered([])
+        setFilterCategory([])
     }
     useEffect(function(){
         loadMember()
@@ -263,7 +293,7 @@ function Members() {
                                 <div className="listHoverDiv">
                                     {teamRoles.map( (role,idx) => 
                                         <div>
-                                            <div className="listHoverItem" key={`r-${idx}`} onClick={()=>filterMembers(`${role.roleName}`)}>{role.roleName}</div> 
+                                            <div className="listHoverItem" key={`r-${idx}`} onClick={()=>filterMembers(`${role.roleName}`, `Role`)}>{role.roleName}</div> 
                                         </div>
                                     )}
                                 </div>
@@ -297,13 +327,18 @@ function Members() {
                     }
                 </div>
             </div>
-            <div className="d-flex">
-                {filterCategory? filterCategory.map(cat=> <div className="filterName">{cat}</div>): ''}
+            <div>
+                <h5>{memberFiltered.length == 0  ? member.length : memberFiltered.length} results</h5>
+                
+            </div>
+            <div className="d-flex col-11 mx-auto">
+                { memberFiltered == '' ?  '' : filterCategory.map(cat=> <div className="filterName d-flex justify-content-between">{cat.category} <i class="fas fa-times filterX" onClick={()=>removeFilter(cat.category, cat.type)}></i></div>)}{ filterCategory.length >= 2 ? 
+                    <div className="filterName" onClick={clearFilter}>Clear Filter</div>: '' }
             </div>
             <div class={view}>
                 <div className="d-flex">
                 </div>
-                {
+                { memberFiltered.length == 0 ?
                 member.map( (memb, idx) => {
                     switch (memb.sex){
                         case "F": 
@@ -361,9 +396,68 @@ function Members() {
                         </div>
                     </div>;
                     }
-                })}
+                }) : 
+                memberFiltered.map( (memb, idx) => {
+                    switch (memb.sex){
+                        case "F": 
+                            return <div key={`member${idx}`}  class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
+                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                                {houses.map(house=>
+                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
+                                )}
+                                {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                                </div>
+                                <div class="card-body">
+                                    <img src={memb.profileImg ? memb.profileImg : "https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png"} alt="" class={membAvatar}/>
+                                    <div className={listStuff}>
+                                        <h5 class="card-title myTitle">{memb.name}</h5>
+                                        <p class="card-text mySubTxt">{memb.role}</p>
+                                    </div>
+                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
+                                        <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
+                                    </Link>
+                                </div>
+                            </div>
+                        case "M":
+                            return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
+                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                                {houses.map(house=>
+                                    house.houseColor ? house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : '' : <i class="fas fa-2x fa-bookmark"></i>
+                                    )}
+                                    {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                                </div>
+                                <div class="card-body">
+                                    <img src={ memb.profileImg ? memb.profileImg : "https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg" } alt="" class={membAvatar}/>
+                                    <div className={listStuff}>
+                                        <h5 class="card-title myTitle">{memb.name}</h5>
+                                        <p class="card-text mySubTxt">{memb.role}</p>
+                                    </div>
+                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} ><div class="myBtnNew mx-auto" href="#" role="button">view Detail </div></Link>
+                                </div>
+                            </div>
+                        default:   return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
+                        <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                            {houses.map(house=>
+                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
+                                )} {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                        </div>
+                        <div class="card-body">
+                            <img src={memb.profileImg ? memb.profileImg : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" } alt="" class={membAvatar}/>
+                            <div className={listStuff}>
+                                <h5 class="card-title myTitle">{memb.name}</h5>
+                                <p class="card-text mySubTxt">{memb.role}</p>
+
+                            </div>
+                            <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
+                                <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
+                            </Link>
+                        </div>
+                    </div>;
+                    }
+                })
+                }
                 
-                {/* {!memberFiltered ? 
+                {/* { !member ? 
                 <h4 class="mt-5 mx-auto">You have not added any team mates yet</h4>
                 :
                 memberFiltered.map( (memb, idx) => {

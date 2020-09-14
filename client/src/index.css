@@ -745,9 +745,23 @@ a:hover{
   visibility: visible;
 }
 .filterName{
-  padding: 5px;
+  min-width: 130px;
+  padding: 10px;
   border-radius: 5px;
-  background-color: #324f52;
+  background-color: #eb8e8e;
   width: 100px;
+  color: white;
+  margin: 5px;
+}
+.filterName:hover{
+  background-color: #ee7676;
+}
+.filterX{
+  padding: 5px;
+  cursor: pointer;
+  color: #bb6767;
+}
+.filterX:hover{
+  color: #f1f1f1;
 }
 

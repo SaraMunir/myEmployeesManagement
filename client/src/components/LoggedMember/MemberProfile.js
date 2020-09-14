@@ -370,7 +370,6 @@ function MemberProfile() {
                             </Link>
                         </div>
                         <div className="linkName">My Team</div>
-
                     </div>
                 </div>
             </div>
