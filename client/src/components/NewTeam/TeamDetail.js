@@ -9,7 +9,6 @@ import MyHouse from './Settings/House/HouseProfile'
 import NewSideBar from './NewSideBar';
 import MembersProfile from './MemberProfile/MemberProfile';
 import Settings from './Settings/Settings';
-import UsersProfile from '../LoggedMember/MemberTimeLine'
 export const UserContext = React.createContext();
 function TeamDetail() {
     const theme = localStorage.theme;
@@ -42,7 +41,8 @@ function TeamDetail() {
                     <Route path={["/TeamDetail/:teamId/Members"]} component={Members} />
                     {/* /TeamDetail/${teamId}/MemberProfile */}
                     {/* /TeamDetail/${teamId}/MemberProfile/${name}/${userId}/TimeLine */}
-                    <Route path={["/TeamDetail/:teamId/MemberProfile/:name/:userId"]} component={UsersProfile} />
+                    {/* /TeamDetail/${teamId}/MemberProfile/TimeLine */}
+                    {/* <Route path={["/TeamDetail/:teamId/MemberProfile/:name/:userId"]} component={UsersProfile} /> */}
                     <Route path={["/TeamDetail/:teamId/MemberProfile/:membName/:membId"]} component={MembersProfile} />
                 </div>
                 </Router>

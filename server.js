@@ -57,6 +57,11 @@ app.get('/api/teams/:userId', async(req, res) => {
     const getTeams = await orm.getTeams( userId );
     res.json( getTeams );
 })
+app.get('/api/getUserFriendList/:userId', async(req, res) => {
+    const userId = req.params.userId;
+    const getUserFriendList = await orm.getUserFriendList( userId );
+    res.json( getUserFriendList );
+})
 // update admin theme
 app.put('/api/updateTheme/:userId', async function( req,res ){
     const userId = req.params.userId
@@ -64,6 +69,14 @@ app.put('/api/updateTheme/:userId', async function( req,res ){
     console.log('in server the theme: ', theme)
     const updateTheme = await orm.updateTheme( theme, userId );
     res.json(updateTheme);
+})
+// update admin theme
+app.put('/api/addFriend/:userId', async function( req,res ){
+    const userId = req.params.userId
+    const friendData = req.body;
+    console.log('in server the friend data: ', friendData)
+    const addFriend = await orm.addFriend( friendData );
+    res.json(addFriend);
 })
 // update member theme
 app.put('/api/updateMemTheme/:userId', async function( req,res ){

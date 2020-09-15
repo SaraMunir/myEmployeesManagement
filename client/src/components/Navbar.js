@@ -5,9 +5,11 @@ import { Link, useLocation } from "react-router-dom";
 function Navbar() {
     const location = useLocation();
     const id = localStorage.id;
+    let teamId =localStorage.teamId;;
     const userName = localStorage.name;
     const type = localStorage.type;
     const theme = localStorage.theme;
+
     async function changeTheme(time){
         const theme ={
             theme : time
@@ -62,13 +64,19 @@ function Navbar() {
                     {id && type == 'Admin' ? 
                     <li class="nav-item  mx-auto">
                         <Link to="/Dashboard" className={location.pathname === "/Dashboard" ? "nav-link active " : "nav-link"}>
-                        <i class="fas fa-2x fa-user-circle"></i> Dashboard
+                        <i class="fas fa-2x fa-columns"></i> Dashboard
                         </Link>
                     </li> : ''}
                     {id && type === 'Member' ?
                     <li class="nav-item  mx-auto">
-                        <Link to="/MemberProfile/TimeLine" className={location.pathname === "/MemberProfile/TimeLine" ? "nav-link active " : "nav-link"}>
+                        <Link to="/UserProfile/TimeLine" className={location.pathname === "/UserProfile/TimeLine" ? "nav-link active " : "nav-link"}>
                         <i class="fas fa-2x fa-user-circle"></i> Profile
+                        </Link>
+                    </li> : ''}
+                    {id && type === 'Member' ?
+                    <li class="nav-item  mx-auto">
+                        <Link to={`/TeamDetail/${teamId}/TeamDashboard`} className={location.pathname === `/TeamDetail/${teamId}/TeamDashboard` ? "nav-link active " : "nav-link"}>
+                        <i class="fas fa-2x fa-columns"></i> Team Dashboard
                         </Link>
                     </li> : ''}
                     {!id || type != 'Admin'  ? '':

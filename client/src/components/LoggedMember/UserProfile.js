@@ -2,8 +2,10 @@ import React, {useState, useEffect, useRef } from 'react';
 import {  useParams, Link , useLocation, Redirect } from "react-router-dom";
 import {Modal} from 'react-bootstrap'
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import TimeLine from './MemberTimeLine'
-import About from './MemberAbout'
+import TimeLine from './UserTimeLine'
+import About from './UserAbout'
+import FriendList from './UserFriendList'
+import Wall from './UserWall'
 import TabBar from './TabBar'
 export const UserContext = React.createContext();
 const userId = localStorage.id
@@ -382,8 +384,10 @@ function MemberProfile() {
                             <TabBar teamId={teamId} membName={memberDetail.name} userId={memberDetail._id}/>
                         </div>
                         <div className={ theme === 'Dark' ? "memDetailDark" : "memDetail" }>
-                            <Route path={["/MemberProfile/TimeLine"]} component={TimeLine} />
-                            <Route path={["/MemberProfile/About"]} component={About} memberDetail={memberDetail} />
+                            <Route path={["/UserProfile/TimeLine"]} component={TimeLine} />
+                            <Route path={["/UserProfile/About"]} component={About} memberDetail={memberDetail} />
+                            <Route path={["/UserProfile/Wall"]} component={Wall}/>
+                            <Route path={["/UserProfile/FriendList"]} component={FriendList}/>
                         </div>
                         </Router>
                     </UserContext.Provider>

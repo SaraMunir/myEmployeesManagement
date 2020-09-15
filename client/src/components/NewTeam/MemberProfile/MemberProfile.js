@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import TimeLine from './MemberTimeLine'
 import About from './MemberAbout'
 import TabBar from './TabBar'
+import Wall from './MemberWall'
+import FriendList from './MemberFriendList'
 export const UserContext = React.createContext();
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 const userId = localStorage.id
@@ -17,11 +19,10 @@ function MemberProfile() {
     const [ memberDetail, setMemberDetail ]= useState({});
     const [lgShow, setLgShow] = useState(false);
     const [lgShow2, setLgShow2] = useState(false);
-    const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
     const [ employeeEdit, setEmployeeEdit ] = useState({ name: "", email: "", role: "", house: "", birthday: "", phone: "",  membPassword: "", teamId: `${teamId}`});
     const [ teamRoles, setTeamRoles] = useState([]);
     const [houses, setHouses] = useState([]);
-
+    const [ userFriendsList, setUserFriendsList ] = useState([]);
     const [ dropDownEmail, setDropDownEmail ] = useState( { type: ""} );
     const [ dropDownAddress, setDropDownAddress ] = useState( { type: ""} );
     const [ dropDownPhone, setDropDownPhone ] = useState( { type: ""} );
@@ -132,6 +133,11 @@ function MemberProfile() {
         let key = Object.keys(trial)[0];
         closeEditBtns(key)
     }
+    async function loadMyFriends(){
+        const fetchUsersFriends = await fetch (`/api/getUserFriendList/${userId}`).then( res => res.json());
+        console.log('fetched friend List are: ', fetchUsersFriends);
+        setUserFriendsList(fetchUsersFriends)
+    }
 //   upload
     function handleChange(e){
         const file = e.target.files[0];
@@ -200,15 +206,50 @@ function MemberProfile() {
         if (key==='house'){
             setDropDownHouse( { type: '' } )
         }
-    }     
+    }
+    async function addAsFriend(friendId){
+        const friendData={
+            friendId: friendId,
+            userId: userId,
+        }
+        console.log('friend data: ', friendData)
+        const apiResult = await fetch(`/api/addFriend/${userId}`, 
+            {   method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(friendData)
+            }).then( result => result.json());
+            console.log('friend added: ', apiResult.message)
+    }
+    async function removeFriend(friendId){
+        // const friendData={
+        //     friendId: friendId,
+        //     userId: userId,
+        // }
+        // console.log('friend data: ', friendData)
+        // const apiResult = await fetch(`/api/addFriend/${userId}`, 
+        //     {   method: 'PUT',
+        //         headers:{
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(friendData)
+        //     }).then( result => result.json());
+        //     console.log('friend added: ', apiResult.message)
+    }
+
     useEffect(function(){
         loadMemberProfile();
         loadTeamRoles();
         loadHouse()
-
+        if(userType== 'Member'){
+            loadMyFriends();
+        }
     },[])
     return (
-        <div className="container-fluid">
+        <div className="">
+            <div className="CovImg">
+            </div>
             <div className="row mx-auto membIntro">
                 <div className="membProImg col-lg-4">
                     <img className="profilePhoto mx-auto" src={
@@ -240,7 +281,7 @@ function MemberProfile() {
                             </Modal.Body>
                     </Modal>
                 </div>
-                <div className="membAbout col-lg-8 mx-auto">
+                <div className="membAbout col-lg-4 mx-auto">
                     <h2 className="myTitle text-left"> {memberDetail.name} </h2>
                     <h5 className="mySubTxt text-left"> {memberDetail.role}</h5>
                     <p className="text-left"> {memberDetail.bio ? memberDetail.bio : 'Bio has yet not been added yet..'}</p>
@@ -443,11 +484,23 @@ function MemberProfile() {
                             </Modal.Body>
                         </Modal> 
                     </div>
+                    { userType === 'Member'?
+                        userFriendsList.map(friend=>
+                            friend.friendId === memberDetail._id ? 
+                            <div className="myBtnNew2 col-8" onClick={()=>removeFriend(memberDetail._id)}><i class="fas fa-user-times"></i> Remove Friend</div>
+                            : 
+                            <div className="myBtnNew2 col-8" onClick={()=>addAsFriend(memberDetail._id)}><i class="fas fa-user-plus"></i> Add as Friend</div>
+                            )
+                        
+                        : ''
+                        }
                 </div>
-                <div className="membHosImg">
-                {houses.map( house => 
-                    memberDetail.house == house._id ?
-                    <img className="col-12" src={house.profileImg} alt="bdsb"/> : '')}
+                <div>
+                    <div className="membHosImg">
+                    {houses.map( house => 
+                        memberDetail.house == house._id ?
+                        <img className="col-12" src={house.profileImg} alt="bdsb"/> : '')}
+                    </div>
                 </div>
             </div>
             <div className="row mx-auto">
@@ -461,6 +514,8 @@ function MemberProfile() {
                         <div className={ theme === 'Dark' ? "memDetailDark" : "memDetail" }>
                             <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/TimeLine"]} component={TimeLine} />
                             <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/About"]} component={About} memberDetail={memberDetail} />
+                            <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/Wall"]} component={Wall} />
+                            <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/FriendList"]} component={FriendList} />
                         </div>
                         </Router>
                     </UserContext.Provider>

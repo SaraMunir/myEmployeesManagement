@@ -174,7 +174,7 @@ hr{
 .Tab{
   background: #abacaaa9;
   border: 2px solid #fd788e;
-  width: 130px;
+  min-width: 130px;
   list-style: none;
   text-align: left;
   padding: 10px 20px;

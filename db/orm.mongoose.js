@@ -143,6 +143,13 @@ async function getTeams( userId ){
     })
     return getTeams
 }
+// getTeams
+async function getUserFriendList( userId ){
+    const getTeams = await db.members.findOne({
+        "_id" : userId
+    })
+    return getTeams.friendList
+}
 // getRoles
 async function getRoles( userId, teamId ){
     const getRoles = await db.users.find({
@@ -394,8 +401,23 @@ async function updateTheme( theme, userId  ){
     const getTheme = await db.users.findOne(
         { _id: userId}
     );
-    console.log('in orm received', getTheme.theme)
+    // console.log('in orm received', getTheme.theme)
     return getTheme.theme;
+}
+async function addFriend(friendData){
+    friendId = friendData.friendId
+    userId = friendData.userId
+    console.log('in orm the friend data: ', friendData)
+
+    const addToUser = await db.members.findOneAndUpdate(
+        { _id: userId},
+            { "$push": {friendList: {friendId: friendId}}}
+    );
+    const friendRequest = await db.members.findOneAndUpdate(
+        { _id: friendId},
+        { "$push": {friendRequests: {memberId: userId}}}
+    );
+    return  { message: "Friend Added" };
 }
 async function updateMembTheme( theme, userId  ){
     console.log('in orm: ', theme)
@@ -552,6 +574,8 @@ module.exports = {
     pinTeam,
     updateTheme,
     updateMembTheme,
-    updateMemberPass
+    updateMemberPass,
+    addFriend,
+    getUserFriendList
 
 }

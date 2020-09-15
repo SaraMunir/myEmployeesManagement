@@ -9,7 +9,8 @@ let users = new Schema ({
     },
     theme: {
         type: String,
-        default: 'Light'},
+        default: 'Light'
+    },
     bio: String,
     sex: String,
     birthday: String, 
@@ -31,46 +32,7 @@ let users = new Schema ({
     pinnedTeams:[
         {teamId: String}
     ],
-    profileImg : String,
-    teams:[
-        {   teamName: String,
-            teamDesc: String,
-            teamMembers: [
-                {
-                    membName: String,
-                    membDesc: String,
-                    membRole: String,
-                    membRoleId: String,
-                    membSex: String,
-                    email: String,
-                    birthday: String, 
-                    address: String,
-                    phoneNumber: String,
-                    status: String,
-                    membSalary: String,
-                    membSalaryId: String,
-                    membPassword :  { 
-                        type: String, 
-                        required: true, 
-                        trim: true
-                    }
-                }
-            ],
-            teamRoles: [
-                {
-                    roleName: String,
-                    roleDesc: String
-                }
-            ],
-            teamDept: [
-                {
-                    deptName: String,
-                    deptDesc: String
-                }
-            ]
-        }
-    ],
-    
+    profileImg : String,    
 }, {
         timestamps: true
 });

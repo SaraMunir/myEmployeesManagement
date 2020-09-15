@@ -1,8 +1,8 @@
 import React, { useContext  } from 'react';
-import { UserContext } from './MemberProfile';
+import { UserContext } from './UserProfile';
 const theme = localStorage.theme;
 
-function MemberAbout(props) {
+function UserAbout(props) {
     const { memberDetail } = useContext(UserContext);
     return (
         <div className="membAbout">
@@ -26,4 +26,4 @@ function MemberAbout(props) {
     )
 }
 
-export default MemberAbout
+export default UserAbout

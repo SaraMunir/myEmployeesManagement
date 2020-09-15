@@ -16,7 +16,6 @@ function HouseProfile() {
         console.log("house detail: ", getHouseDetail)
         setHouseDetail(getHouseDetail);
     }
-    //   upload
     function handleChange(e){
         const file = e.target.files[0];
         setHousePic(file)
@@ -59,17 +58,14 @@ function HouseProfile() {
         console.log('fetched members are: ', fetchMembers)
         setMember(fetchMembers)
     }
-    
-
     useEffect(function(){
         loadHouseDetail();
         loadMember();
     },[])
-
     return (
         <div>
             <div className="houseColor" style={{background:`${houseDetail.houseColor ? houseDetail.houseColor: '#303030' }`}}>
-           { userType == 'Admin' ? <div className="hseBtn">Edit &nbsp;<i class="fas fa-edit"></i></div>:''}
+        { userType == 'Admin' ? <div className="hseBtn">Edit &nbsp;<i class="fas fa-edit"></i></div>:''}
             </div>
             <div className="detail">
                 <div className="row col-12 justify-content-end">

@@ -355,9 +355,7 @@ function Members() {
                                         <h5 class="card-title myTitle">{memb.name}</h5>
                                         <p class="card-text mySubTxt">{memb.role}</p>
                                     </div>
-                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
-                                        <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
-                                    </Link>
+                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} ><div class="myBtnNew mx-auto" href="#" role="button">view Detail </div></Link>
                                 </div>
                             </div>
                         case "M":
@@ -413,7 +411,7 @@ function Members() {
                                         <h5 class="card-title myTitle">{memb.name}</h5>
                                         <p class="card-text mySubTxt">{memb.role}</p>
                                     </div>
-                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
+                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/TimeLine`} >
                                         <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
                                     </Link>
                                 </div>

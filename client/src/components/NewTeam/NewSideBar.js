@@ -48,7 +48,6 @@ function NewSideBar(props) {
                     <i class="fas fa-cog"></i>  Settings
                     </li>
                 </Link> : ""}
-
                 { userType == 'Admin' ? 
                     <Link to={`/TeamDetail/${props.teamId}/House`} className="try">
                         <li class={location.pathname === `/TeamDetail/${props.teamId}/House` ? "sidBarItem2Active" : "sidBarItem2"}>

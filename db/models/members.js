@@ -23,6 +23,13 @@ let members = new Schema ({
     membSalary: String,
     membSalaryId: String,
     profileImg: String,
+    coverImg: String,
+    friendList: [
+        {friendId: String}
+    ],
+    friendRequests:[
+        {memberId: String}
+    ],
     house: {
         type: String,
         default: 'Not Provided'},
@@ -32,8 +39,7 @@ let members = new Schema ({
         trim: true
     },
 }, {
-        timestamps: true
+    timestamps: true
 });
 
 module.exports = mongoose.model('members', members);
-    

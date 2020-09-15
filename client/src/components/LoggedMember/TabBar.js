@@ -26,15 +26,28 @@ function TabBar(props) {
     // },[])
     return (
         <div class="d-flex tabBAr">
-            <Link class="mr-1" to={`/MemberProfile/TimeLine`} >
-                <div className={location.pathname === `/MemberProfile/TimeLine` ? "TabActive" : "Tab"}>
+            <Link class="mr-1" to={`/UserProfile/TimeLine`} >
+                <div className={location.pathname === `/UserProfile/TimeLine` ? "TabActive" : "Tab"}>
                 <i class="fas fa-stream"></i> Time Line</div>
             </Link>
-            <Link class="mr-1" to={`/MemberProfile/About`} > 
-                <div className={location.pathname === `/MemberProfile/About` ? "TabActive" : "Tab"}>
+            <Link class="mr-1" to={`/UserProfile/About`} > 
+                <div className={location.pathname === `/UserProfile/About` ? "TabActive" : "Tab"}>
                 <i class="fas fa-user"></i> About</div>
             </Link>
-            
+            <Link class="mr-1" to={`/UserProfile/Wall`} > 
+                <div className={location.pathname === `/UserProfile/Wall` ? "TabActive" : "Tab"}>
+                <i class="fas fa-border-all"></i> Wall</div>
+            </Link>
+            <Link class="mr-1" to={`/UserProfile/FriendList`} > 
+                <div className={location.pathname === `/UserProfile/FriendList` ? "TabActive" : "Tab"}>
+                <i class="fas fa-user-friends"></i> Friend List </div>
+            </Link>
+
+
+
+
+            {/* <Route path={["/UserProfile/Wall"]} component={Wall}/>
+            <Route path={["/UserProfile/FriendList"]} component={FriendList}/> */}
         </div>
     )
 }
