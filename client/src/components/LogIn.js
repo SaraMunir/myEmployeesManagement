@@ -16,7 +16,7 @@ function LogIn() {
         setUserData( { ...userData, rememberMe: !userData.rememberMe } );
     }
     async function loginUser( e ){
-        // e.preventDefault();
+        e.preventDefault();
         setUserData({ name: "", email: localStorage.email, password: "", rememberMe: true })
         if( userData.email === "" ) {
             inputEmail.current.focus();

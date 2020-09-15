@@ -7,7 +7,6 @@ import HomePage from './components/HomePage';
 import ProfilePage from './components/ProfilePage';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
-// import MyTeam from './components/MyTeam';
 import LogOut from './components/LogOut';
 import Dashboard from './components/AdminDashboard';
 import MemberLogIn from './components/MembLogIn'
@@ -30,9 +29,9 @@ function App() {
         <Route exact path={["/LogIn"]} component={LogIn}/>
         <Route exact path={["/MemberLogIn"]} component={MemberLogIn}/>
         <Route exact path={["/SignUp"]} component={SignUp}/>
-        <Route exact path={["/logout"]} component={LogOut}/>
+        <Route exact path={["/logout"]} component={LogOut}/> 
         <Route exact path={["/Dashboard"]} component={Dashboard}/>
-        <Route path={["/MemberProfile"]} component={MemberProfile}/>
+        <Route exact path={["/MemberProfile/TimeLine"]} component={MemberProfile}/>
         <Route path={["/NewTeamsPage"]} component={NewTeamsPage}/>
         <Route path={["/TeamDetail/:teamId"]} component={TeamDetail} />
       </Router>

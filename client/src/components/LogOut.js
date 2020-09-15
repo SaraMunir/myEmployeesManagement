@@ -16,11 +16,11 @@ function LogoutPage(){
         setTimeout( function(){ 
             setIsLoggedOut(true); 
             document.location.reload(true)
-
-        }, 500 );
+        }, 1000 );
     }
     return (
         <div>
+            {/* { isLoggedOut ? <Redirect to='/HomePage' /> : '' } */}
             { isLoggedOut ? <Redirect to='/HomePage' /> : '' }
             <section class="jumbotron text-center">
                 <div class="container">

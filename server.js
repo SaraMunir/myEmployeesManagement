@@ -38,28 +38,20 @@ app.post('/api/user/login', async function( req,res ){
 app.post('/api/member/login', async function( req,res ){
     const memberData = req.body;
     const memberLoginResult = await orm.loginMember(  memberData.email, memberData.password );
-    // console.log('in server loginResult: ', memberLoginResult)
-    memberLoginResult.rememberMe = req.body.rememberMe;
-
     res.send( memberLoginResult );
-    
 });
-
 //fetching admin detail: 
 app.get('/api/adminProfile/:userId', async(req, res) => {
     const userId = req.params.userId;
     const getAdmin = await orm.getAdmin( userId );
     res.json( getAdmin );
 })
-
 //creating Teams
-
 app.post('/api/teams', async function( req,res ){
     const userTeams = req.body;
     const postTeams = await orm.postTeams( userTeams );
     res.send(postTeams);
 })
-
 app.get('/api/teams/:userId', async(req, res) => {
     const userId = req.params.userId;
     const getTeams = await orm.getTeams( userId );

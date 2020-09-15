@@ -68,7 +68,7 @@ async function getAdmin( userId ){
 }
 async function loginMember( email, password ) {
     const memberData = await db.members.findOne({ email: email });
-    console.log('in orm logged in member Info received: ', memberData);
+    // console.log('in orm logged in member Info received: ', memberData);
     if( !memberData ) {
         return { error: "Couldn't find that email. Try again!" };
     }
@@ -76,7 +76,6 @@ async function loginMember( email, password ) {
     if( !isValidPassword ) {
         return { error: "Invalid password" };
     }
-    
     return {
         message: "user successfully loggedin",
         id: memberData.id,
@@ -84,6 +83,7 @@ async function loginMember( email, password ) {
         email: memberData.email,
         theme: memberData.theme,
         teamId: memberData.teamId,
+        house: memberData.house
     };
 }
 async function postTeams( userTeams ){

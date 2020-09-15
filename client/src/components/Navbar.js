@@ -67,7 +67,7 @@ function Navbar() {
                     </li> : ''}
                     {id && type === 'Member' ?
                     <li class="nav-item  mx-auto">
-                        <Link to="/MemberProfile" className={location.pathname === "/MemberProfile" ? "nav-link active " : "nav-link"}>
+                        <Link to="/MemberProfile/TimeLine" className={location.pathname === "/MemberProfile/TimeLine" ? "nav-link active " : "nav-link"}>
                         <i class="fas fa-2x fa-user-circle"></i> Profile
                         </Link>
                     </li> : ''}

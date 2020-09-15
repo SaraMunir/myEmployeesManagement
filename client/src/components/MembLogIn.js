@@ -2,9 +2,10 @@ import React, { useState, useRef } from "react";
 import { Redirect } from 'react-router-dom';
 function MembLogIn() {
     // !localStorage.email ? "": localStorage.email
-    const [ memberData, setMemberData ] = useState({ name: "", email: "", password: "", rememberMe: true });
+    const [ memberData, setMemberData ] = useState({ name: "", email: "", password: ""});
     const [ isLoggedIn, setIsLoggedIn ] = useState( false );
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
+    const [ userTeamId, setTeamId] = useState()
     const inputEmail = useRef();
     const inputPassword = useRef();
 
@@ -44,12 +45,14 @@ function MembLogIn() {
             localStorage.setItem('type', 'Member');
             localStorage.setItem('theme', apiResult.theme);
             localStorage.setItem('teamId', apiResult.teamId);
+            localStorage.setItem('house', apiResult.house);
+            setTeamId(apiResult.teamId)
         if( !apiResult.message ){
             setAlertMessage( { type: 'danger', message: apiResult.error } );
             return;
         };
         setAlertMessage( { type: 'success', message: 'Loading, please wait...' } );
-        localStorage.email = ( apiResult.rememberMe ? apiResult.email : '' );
+        // localStorage.email = ( apiResult.rememberMe ? apiResult.email : '' );
         setTimeout( function(){ 
             setIsLoggedIn(true);
             document.location.reload(true);
@@ -57,7 +60,7 @@ function MembLogIn() {
     }
     return (
         <div style={{color: "black"}}>
-            { isLoggedIn ? <Redirect to='/MemberProfile' /> : '' }
+            { isLoggedIn ? <Redirect to={`/MemberProfile/TimeLine`} /> : '' }
             <div className={ alertMessage.type ? `alert alert-${alertMessage.type}` : 'd-hide' } role="alert">
                 {alertMessage.message}
             </div>
@@ -88,8 +91,7 @@ function MembLogIn() {
                             </div>
                             <button onClick={loginMember} type="button" class="btn btn-primary submit">Login</button>
                             &nbsp; 
-                            <input type="checkbox" checked={memberData.rememberMe} onChange={handleCheckbox} />                        
-                            <label class='text-secondary' for='rememberMe'>Remember Me</label>
+                            
                         </form>
                     </div>
                 </div>

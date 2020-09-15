@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef } from 'react';
-import {  useParams, Link , useLocation } from "react-router-dom";
+import {  useParams, Link , useLocation, Redirect } from "react-router-dom";
 import {Modal} from 'react-bootstrap'
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import TimeLine from './MemberTimeLine'
@@ -187,7 +187,8 @@ function MemberProfile() {
         loadHouse()
     },[])
     return (
-        <div >
+        <div>
+            { userId ? '': <Redirect to='/HomePage' />  }
             <div className="CovImg">
             </div>
             <div className="row mx-auto membIntro">
@@ -381,8 +382,8 @@ function MemberProfile() {
                             <TabBar teamId={teamId} membName={memberDetail.name} userId={memberDetail._id}/>
                         </div>
                         <div className={ theme === 'Dark' ? "memDetailDark" : "memDetail" }>
-                            <Route path={["/MemberProfile/:memberName/:userId/TimeLine"]} component={TimeLine} />
-                            <Route path={["/MemberProfile/:memberName/:userId/About"]} component={About} memberDetail={memberDetail} />
+                            <Route path={["/MemberProfile/TimeLine"]} component={TimeLine} />
+                            <Route path={["/MemberProfile/About"]} component={About} memberDetail={memberDetail} />
                         </div>
                         </Router>
                     </UserContext.Provider>

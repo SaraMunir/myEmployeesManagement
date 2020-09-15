@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Redirect } from "react-router-dom";
 import MyCalendar from "./Calendar/MyCalendar"
 import OnHoverScrollContainer from "../scroll/CustomScrollDiv";
 import Birthdays from "./TeamDashboard/Birthdays.js"
 const userType = localStorage.type
 const theme = localStorage.theme;
+const userId = localStorage.id;
 
 function TeamDashboard() {
     const { teamId } = useParams();
@@ -78,6 +79,7 @@ function TeamDashboard() {
     },[])
     return (
         <div>
+            { userId ? '' : <Redirect to={`/HomePage`}/>}
             <div className={ theme === 'Dark' ? "myCardDark mx-auto col-11" : "myCard mx-auto col-11"} style={{padding: '30px'}}>
                 <h5 className="text-left">Houses</h5>
                 <hr/>

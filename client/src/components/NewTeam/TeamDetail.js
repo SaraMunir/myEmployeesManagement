@@ -9,6 +9,7 @@ import MyHouse from './Settings/House/HouseProfile'
 import NewSideBar from './NewSideBar';
 import MembersProfile from './MemberProfile/MemberProfile';
 import Settings from './Settings/Settings';
+import UsersProfile from '../LoggedMember/MemberTimeLine'
 export const UserContext = React.createContext();
 function TeamDetail() {
     const theme = localStorage.theme;
@@ -32,7 +33,6 @@ function TeamDetail() {
             <UserContext.Provider value ={{teamDetail}}> 
                 <Router>
                 <NewSideBar teamId={teamId}/>
-                {/* "teamDashboard" */}
                 <div className={ theme === 'Dark'? 'fullWidth': "teamDashboard"}>
                     <Route path={["/TeamDetail/:teamId/TeamDashboard"]} component={TeamDashboard} />
                     <Route path={["/TeamDetail/:teamId/Roles"]} component={Roles} />
@@ -40,6 +40,9 @@ function TeamDetail() {
                     <Route exact path={["/TeamDetail/:teamId/House/:houseId/:houseName"]} component={MyHouse} />
                     <Route path={["/TeamDetail/:teamId/Settings"]} component={Settings} />
                     <Route path={["/TeamDetail/:teamId/Members"]} component={Members} />
+                    {/* /TeamDetail/${teamId}/MemberProfile */}
+                    {/* /TeamDetail/${teamId}/MemberProfile/${name}/${userId}/TimeLine */}
+                    <Route path={["/TeamDetail/:teamId/MemberProfile/:name/:userId"]} component={UsersProfile} />
                     <Route path={["/TeamDetail/:teamId/MemberProfile/:membName/:membId"]} component={MembersProfile} />
                 </div>
                 </Router>

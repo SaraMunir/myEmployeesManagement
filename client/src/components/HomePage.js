@@ -4,12 +4,14 @@ import { Link, useLocation } from "react-router-dom";
 import { Redirect } from 'react-router-dom';
 const userType = localStorage.type
 const userId = localStorage.id
+const teamId = localStorage.teamId
+const userName = localStorage.name
 // const userType = localStorage.type
 function HomePage() {
     return (
         <div class="container mx-auto row hero">
             { userId && userType=='Admin' ? <Redirect to='/NewTeamsPage'/> : '' }
-            { userId && userType=='Member' ? <Redirect to='/MemberProfile'/> : ''}
+            { userType=='Member' ? <Redirect to={`/MemberProfile/TimeLine`}/> : ''}
             <div class="col-10 mx-auto">
                 <img src={heroImg} alt=""style={{height: "40vh", width: "100%", objectFit:"cover"}}/>
             </div> 

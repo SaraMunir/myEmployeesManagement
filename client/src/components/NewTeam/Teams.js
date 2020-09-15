@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from "react-router-dom";
+import { Link , Redirect} from "react-router-dom";
 import {Modal, Button} from 'react-bootstrap'
 const adminId = localStorage.id
 function Teams() {
@@ -44,6 +44,7 @@ function Teams() {
     },[])
     return (
         <div class="container mt-2">
+            { adminId ? '': <Redirect to='/HomePage' />  }
             <div className="d-flex justify-content-end">
                 {/* <div className="myBtn2">Create Team</div> */}
                 <Button onClick={() => setLgShow(true)}>Create Team
