@@ -382,8 +382,7 @@ async function updateMember( userEmployee, membId  ){
 }
 async function updateMemberPass( member, membId  ){
     const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(member.membPassword, saltRounds); 
-
+    const passwordHash = await bcrypt.hash(member.membPassword, saltRounds);
     const updateMembInfo = await db.members.findOneAndUpdate(
         { _id: membId},
             { "$set": {membPassword: passwordHash}}
@@ -393,7 +392,6 @@ async function updateMemberPass( member, membId  ){
     };
 }
 async function updateTheme( theme, userId  ){
-    console.log('in orm: ', theme)
     const updateMembInfo = await db.users.findOneAndUpdate(
         { _id: userId},
             { "$set": theme}
@@ -401,21 +399,62 @@ async function updateTheme( theme, userId  ){
     const getTheme = await db.users.findOne(
         { _id: userId}
     );
-    // console.log('in orm received', getTheme.theme)
     return getTheme.theme;
 }
-async function addFriend(friendData){
+async function sendFriendReq(friendData){
     friendId = friendData.friendId
     userId = friendData.userId
-    console.log('in orm the friend data: ', friendData)
-
+    const friendRequest = await db.members.findOneAndUpdate(
+        { _id: friendId},
+        { "$push": {friendRequests: {memberId: userId}}}
+    );
+    return  { message: "Friend Added" };
+}
+async function acceptFriend(friendData){
+    friendId = friendData.friendId
+    userId = friendData.userId
     const addToUser = await db.members.findOneAndUpdate(
         { _id: userId},
             { "$push": {friendList: {friendId: friendId}}}
     );
-    const friendRequest = await db.members.findOneAndUpdate(
+    const deletefromFriendReq = await db.members.findOneAndUpdate(
+        { _id: userId},
+            { "$pull": {friendRequests: {memberId: friendId}}}
+    );
+    const addUserToFriend = await db.members.findOneAndUpdate(
         { _id: friendId},
-        { "$push": {friendRequests: {memberId: userId}}}
+        { "$push": {friendList: {friendId: userId}}}
+    );
+    return  { message: "Friend Added" };
+}
+async function unFriend(friendData){
+    friendId = friendData.friendId
+    userId = friendData.userId
+    const deleteFromUserList = await db.members.findOneAndUpdate(
+        { _id: userId},
+            { "$pull": {friendList: {friendId: friendId}}}
+    );
+    const deleteFromMembList = await db.members.findOneAndUpdate(
+        { _id: friendId},
+        { "$pull": {friendList: {friendId: userId}}}
+    );
+    return  { message: "Friend deleted" };
+}
+async function declinefriend(friendData){
+    friendId = friendData.friendId
+    userId = friendData.userId
+    const deleteFriendReq = await db.members.findOneAndUpdate(
+        { _id: userId},
+            { "$pull": {friendRequests: {memberId: friendId}}}
+    );
+    return  { message: "Friend Added" };
+}
+async function cancelFriendReq(friendData){
+    friendId = friendData.friendId
+    userId = friendData.userId
+    const deleteRequest = await db.members.findOneAndUpdate(
+        { _id: friendId},
+        { "$pull": {friendRequests: {memberId: userId}}}
     );
     return  { message: "Friend Added" };
 }
@@ -575,7 +614,11 @@ module.exports = {
     updateTheme,
     updateMembTheme,
     updateMemberPass,
-    addFriend,
-    getUserFriendList
+    sendFriendReq,
+    getUserFriendList,
+    acceptFriend,
+    cancelFriendReq,
+    declinefriend,
+    unFriend
 
 }

@@ -60,7 +60,7 @@ function MembLogIn() {
     }
     return (
         <div style={{color: "black"}}>
-            { isLoggedIn ? <Redirect to={`/MemberProfile/TimeLine`} /> : '' }
+            { isLoggedIn ? <Redirect to={`/UserProfile`} /> : '' }
             <div className={ alertMessage.type ? `alert alert-${alertMessage.type}` : 'd-hide' } role="alert">
                 {alertMessage.message}
             </div>

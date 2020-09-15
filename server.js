@@ -71,12 +71,44 @@ app.put('/api/updateTheme/:userId', async function( req,res ){
     res.json(updateTheme);
 })
 // update admin theme
-app.put('/api/addFriend/:userId', async function( req,res ){
+app.put('/api/sendFrndReq/:userId', async function( req,res ){
     const userId = req.params.userId
     const friendData = req.body;
     console.log('in server the friend data: ', friendData)
-    const addFriend = await orm.addFriend( friendData );
-    res.json(addFriend);
+    const sendFriendReq = await orm.sendFriendReq( friendData );
+    res.json(sendFriendReq);
+})
+// update admin theme
+app.put('/api/acceptfriend/:userId', async function( req,res ){
+    const userId = req.params.userId
+    const friendData = req.body;
+    console.log('in server the friend data: ', friendData)
+    const acceptFriend = await orm.acceptFriend( friendData );
+    res.json(acceptFriend);
+})
+// update admin theme
+app.put('/api/unFriend/:userId', async function( req,res ){
+    const userId = req.params.userId
+    const friendData = req.body;
+    console.log('in server the friend data: ', friendData)
+    const unFriend = await orm.unFriend( friendData );
+    res.json(unFriend);
+})
+// update admin theme
+app.put('/api/declinefriend/:userId', async function( req,res ){
+    const userId = req.params.userId
+    const friendData = req.body;
+    console.log('in server the friend data: ', friendData)
+    const declinefriend = await orm.declinefriend( friendData );
+    res.json(declinefriend);
+})
+// update admin theme
+app.put('/api/cancelFriendReq/:userId', async function( req,res ){
+    const userId = req.params.userId
+    const friendData = req.body;
+    console.log('in server the friend data: ', friendData)
+    const cancelFriendReq = await orm.cancelFriendReq( friendData );
+    res.json(cancelFriendReq);
 })
 // update member theme
 app.put('/api/updateMemTheme/:userId', async function( req,res ){

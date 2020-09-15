@@ -42,9 +42,17 @@ img {
 }
 .myBtnNew2{
   text-align: center;
-  /* width: 150px; */
   background:  #e79fab;
   padding: 10px;
+  margin: 5px;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.myBtnNew3{
+  text-align: center;
+  background:  #e79fab;
+  padding: 5px;
   margin: 5px;
   color: white;
   border-radius: 3px;
@@ -60,8 +68,22 @@ img {
   cursor: pointer;
   margin: 0 auto;
 }
-.myBtnNew:hover, .myBtnNew2:hover, themeBtn:hover{
+.myBtnNew:hover, .myBtnNew2:hover,  .myBtnNew3:hover, .themeBtn:hover{
   background:  #fd788e;
+  color: white;
+}
+.notCont{
+  position: relative;
+}
+.notificationBtn{
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 25px;
+  height: 25px;
+  background:  #fd788e;
+  border: 2px;
+  border-radius: 50%;
   color: white;
 }
 .myBtn2{
@@ -109,6 +131,31 @@ img {
   padding: 10px;
   box-shadow: 1px 2px 3px #1d2024;
 }
+.myContainer{
+  background: #e4e1e1;;
+  padding: 20px;
+  border-radius: 5px;
+}
+.myContainerDark{
+  background: #343a40;
+  padding: 20px;
+  border-radius: 5px;
+}
+.boxLight{
+  background: #f5f5f5;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 1px 2px 3px #838991;
+  margin: 10px auto;
+}
+.boxDark{
+  background: #3e444b;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 1px 2px 3px #1d2024;
+  margin: 10px auto;
+}
+
 hr{
   border-top: 1px solid #525963;
 }
@@ -255,7 +302,7 @@ ul {
   color: red;
 }
 a{
-  color: #444a5c;
+  color: #7a829b;
 }
 a:hover{
   text-decoration: none;
@@ -573,6 +620,24 @@ a:hover{
   border-radius: 50%;
   border: 2px solid;
 }
+.frndThmnl{
+  background: #444a5c;
+  width: 10vh;
+  height: 10vh;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #444a5c;
+}
+.frndThmnl:hover{
+  border: 3px solid #eb8e8e;
+}
+.frndLnk{
+  text-transform: capitalize;
+}
+.frndLnk:hover {
+  color: #eb8e8e;
+
+}
 .hoverShwo{
   margin-left: -10px;
   width: 10vh;
@@ -729,6 +794,10 @@ a:hover{
   left: -159px;
   border-radius: 5px;
   cursor: pointer;
+}
+.hvrLink{
+  cursor: pointer;
+  
 }
 .listHoverItem{
   background: #d6d6d6;

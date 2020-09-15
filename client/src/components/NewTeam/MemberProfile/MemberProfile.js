@@ -17,11 +17,16 @@ function MemberProfile() {
     const { membId } = useParams();
     const { teamId } = useParams();
     const [ memberDetail, setMemberDetail ]= useState({});
-    const [lgShow, setLgShow] = useState(false);
-    const [lgShow2, setLgShow2] = useState(false);
+    const [ memberFriend, setMemberFriend ]= useState([]);
+    const [ lgShow, setLgShow] = useState(false);
+    const [ lgShow2, setLgShow2] = useState(false);
     const [ employeeEdit, setEmployeeEdit ] = useState({ name: "", email: "", role: "", house: "", birthday: "", phone: "",  membPassword: "", teamId: `${teamId}`});
+    const [ addFrndBtn, setAddFrndBtn ] = useState(true)
+    const [ remvFrndBtn, setRemvFrndBtn ] = useState(false)
+    const [ sentFrndBtn, setSentFrndBtn ] = useState(false)
+    const [ isUserFriend, setIsUserFriend ] = useState(false)
     const [ teamRoles, setTeamRoles] = useState([]);
-    const [houses, setHouses] = useState([]);
+    const [ houses, setHouses] = useState([]);
     const [ userFriendsList, setUserFriendsList ] = useState([]);
     const [ dropDownEmail, setDropDownEmail ] = useState( { type: ""} );
     const [ dropDownAddress, setDropDownAddress ] = useState( { type: ""} );
@@ -33,7 +38,8 @@ function MemberProfile() {
     const [ dropDownPassword, setDropDownPassword ] = useState( { type: ""} );
     const [ trial, setTrial ] = useState({})
     const [ myPic, setMyPic] = useState ( '' );
-    const [ showForm2, setShowForm2] = useState( false )
+    const [ showForm2, setShowForm2] = useState( false );
+    let memberDet= {};
     function handleInputChange( e ){
         const { id, value } = e.target; 
         setEmployeeEdit( { ...employeeEdit, [id]: value } );
@@ -50,6 +56,30 @@ function MemberProfile() {
         const getEmpDetail = await fetch (`/api/memberProfile/${membId}`).then( res => res.json());
         console.log('fetched Member detail is: ', getEmpDetail)
         setMemberDetail(getEmpDetail);
+        setMemberFriend(getEmpDetail.friendList)
+        if(userType == "Member"){
+            getEmpDetail.friendList.map(membFren=>
+                {
+                    if(membFren.friendId == userId){
+                        setIsUserFriend(true)
+                    }
+                }
+                )
+        }
+        memberDet=getEmpDetail;
+        if(getEmpDetail.friendRequests.length > 0){
+            getEmpDetail.friendRequests.map(frnd=>
+                {
+                    if(frnd.memberId === userId){
+                        setSentFrndBtn(true);
+                        setAddFrndBtn(false)
+                    }
+                }
+            )
+        } else{
+            setSentFrndBtn(false);
+            setAddFrndBtn(true)
+        }
     }
 
     function showForm(typeForm){
@@ -110,13 +140,7 @@ function MemberProfile() {
     async function loadHouse(){
         const fetchHouses = await fetch (`/api/house/${teamId}`).then( res => res.json());
         console.log('fetched houses are: ', fetchHouses)
-        // fetchHouses.map(house=>{
-        //     if (house._id == memberDetail.house){
-        //         setMemberDetail( { ...memberDetail, houseImg: house.profileImg } );
-        //     }
-        // })
         setHouses(fetchHouses);
-        // loadMemberProfile()
     }
     async function updateMembDetail(){
         console.log('trial: ',trial) 
@@ -137,6 +161,16 @@ function MemberProfile() {
         const fetchUsersFriends = await fetch (`/api/getUserFriendList/${userId}`).then( res => res.json());
         console.log('fetched friend List are: ', fetchUsersFriends);
         setUserFriendsList(fetchUsersFriends)
+        console.log('memberDetail that im looking for : ', memberDet)
+        fetchUsersFriends.map(myFrnd=>
+            {
+                if(myFrnd.friendId === memberDet._id){
+                    setRemvFrndBtn(true);
+                    setAddFrndBtn(false);
+                    setSentFrndBtn(false)
+                }
+            }
+        )
     }
 //   upload
     function handleChange(e){
@@ -147,7 +181,6 @@ function MemberProfile() {
         e.preventDefault();
         setShowForm2(false);
     } 
-
     async function handleUpload(e){
         e.preventDefault();
         uploadPic(e);
@@ -177,10 +210,8 @@ function MemberProfile() {
             loadMemberProfile();
         
     }
-    // Birthday
     function closeBtn(){
         setLgShow(false)
-        
     }     
     function closeEditBtns(key){
         if (key==='email'){
@@ -207,13 +238,13 @@ function MemberProfile() {
             setDropDownHouse( { type: '' } )
         }
     }
-    async function addAsFriend(friendId){
+    async function sendFrndReq(friendId){
         const friendData={
             friendId: friendId,
             userId: userId,
         }
         console.log('friend data: ', friendData)
-        const apiResult = await fetch(`/api/addFriend/${userId}`, 
+        const apiResult = await fetch(`/api/sendFrndReq/${userId}`, 
             {   method: 'PUT',
                 headers:{
                     'Content-Type': 'application/json'
@@ -221,23 +252,41 @@ function MemberProfile() {
                 body: JSON.stringify(friendData)
             }).then( result => result.json());
             console.log('friend added: ', apiResult.message)
-    }
-    async function removeFriend(friendId){
-        // const friendData={
-        //     friendId: friendId,
-        //     userId: userId,
-        // }
-        // console.log('friend data: ', friendData)
-        // const apiResult = await fetch(`/api/addFriend/${userId}`, 
-        //     {   method: 'PUT',
-        //         headers:{
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(friendData)
-        //     }).then( result => result.json());
-        //     console.log('friend added: ', apiResult.message)
-    }
+        loadMemberProfile();
 
+    }
+    async function cancelFriendReq(friendId){
+        const friendData={
+            friendId: friendId,
+            userId: userId,
+        }
+        console.log('friend data: ', friendData)
+        const apiResult = await fetch(`/api/cancelFriendReq/${userId}`, 
+            {   method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(friendData)
+            }).then( result => result.json());
+            console.log('friend added: ', apiResult.message)
+            loadMemberProfile();
+            loadMyFriends()
+    }
+    async function unFrnd(friendId){
+        const friendData={
+            friendId: friendId,
+            userId: userId,
+        }
+        const apiResult = await fetch(`/api/unFriend/${userId}`, 
+            {   method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(friendData)
+            }).then( result => result.json());
+            console.log('friend added: ', apiResult.message)
+        loadMemberProfile();
+    }
     useEffect(function(){
         loadMemberProfile();
         loadTeamRoles();
@@ -484,16 +533,17 @@ function MemberProfile() {
                             </Modal.Body>
                         </Modal> 
                     </div>
-                    { userType === 'Member'?
-                        userFriendsList.map(friend=>
-                            friend.friendId === memberDetail._id ? 
-                            <div className="myBtnNew2 col-8" onClick={()=>removeFriend(memberDetail._id)}><i class="fas fa-user-times"></i> Remove Friend</div>
-                            : 
-                            <div className="myBtnNew2 col-8" onClick={()=>addAsFriend(memberDetail._id)}><i class="fas fa-user-plus"></i> Add as Friend</div>
-                            )
-                        
-                        : ''
-                        }
+                    { userType === 'Member' ?
+                    userId == memberDetail._id ? ''
+                    :<div className="frndBtns">
+                        { remvFrndBtn == true ? <div className="myBtnNew2 col-8" onClick={()=>unFrnd(memberDetail._id)}><i class="fas fa-user-times"></i> Unfriend</div> 
+                        : ''}
+                        { sentFrndBtn == true ? <div className="myBtnNew2 col-8" onClick={()=>cancelFriendReq(memberDetail._id)}><i class="fas fa-user-times"></i> Cancel Request</div> 
+                        : ''}
+                        { addFrndBtn == true ? <div className="myBtnNew2 col-8" onClick={()=>sendFrndReq(memberDetail._id)}><i class="fas fa-user-plus"></i> Add as Friend</div> 
+                        : ''}
+                    </div> 
+                    : ''}
                 </div>
                 <div>
                     <div className="membHosImg">
@@ -508,9 +558,8 @@ function MemberProfile() {
                     <UserContext.Provider value ={{memberDetail}}> 
                         <Router>
                         <div className="d-flexb tabBox">
-                            <TabBar teamId={teamId} membName={memberDetail.name} membId={memberDetail._id}/>
+                            <TabBar teamId={teamId} membName={memberDetail.name} membId={memberDetail._id} memberDetail={memberDetail} isUserFriend={isUserFriend}/>
                         </div>
-                        {/* <div className="memDetail"> */}
                         <div className={ theme === 'Dark' ? "memDetailDark" : "memDetail" }>
                             <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/TimeLine"]} component={TimeLine} />
                             <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/About"]} component={About} memberDetail={memberDetail} />

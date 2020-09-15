@@ -15,6 +15,7 @@ const teamId = localStorage.teamId;
 
 function MemberProfile() {
     const [ memberDetail, setMemberDetail ]= useState({});
+    const [ frndReq, setFrndReq ]= useState('');
     const [lgShow, setLgShow] = useState(false);
     const [lgShow2, setLgShow2] = useState(false);
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
@@ -44,6 +45,8 @@ function MemberProfile() {
     async function loadMemberProfile(){
         const getEmpDetail = await fetch (`/api/memberProfile/${userId}`).then( res => res.json());
         console.log('fetched Member detail is: ', getEmpDetail)
+        console.log('fetched request number is: ', getEmpDetail.friendRequests.length)
+        setFrndReq(getEmpDetail.friendRequests.length)
         setMemberDetail(getEmpDetail);
     }
     function showForm(typeForm){
@@ -381,10 +384,10 @@ function MemberProfile() {
                     <UserContext.Provider value={{memberDetail}}> 
                         <Router>
                         <div className="d-flexb tabBox">
-                            <TabBar teamId={teamId} membName={memberDetail.name} userId={memberDetail._id}/>
+                            <TabBar teamId={teamId} membName={memberDetail.name} userId={memberDetail._id} frndReq={frndReq}/>
                         </div>
                         <div className={ theme === 'Dark' ? "memDetailDark" : "memDetail" }>
-                            <Route path={["/UserProfile/TimeLine"]} component={TimeLine} />
+                            <Route exact path={["/UserProfile/TimeLine"]} component={TimeLine} />
                             <Route path={["/UserProfile/About"]} component={About} memberDetail={memberDetail} />
                             <Route path={["/UserProfile/Wall"]} component={Wall}/>
                             <Route path={["/UserProfile/FriendList"]} component={FriendList}/>

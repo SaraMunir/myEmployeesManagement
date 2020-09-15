@@ -18,7 +18,6 @@ import TeamDetail from './components/NewTeam/TeamDetail'
 
 function App() {
   const theme = localStorage.theme;
-
   return (
     // App darkBackGrnd
     <div className={theme === 'Dark' ? "App darkBackGrnd" : "App"}>
@@ -31,7 +30,7 @@ function App() {
         <Route exact path={["/SignUp"]} component={SignUp}/>
         <Route exact path={["/logout"]} component={LogOut}/> 
         <Route exact path={["/Dashboard"]} component={Dashboard}/>
-        <Route exact path={["/UserProfile/TimeLine"]} component={UserProfile}/>
+        <Route path={["/UserProfile"]} component={UserProfile}/>
         <Route path={["/NewTeamsPage"]} component={NewTeamsPage}/>
         <Route path={["/TeamDetail/:teamId"]} component={TeamDetail} />
       </Router>
