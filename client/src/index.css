@@ -129,7 +129,7 @@ img {
   min-height: 10vh;
   border-radius: 5px;
   padding: 10px;
-  box-shadow: 1px 2px 3px #1d2024;
+  box-shadow: 1px 2px 12px #1d2024;
 }
 .myContainer{
   background: #e4e1e1;;
@@ -213,7 +213,6 @@ hr{
   text-align: left;
   padding: 10px 20px;
   color: #fd788e;
-  /* border: 1px solid #16232400; */
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   text-decoration: none;
@@ -247,7 +246,7 @@ hr{
 }
 .memDetailDark{
   padding: 20px;
-  background: #3e444b;
+  background: #343a40;
   border: 2px solid #fd788e;
   min-height: 40vh;
 }
@@ -423,9 +422,6 @@ a:hover{
   right: 0;
 }
 .membHosImg{
-  /* position: absolute;
-  top: 0;
-  right: 0; */
   width: 21vh;
   height: 21vh;
 }
@@ -566,7 +562,6 @@ a:hover{
   padding: 20px;
   width: 100%;
   height: 22vh;
-  /* background-image: radial-gradient(rgb(182, 182, 182), black), co; */
 }
 .houseImg{
   width: 30vh;
@@ -753,7 +748,7 @@ a:hover{
   display: flex;
   flex-direction: column;
 }
-/* , .membersBirthday .myCard, .membersBirthday .myCardDark */
+
 
 .List .myCard, .List .myCardDark {
   width: 80%;
@@ -833,4 +828,96 @@ a:hover{
 .filterX:hover{
   color: #f1f1f1;
 }
+.membThmbs{
+  margin: 5px;
+}
+.sqrThmbNl{
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 1px 2px 3px #1d2024;
+}
+.sqrThmbNlname{
+  font-size: .9rem;
+  font-weight: 500;
+}
+/* #post {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: #ee8e8e;
+  font-size: 16px;
+  resize: none;
+} */
+.input1{
+  background-color: #9eee8e;
+  height: 120px;
+}
+#post {
+  color: #707070;
+  width: 100%;
+  min-height: 100px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-size: 16px;
+  resize: none;
+  border: 3px solid rgba(145, 145, 145, 0);
+}
+.comment{
+  width: 100%;
+  border: 3px solid rgba(145, 145, 145, 0);
+  border-radius: 40px;
+  padding: 10px 20px;
+}
+#post:focus,  .comment:focus{
+  border: 3px solid rgba(145, 145, 145, 0);
+  outline: none
+}
 
+.postImgThmb{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 1px 2px 3px #1d2024;
+}
+.cmntImgThmb{
+  margin: 10px 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 1px 2px 3px #1d2024;
+}
+.post{
+  margin: 10px;
+  border: 1px solid rgb(78, 199, 78);
+}
+.postTxt{
+  text-align: left;
+  font-size: 1.5rem;
+}
+.postDetail{
+  padding-top: 10px;
+  padding-left: 20px;
+  text-align: left;
+}
+.postTime{
+  font-size: .8rem;
+}
+.onHvr{
+  
+}
+.onHvr:hover{
+  color: #ee7676;
+  cursor: pointer;
+}
+.postCmntDrk{
+  padding: 10px;
+  background: rgb(107, 111, 122) ;
+  margin: 10px;
+}

@@ -83,11 +83,10 @@ function UserFriendList() {
                 <h4>Friend Requests</h4>
                 <hr/>
                 <div className={ theme === 'Dark'? "myContainerDark" : "myContainer"}>
-                    {memberFreindReq ? <div>{memberFreindReq.length} friend request</div> : <div>no requests</div>}
+                    {memberFreindReq.length>0 ? <div>{memberFreindReq.length} friend request</div> : <div>no requests</div>}
                     {memberFreindReq ? memberFreindReq.map(friend=>
                         members.map(memb=>
                             memb._id == friend.memberId ? 
-                            // "d-flex boxDark"
                             <div className={ theme === 'Dark'? "d-flex boxDark" : "d-flex boxLight"}>
                                 <img className="houseMmb mx-auto mt-2" src={memb.profileImg? memb.profileImg: '' } alt=""/>
                                 <div className="col-11 justify-content-around">
@@ -105,11 +104,11 @@ function UserFriendList() {
                     }
                 </div>
             </div>
-            <div  className={ theme === 'Dark' ? "col-lg-7 myCardDark friendRequests mx-auto" : "col-lg-7 myCard friendRequests mx-auto" }>
+            <div  className={ theme === 'Dark' ? "col-lg-7 myCardDark friendRequests mx-auto" : "col-lg-7 myCard friendRequests mx-auto"}>
                 <h4>Friend List</h4>
                 <hr/>
                 <div className={ theme === 'Dark'? "myContainerDark" : "myContainer"}>
-                    {memberFreindList ? <div>{memberFreindList.length} friend request</div> : <div>no requests</div>}
+                    {memberFreindList.length>0 ? <div>{memberFreindList.length} friends</div> : <div>You have not added any Friends</div>}
                     {memberFreindList ? memberFreindList.map(friend=>
                         members.map(memb=>
                             memb._id == friend.friendId ? 

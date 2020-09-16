@@ -78,7 +78,7 @@ app.put('/api/sendFrndReq/:userId', async function( req,res ){
     const sendFriendReq = await orm.sendFriendReq( friendData );
     res.json(sendFriendReq);
 })
-// update admin theme
+// accept friend
 app.put('/api/acceptfriend/:userId', async function( req,res ){
     const userId = req.params.userId
     const friendData = req.body;
@@ -402,3 +402,25 @@ app.put( '/api/uploadHouseImg/:houseId', upload.single('myFile'), async function
     const imgUploadDb = await orm.updateHouseAvatar( hosueId, imageUrl );
     res.send( imgUploadDb );
 });
+
+//posting: 
+app.post('/api/postPost/:membId', async function( req,res ){
+    const membId = req.params.membId
+    const postData = req.body;
+    // console.log('in server the friend data: ', postData)
+    const postingPost = await orm.postingPost( postData, membId );
+    res.json(postingPost);
+})
+app.get('/api/loadPosts/:membId', async(req, res) => {
+    const membId = req.params.membId;
+    const getAllPosts = await orm.getAllPosts( membId );
+    res.json( getAllPosts );
+})
+// posting comment
+app.put('/api/postComment/:postId', async function( req,res ){
+    const postId = req.params.postId
+    const postData = req.body;
+    const postComment = await orm.postComment( postData, postId );
+    res.json(postComment);
+})
+// sendFriendReq

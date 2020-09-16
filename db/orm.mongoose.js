@@ -565,11 +565,36 @@ async function updateHouseAvatar( userId, imageUrl ){
     };
     const dbResult = await db.house.findOneAndUpdate(
         {_id: userId}, {"$set": imageData});
-    // const userFetch = await db.users.findOneAndUpdate({ _id: userId }, { $push: { friendList: {image: imageData} } });
 
     return { message: `Thank you, updated` }
 }
-
+async function postingPost(postData, membId){
+    ownerId = postData.membId
+    creatorId = postData.creatorId
+    wallPosts = {
+        'ownerId': postData.ownerId,
+        'creatorId': postData.creatorId,
+        'post': postData.post,
+    }
+    const dbWallPosts = new db.wallPosts( wallPosts );
+    const savewallPosts = await dbWallPosts.save();
+    return  { message: "Friend Added" };
+}
+// getHouseDetail
+async function getAllPosts( membId ){
+    const getAllPosts = await db.wallPosts.find({
+        "ownerId" : membId
+    })
+    return getAllPosts
+}
+async function postComment(postData, postId){
+    
+    const friendRequest = await db.wallPosts.findOneAndUpdate(
+        { _id: postId},
+        { "$push": {comments: postData}}
+    );
+    return  { message: "Friend Added" };
+}
 
 module.exports = {
     registerUser,
@@ -619,6 +644,10 @@ module.exports = {
     acceptFriend,
     cancelFriendReq,
     declinefriend,
-    unFriend
+    unFriend,
+    // posts:
+    postingPost,
+    getAllPosts,
+    postComment
 
 }

@@ -8,7 +8,6 @@ import TabBar from './TabBar'
 import Wall from './MemberWall'
 import FriendList from './MemberFriendList'
 export const UserContext = React.createContext();
-// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 const userId = localStorage.id
 const userType = localStorage.type
 const theme = localStorage.theme;
@@ -55,6 +54,7 @@ function MemberProfile() {
     async function loadMemberProfile(){
         const getEmpDetail = await fetch (`/api/memberProfile/${membId}`).then( res => res.json());
         console.log('fetched Member detail is: ', getEmpDetail)
+        console.log('fetched Members friend list is: ', getEmpDetail.friendList)
         setMemberDetail(getEmpDetail);
         setMemberFriend(getEmpDetail.friendList)
         if(userType == "Member"){
@@ -64,7 +64,7 @@ function MemberProfile() {
                         setIsUserFriend(true)
                     }
                 }
-                )
+            )
         }
         memberDet=getEmpDetail;
         if(getEmpDetail.friendRequests.length > 0){
@@ -81,7 +81,6 @@ function MemberProfile() {
             setAddFrndBtn(true)
         }
     }
-
     function showForm(typeForm){
         console.log(typeForm)
         if(typeForm === "email"){
@@ -547,15 +546,15 @@ function MemberProfile() {
                 </div>
                 <div>
                     <div className="membHosImg">
-                    {houses.map( house => 
+                    {houses.map( (house, idx) => 
                         memberDetail.house == house._id ?
-                        <img className="col-12" src={house.profileImg} alt="bdsb"/> : '')}
+                        <img key={`house-${idx}`} className="col-12" src={house.profileImg} alt="bdsb"/> : '')}
                     </div>
                 </div>
             </div>
-            <div className="row mx-auto">
+            <div className="row mx-auto ">
                 <div className="col-12">
-                    <UserContext.Provider value ={{memberDetail}}> 
+                    <UserContext.Provider value ={{memberDetail, memberFriend}}> 
                         <Router>
                         <div className="d-flexb tabBox">
                             <TabBar teamId={teamId} membName={memberDetail.name} membId={memberDetail._id} memberDetail={memberDetail} isUserFriend={isUserFriend}/>
@@ -564,7 +563,7 @@ function MemberProfile() {
                             <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/TimeLine"]} component={TimeLine} />
                             <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/About"]} component={About} memberDetail={memberDetail} />
                             <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/Wall"]} component={Wall} />
-                            <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/FriendList"]} component={FriendList} />
+                            <Route exact path={["/TeamDetail/:teamId/MemberProfile/:memberName/:membId/FriendList"]} component={FriendList}  memberFriend={memberFriend}/>
                         </div>
                         </Router>
                     </UserContext.Provider>

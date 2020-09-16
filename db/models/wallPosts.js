@@ -2,23 +2,23 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 let wallPosts = new Schema ({
-    ownerName: String,
     ownerId: String,
-    creator: String,
     creatorId: String,
-    likes: {
-        type: Number, 
-        default: 0
-    },
+    post: String,
+    likes: [
+        { 
+            frndId: String, 
+        }
+    ],
     comments: [
         {
             commenterId: String,
             comment: String,
-            likes: 
-            {
-                type: Number, 
-                default: 0
-            },
+            likes: [
+                { 
+                    frndId: String, 
+                }
+            ],
             created: {type: Date, default: Date.now}
         }
     ],
