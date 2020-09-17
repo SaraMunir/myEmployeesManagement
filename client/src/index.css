@@ -912,12 +912,16 @@ a:hover{
 .onHvr{
   
 }
-.onHvr:hover{
+.onHvr:hover , .onHvr2:hover{
   color: #ee7676;
   cursor: pointer;
 }
 .postCmntDrk{
   padding: 10px;
-  background: rgb(107, 111, 122) ;
+  background: #6b6f7a63 ;
   margin: 10px;
+  border-radius: 10px;
+}
+.onHvr2{
+  color: #ee7676;
 }

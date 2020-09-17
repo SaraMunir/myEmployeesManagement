@@ -423,4 +423,17 @@ app.put('/api/postComment/:postId', async function( req,res ){
     const postComment = await orm.postComment( postData, postId );
     res.json(postComment);
 })
-// sendFriendReq
+// like comment
+app.put('/api/likePost/:postId', async function( req,res ){
+    const postId = req.params.postId
+    const likeData = req.body;
+    const postLike = await orm.postLike( likeData, postId );
+    res.json(postLike);
+})
+// like comment
+app.put('/api/unLikePost/:postId', async function( req,res ){
+    const postId = req.params.postId
+    const unlikeData = req.body;
+    const unlikePost = await orm.unlikePost( unlikeData, postId );
+    res.json(unlikePost);
+})

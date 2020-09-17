@@ -12,7 +12,11 @@ function MemberWall() {
     const [ memberDetail, setMemberDetail ]= useState({});
     const [ posts, setPosts ]= useState([]);
     const [ comments, setComments ]= useState([]);
-
+    const [ noLike, setNoLike ]= useState(true);
+    const [ liked, setLiked ]= useState(false);
+    const [ userLike, setUserLike ]= useState(false);
+    const [ likedObj, setLikedObj]= useState([])
+    const [ myLikes, setMyLikes ]= useState([]);
     const [ comment, setComment ]= useState({});
     const [ members, setMembers ] = useState([]);
     const [ newPost, setNewPost ] = useState({ post:'', creatorId: `${userId}`, ownerId: `${membId}`});
@@ -44,9 +48,29 @@ function MemberWall() {
         const getPosts = await fetch (`/api/loadPosts/${membId}`).then( res => res.json());
         console.log(' fetched POSTS: ', getPosts)
         const sortingPosts = getPosts.sort(function(a,b){
-            return(b>a? 1: -1)
+            let crA = a.created
+            let crB = b.created
+            return(crB>crA ? 1: -1)
         })
-        setPosts(sortingPosts);
+        let myLikes = []
+        let otherLikes = []
+        let likedObjArr = []
+        let anotherObjArr = []
+        sortingPosts.map(post=>
+            { 
+                let newPost = post
+                post.likes.map(like=>{
+                    if(like.frndId === userId){
+                        newPost.frndId = like.frndId
+                    }
+                })
+                anotherObjArr.push(newPost)
+            }
+        )
+        console.log('anotherObjArr: ', anotherObjArr)
+        setLikedObj(likedObjArr)
+        setPosts(anotherObjArr);
+        
     }
     function handleInputChange( e ){
         const { id, value } = e.target; 
@@ -57,6 +81,32 @@ function MemberWall() {
         setComment( {value} );
         }
     async function likePost(postId){
+        const likeData={
+            frndId: userId,
+        }
+        const apiResult = await fetch(`/api/likePost/${postId}`, 
+            {   method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(likeData)
+            }).then( result => result.json());
+        console.log('post liked ', apiResult.message)
+        loadPosts();
+    }
+    async function unlikePost(postId){
+        const unlikeData={
+            frndId: userId,
+        }
+        const apiResult = await fetch(`/api/unLikePost/${postId}`, 
+            {   method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(unlikeData)
+            }).then( result => result.json());
+        console.log('post unliked ', apiResult.message)
+        loadPosts();
     }
     async function commentPost(postId){
         console.log('comment: ', comment);
@@ -74,7 +124,6 @@ function MemberWall() {
             }).then( result => result.json());
             setComment({comment:''})
             loadPosts();
-
     }
     useEffect(function(){
         loadMemberProfile();
@@ -110,20 +159,29 @@ function MemberWall() {
                     )}
                     <div className="postTxt">{post.post}</div>
                     <hr/>
-                    <div className="d-flex col-6 justify-content-between">
-                        <div className="d-flex onHvr" onClick={()=>likePost(post._id)}>
-                            <i class="far fa-2x fa-heart"></i> 
-                            <p className="pb-2 pl-2">5 Likes</p>
+                    <div className="d-flex col-10 justify-content-between border">
+                        <div className="likeSect border d-flex">
+                        {
+                            post.frndId ? <div onClick={()=>unlikePost(post._id)}><i class="onHvr2 fas fa-2x fa-heart"></i></div> : <div onClick={()=>likePost(post._id)}><i class="onHvr far fa-2x fa-heart"></i></div>
+                        }
+                        <div className="pl-2">
+                            {post.likes.length > 1 ? <div className="pl-2">{post.likes.length} likes</div> : <div>{post.likes.length} like</div>
+                        }
                         </div>
-                        <div className="d-flex onHvr">
-                            <i class="fas fa-2x fa-comments"></i> 
-                            <p className="pb-2 pl-2">5 Comments</p>
+
+
+                        </div>
+                        <div className="d-flex onHvr border text-left">
+                            <i class="fas fa-2x fa-comments"></i>
+                            { post.comments.length == 0 ? '' : 
+                                post.comments.length > 1 ?  <p className="pb-2 pl-2">{post.comments.length} Comments</p> : <p className="pb-2 pl-2">{post.comments.length} Comment </p> 
+                            }
                         </div>
                     </div>
                     <hr/>
                     <div className="d-flex">
-                    <input onChange={hndleCmntInptChnge} className="comment" type="text" id={`comment-${idx}`} name="fname" value={comment.comment} style={ theme === 'Dark' ? {background: "#343a40"} : {background: "#e4e1e1"}}/>
-                    <div className="myBtnNew2" onClick={()=>commentPost(post._id)}>comment</div>
+                        <input onChange={hndleCmntInptChnge} className="comment" type="text" id={`comment-${idx}`} name="fname" value={comment.comment} style={ theme === 'Dark' ? {background: "#343a40"} : {background: "#e4e1e1"}}/>
+                        <div className="myBtnNew2" onClick={()=>commentPost(post._id)}>comment</div>
                     </div>
                     <hr/>
                     {post.comments.map(comment=>

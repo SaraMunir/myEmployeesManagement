@@ -595,6 +595,20 @@ async function postComment(postData, postId){
     );
     return  { message: "Friend Added" };
 }
+async function postLike(likeData, postId){
+    const friendRequest = await db.wallPosts.findOneAndUpdate(
+        { _id: postId},
+        { "$push": {likes: likeData}}
+    );
+    return  { message: "like Added" };
+}
+async function unlikePost(unLikedata, postId){
+    const friendRequest = await db.wallPosts.findOneAndUpdate(
+        { _id: postId},
+        { "$pull": {likes: {frndId: unLikedata.frndId}}}
+    );
+    return  { message: "like Added" };
+}
 
 module.exports = {
     registerUser,
@@ -648,6 +662,8 @@ module.exports = {
     // posts:
     postingPost,
     getAllPosts,
-    postComment
+    postComment,
+    postLike,
+    unlikePost
 
 }
