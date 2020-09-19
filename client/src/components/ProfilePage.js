@@ -8,7 +8,12 @@ function ProfilePage() {
     const [lgShow, setLgShow] = useState(false);
     const [lgShow2, setLgShow2] = useState(false);
     const [ myPic, setMyPic] = useState ( '' );
-    // const [ showForm2, setShowForm2] = useState( false )
+    const [cvrFrmShow, setCvrFrmShow] = useState(false);
+    // const [cvrFrmEdtShow, setCvrFrmEdtShow] = useState(false);
+    const [showBtns, setShowBtns] = useState(false);
+    const [dontCenter, setDontCenter] = useState(true);
+    const [ myCoverPIc, setMyCoverPIc] = useState ('');
+
     const [ dropDownEmail, setDropDownEmail ] = useState( { type: ""} );
     const [ dropDownAddress, setDropDownAddress ] = useState( { type: ""} );
     const [ dropDownPhone, setDropDownPhone ] = useState( { type: ""} );
@@ -18,15 +23,15 @@ function ProfilePage() {
     const [ dropDownHouse, setDropDownHouse ] = useState( { type: ""} );
     const [ adminEdit, setAdminEdit ] = useState({ name: "", email: "", role: "", house: "", birthday: "", phone: "",  membPassword: ""});
     const [ trial, setTrial ] = useState({})
+    const [ coverPhoto, setCoverPhoto] = useState({y : 0})
+
     function closeBtn(){
         setLgShow(false)
-        
     }    
     function handleChange(e){
         const file = e.target.files[0];
         setMyPic(file)
     }
-
     async function handleUpload(e){
         e.preventDefault();
         if(myPic){
@@ -149,15 +154,141 @@ function ProfilePage() {
     async function loadAdminProfile(){
         const getAdmnDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
         console.log('fetched Admin detail is: ', getAdmnDetail)
+        console.log('cover setting: ', getAdmnDetail.coverImgSetting)
+        if(getAdmnDetail.coverImgSetting){
+            setCoverPhoto(getAdmnDetail.coverImgSetting)
+            setDontCenter(false)
+        }
         setAdminDetail(getAdmnDetail);
     }
+    function handleCvrPicChange(e){
+        const file = e.target.files[0];
+        setMyCoverPIc(file)
+    }
+    function uploadCoverPic( e ){
+        e.preventDefault();
+        setMyCoverPIc (false);
+    }
+    async function handleCvrPhtUpload(e){
+        e.preventDefault();
+        uploadCoverPic(e);
+        if(myCoverPIc){
+            let myForm = document.getElementById('myCvrForm');
+            let formData = new FormData(myForm);
+            const uploadPic = await fetch(`/api/uploadAdminCvrPhto/${userId}`, 
+                {
+                    method: 'PUT',
+                    body: formData
+                }
+            ).then( result=>result.json())}
+        if(adminDetail.coverImg){
+            let oldPhoto = {old: adminDetail.coverImg};
+            //delet old photo
+            const deleteOldPIc = await fetch(`/api/deleteOldProfilePIc`, 
+            {   method: 'post',
+                headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+                body: JSON.stringify(oldPhoto)
+            }).then( result=>result.json());
+            }
+            setCvrFrmShow(false)
+            loadAdminProfile();
+        }
+    function movePicBy(by){
+        if(by == 'y-'){
+            let newY = coverPhoto.y + 10
+            setCoverPhoto({y: newY})
+        }
+        if(by == 'y+'){
+            let newY = coverPhoto.y - 10
+            setCoverPhoto({y: newY})
+        }
+    }
+    function ShowBtns(){
+        if(showBtns === false){
+            setShowBtns(true)
+            return;
+        } else 
+        {
+            setShowBtns(false)
+            setCoverPhoto(adminDetail.coverImgSetting)
+        }
+    }
+
+    async function saveCvrImgSett(){
+        console.log( "coverPhoto : ", coverPhoto)
+        const apiResult = await fetch(`api/saveCvrImgSettng/${userId}`,
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(coverPhoto)
+        }
+        ).then(result => result.json())
+
+        loadAdminProfile();
+        setShowBtns(false)
+    
+    }
+
     useEffect(function(){
         loadAdminProfile();
     },[])
     return (
         <div className="">
             <div className="adminCov">
-                <div className="CovImg"></div>
+                <div className="covCntnr">
+                    {   showBtns=== true ? <div className="editBtns col-2 mx-auto justify-content-around">
+                        <div className="myBtnTrnslu" onClick={()=>movePicBy('y+')}><i class="fas fa-chevron-up"></i></div>
+                        <div style={{height: '57%'}}></div>
+                        <div className="myBtnTrnslu" onClick={()=>movePicBy('y-')}><i class="fas fa-chevron-down"></i></div>
+                    </div> : ''
+                    }
+                    <img className='CovImg' id="CoverImage" src={
+                        adminDetail.coverImg ? adminDetail.coverImg : "https://www.befunky.com/images/wp/wp-2016-03-blur-background-featured-1.jpg?auto=webp&format=jpg&width=880"
+                    } alt="coverPhoto" style={{objectPosition: `0px ${coverPhoto.y}px` , height:'250px'}}/>
+                {
+                    showBtns=== true ? '' :
+                    <div  onClick={() => setCvrFrmShow(true)} className="covrBtn myBtnNew2" style={{width: '60px', fontSize:"1.4rem"}}> <i class="fas fa-camera-retro"></i></div>
+                }
+                {
+                    showBtns=== true ? '' :
+                    <div  onClick={() => ShowBtns()} className="covrBtn myBtnNew2" style={{width: '60px', fontSize:"1rem", top: "70px"}}>edit</div>
+                }
+                {
+                showBtns=== true ? 
+                    <div className="d-flex saveCncel"> 
+                        <div  onClick={saveCvrImgSett} className="myBtnNew2" style={{width: '100px', fontSize:"1rem"}}>Save</div>
+                        <div  onClick={() => ShowBtns()} className="myBtnNew2" style={{width: '100px', fontSize:"1rem"}}>Cancel</div>
+                    </div>: ''
+                }
+                <Modal
+                    size="lg"
+                    show={cvrFrmShow}
+                    onHide={() => setCvrFrmShow(false)}
+                    aria-labelledby="example-modal-sizes-title-lg">
+                        <Modal.Header closeButton>
+                            <Modal.Title id="example-modal-sizes-title-lg"> 
+                            Upload Image
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form className="input-group mb-3" id='myCvrForm' role="form" encType="multipart/form-data" >
+                                <div className="custom-file">
+                                    <input 
+                                    type="file" 
+                                    name="myFile" className="custom-file-input" 
+                                    onChange={handleCvrPicChange}/>
+                                    <label className="custom-file-label" for="inputGroupFile02" onChange={handleCvrPicChange}>Choose file</label>
+                                </div>
+                            </form>
+                            <div className="myBtnNew" onClick={handleCvrPhtUpload}>Upload</div> 
+                        </Modal.Body>
+                </Modal>
+                </div>
                 <div className="shorSum row col">
                     <div className="adminProImg">
                         <img className="profilePhoto" src={adminDetail.profileImg ? adminDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"

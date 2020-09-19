@@ -260,6 +260,20 @@ app.get('/api/teamDetails/:teamId', async(req, res) => {
     const getTeamDetails = await orm.getTeamDetails( teamId );
     res.json( getTeamDetails );
 })
+//deleting team
+app.get('/api/deleteTeam/:teamId', async(req, res) => {
+    const teamId= req.params.teamId;
+    
+    const deleteTeam = await orm.deleteTeam( teamId );
+    res.json( deleteTeam );
+})
+//deleting member
+app.get('/api/deleteMember/:membId', async(req, res) => {
+    const memberId= req.params.membId;
+    
+    const deleteMember = await orm.deleteMember( memberId );
+    res.json( deleteMember );
+})
 
 //posting member
 //creating employees
@@ -274,8 +288,6 @@ app.get('/api/member/:teamId', async(req, res) => {
     const getMembers = await orm.getMembers( teamId );
     res.json( getMembers );
 })
-
-//     /api/deleteMember/${membId}
 
 //deleting member
 app.get('/api/deleteMember/:membId', async(req, res) => {
@@ -308,7 +320,7 @@ app.put('/api/memberPasswordUpdate/:membId', async function( req,res ){
     const updateMemberPass = await orm.updateMemberPass( userMember, membId );
     res.send(updateMemberPass);
 })
-// update employee info
+// update admin info
 app.put('/api/adminDetailUpdate/:membId', async function( req,res ){
     const membId = req.params.membId
     
@@ -318,11 +330,9 @@ app.put('/api/adminDetailUpdate/:membId', async function( req,res ){
     res.send(updateAdmin);
 })
 const upload = require('multer')({ dest: 'client/public/uploads/' });
-app.post('/api/deleteOldProfilePIc', async function( req,res ){
-    
-    const oldphoto = req.body;
-    console.log('oldphoto in server: ', oldphoto)
 
+app.post('/api/deleteOldProfilePIc', async function( req,res ){
+    const oldphoto = req.body;
     const path = `client/public/${oldphoto.old}`
         fs.unlink(path, (err) => {
             if (err) {
@@ -346,6 +356,38 @@ app.put( '/api/upload/:userid', upload.single('myFile'), async function( req, re
     const imgUploadDb = await orm.updateAvatar( userId, imageUrl );
     res.send( imgUploadDb );
 });
+app.put( '/api/uploadCvrPhto/:userid', upload.single('myFile'), async function( req, res ){
+    let userId = req.params.userid
+    const filePath = req.file.path;
+    const originalName = req.file.originalname;
+    
+    const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
+        fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
+
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+    const imgUploadDb = await orm.updateCoverPhto( userId, imageUrl );
+    res.send( imgUploadDb );
+});
+app.put( '/api/uploadAdminCvrPhto/:userid', upload.single('myFile'), async function( req, res ){
+    let userId = req.params.userid
+    const filePath = req.file.path;
+    const originalName = req.file.originalname;
+    
+    const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
+        fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
+
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+    const imgUploadDb = await orm.updateAdmnCoverPhto( userId, imageUrl );
+    res.send( imgUploadDb );
+});
+// update admin info
+app.put('/api/saveCvrImgSettng/:userId', async function( req,res ){
+    const userId = req.params.userId
+    const coverPhotoSetting = req.body;
+    const covrPhtoSetting = await orm.covrPhtoSetting( coverPhotoSetting, userId );
+    console.log(covrPhtoSetting)
+    res.send(covrPhtoSetting);
+})
 app.put( '/api/adminUpload/:userid', upload.single('myFile'), async function( req, res ){
     let userId = req.params.userid
     const filePath = req.file.path;
@@ -423,17 +465,47 @@ app.put('/api/postComment/:postId', async function( req,res ){
     const postComment = await orm.postComment( postData, postId );
     res.json(postComment);
 })
-// like comment
+// like post
 app.put('/api/likePost/:postId', async function( req,res ){
     const postId = req.params.postId
     const likeData = req.body;
     const postLike = await orm.postLike( likeData, postId );
     res.json(postLike);
 })
-// like comment
+// unlike post
 app.put('/api/unLikePost/:postId', async function( req,res ){
     const postId = req.params.postId
     const unlikeData = req.body;
     const unlikePost = await orm.unlikePost( unlikeData, postId );
     res.json(unlikePost);
+})
+// like comment
+app.put('/api/likeComment/:postId/:cmntId', async function( req,res ){
+    const postId = req.params.postId
+    const cmntId = req.params.cmntId
+    const likeData = req.body;
+    const likeComnt = await orm.likeComnt( likeData, postId, cmntId  );
+    res.json(likeComnt);
+})
+// Unlike comment
+app.put('/api/unLikeComment/:postId/:cmntId', async function( req,res ){
+    const postId = req.params.postId
+    const cmntId = req.params.cmntId
+    const unLikeData = req.body;
+    const unLikeComnt = await orm.unLikeComnt( unLikeData, postId, cmntId  );
+    res.json(unLikeComnt);
+})
+// upvote post
+app.put('/api/upVotePost/:postId', async function( req,res ){
+    const postId = req.params.postId
+    const upVoteData = req.body;
+    const upVote = await orm.upVote( upVoteData, postId );
+    res.json(upVote);
+})
+// downVote
+app.put('/api/downVotePost/:postId', async function( req,res ){
+    const postId = req.params.postId
+    const downVoteData = req.body;
+    const downVote = await orm.downVote( downVoteData, postId );
+    res.json(downVote);
 })

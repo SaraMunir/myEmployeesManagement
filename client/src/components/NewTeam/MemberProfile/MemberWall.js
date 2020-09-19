@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef }from 'react'
-import {  useParams , Link } from "react-router-dom";
+import { useHistory, useParams , Link } from "react-router-dom";
 
 const userId = localStorage.id
 const teamId = localStorage.teamId
@@ -11,15 +11,11 @@ function MemberWall() {
     const { membId } = useParams();
     const [ memberDetail, setMemberDetail ]= useState({});
     const [ posts, setPosts ]= useState([]);
-    const [ comments, setComments ]= useState([]);
-    const [ noLike, setNoLike ]= useState(true);
-    const [ liked, setLiked ]= useState(false);
-    const [ userLike, setUserLike ]= useState(false);
-    const [ likedObj, setLikedObj]= useState([])
-    const [ myLikes, setMyLikes ]= useState([]);
     const [ comment, setComment ]= useState({});
     const [ members, setMembers ] = useState([]);
     const [ newPost, setNewPost ] = useState({ post:'', creatorId: `${userId}`, ownerId: `${membId}`});
+    let history = useHistory();
+
     async function submitPost(){
         console.log(' post content: ', newPost)
         const apiResult = await fetch(`/api/postPost/${membId}`, 
@@ -48,13 +44,17 @@ function MemberWall() {
         const getPosts = await fetch (`/api/loadPosts/${membId}`).then( res => res.json());
         console.log(' fetched POSTS: ', getPosts)
         const sortingPosts = getPosts.sort(function(a,b){
-            let crA = a.created
-            let crB = b.created
-            return(crB>crA ? 1: -1)
+            if (a.upVotes.length == 0 ){
+                let crA = a.created
+                let crB = b.created
+                return(crB>crA ? 1: -1)
+            } else
+            if (a.upVotes.length > 0 ){
+                let crA = a.upVotes
+                let crB = b.upVotes
+                return(crB>crA ? 1: -1)
+            }
         })
-        let myLikes = []
-        let otherLikes = []
-        let likedObjArr = []
         let anotherObjArr = []
         sortingPosts.map(post=>
             { 
@@ -64,11 +64,22 @@ function MemberWall() {
                         newPost.frndId = like.frndId
                     }
                 })
+                post.upVotes.map(vote=>{
+                    if(vote.frndId === userId){
+                        newPost.voteId = vote.frndId
+                    }
+                })
+                post.comments.map((comment, idx)=>{
+                    comment.likes.map(like=>{
+                        if(like.frndId === userId){
+                            newPost.comments[idx].frndId = like.frndId
+                        }
+                    })
+                })
                 anotherObjArr.push(newPost)
             }
         )
         console.log('anotherObjArr: ', anotherObjArr)
-        setLikedObj(likedObjArr)
         setPosts(anotherObjArr);
         
     }
@@ -91,7 +102,58 @@ function MemberWall() {
                 },
                 body: JSON.stringify(likeData)
             }).then( result => result.json());
-        console.log('post liked ', apiResult.message)
+        loadPosts();
+    }
+    async function upVotePost(postId){
+        const voteData={
+            frndId: userId,
+        }
+        const apiResult = await fetch(`/api/upVotePost/${postId}`, 
+            {   method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(voteData)
+            }).then( result => result.json());
+        loadPosts();
+    }
+    async function downVotePost(postId){
+        const voteData={
+            frndId: userId,
+        }
+        const apiResult = await fetch(`/api/downVotePost/${postId}`, 
+            {   method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(voteData)
+            }).then( result => result.json());
+        loadPosts();
+    }
+    async function likeComment(postId, commentId){
+        const likeCmntData={
+            frndId: userId,
+        }
+        const apiResult = await fetch(`/api/likeComment/${postId}/${commentId}`, 
+            {   method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(likeCmntData)
+            }).then( result => result.json());
+        loadPosts();
+    }
+    async function unLikeComment(postId, commentId){
+        const unlikeCmntData={
+            frndId: userId,
+        }
+        const apiResult = await fetch(`/api/unLikeComment/${postId}/${commentId}`, 
+            {   method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(unlikeCmntData)
+            }).then( result => result.json());
         loadPosts();
     }
     async function unlikePost(postId){
@@ -125,6 +187,10 @@ function MemberWall() {
             setComment({comment:''})
             loadPosts();
     }
+    function directTo(name, id) {
+        history.push(`/TeamDetail/${teamId}/MemberProfile/${name}/${id}/TimeLine`);
+        document.location.reload(true);
+    }
     useEffect(function(){
         loadMemberProfile();
         loadPosts()
@@ -149,29 +215,36 @@ function MemberWall() {
                     {members.map(member=>
                         member._id === post.creatorId ?
                     <div className="d-flex">
-                        <Link to={`/TeamDetail/${teamId}/MemberProfile/${member.name}/${member._id}`} ><img src={member.profileImg} alt="membImage" className="postImgThmb mt-2"/></Link>
+                        <img src={member.profileImg} alt="membImage" className="postImgThmb mt-2 cursor" onClick={()=>directTo(member.name, member._id)}/>
                         <div className="postDetail">
-                            <h5>{member.name}</h5>
-                            <p className="postTime"> {post.created}</p>
+                            <h5 className="cursor" onClick={()=>directTo(member.name, member._id)}>{member.name}</h5>
+                            <p className="postTime " > {post.created}</p>
                         </div>
                     </div>
                         : ''
                     )}
                     <div className="postTxt">{post.post}</div>
                     <hr/>
-                    <div className="d-flex col-10 justify-content-between border">
-                        <div className="likeSect border d-flex">
-                        {
+                    <div className="d-flex col-10 justify-content-between">
+                        <div className="likeSect d-flex">
+                            {
                             post.frndId ? <div onClick={()=>unlikePost(post._id)}><i class="onHvr2 fas fa-2x fa-heart"></i></div> : <div onClick={()=>likePost(post._id)}><i class="onHvr far fa-2x fa-heart"></i></div>
-                        }
-                        <div className="pl-2">
-                            {post.likes.length > 1 ? <div className="pl-2">{post.likes.length} likes</div> : <div>{post.likes.length} like</div>
-                        }
+                            }
+                            <div className="pl-2">
+                                {post.likes.length > 1 ? <div className="pl-2">{post.likes.length} likes</div> : <div>{post.likes.length} like</div>
+                            }
+                            </div>
                         </div>
-
-
+                        <div className="like pl-2 pt-1 mx-auto d-flex">
+                        {
+                            post.voteId ? <div onClick={()=>downVotePost(post._id)}><i class="onHvr fas fa-2x fa-arrow-circle-down"></i></div> : <div onClick={()=>upVotePost(post._id)}><i class="onHvr fas fa-2x fa-arrow-circle-up"></i></div>
+                            
+                        }
+                        <p className=" mx-auto">{post.upVotes.length>0? post.upVotes.length : ''}</p>
+                            {/* <div onClick={()=>upVotePost(post._id)}><i class="onHvr fas fa-2x fa-arrow-circle-up"></i></div>
+                            <div onClick={()=>downVotePost(post._id)}><i class="onHvr fas fa-2x fa-arrow-circle-up"></i></div> */}
                         </div>
-                        <div className="d-flex onHvr border text-left">
+                        <div className="d-flex onHvr text-left">
                             <i class="fas fa-2x fa-comments"></i>
                             { post.comments.length == 0 ? '' : 
                                 post.comments.length > 1 ?  <p className="pb-2 pl-2">{post.comments.length} Comments</p> : <p className="pb-2 pl-2">{post.comments.length} Comment </p> 
@@ -188,21 +261,26 @@ function MemberWall() {
                         <div>
                             {members.map(mem=>
                                 mem._id === comment.commenterId ?
-                                <div className="postCmntDrk">
-                                    <div className="d-flex">
-                                        <Link to={`/TeamDetail/${teamId}/MemberProfile/${mem.name}/${mem._id}`} ><img src={mem.profileImg} alt="membImage" className="cmntImgThmb mt-2"/></Link>
-                                        <div>
-                                            <h6>{mem.name}</h6>
-                                            <p className="postTime"> {comment.created}</p>
-                                            <h5 className="text-left">{comment.comment} </h5>
+                                <div className="postCmntDrk col-8">
+                                    <div className="d-flex justify-content-between">
+                                        <div className="d-flex col-10 border">
+                                            <img src={mem.profileImg} alt="membImage" className="cmntImgThmb mt-2 cursor" onClick={()=>directTo(mem.name, mem._id)}/>
+                                            <div>
+                                                <h6 className="cursor" onClick={()=>directTo(mem.name, mem._id)}>{mem.name}</h6>
+                                                <p className="postTime"> {comment.created}</p>
+                                                <h5 className="text-left">{comment.comment} </h5>
+                                            </div>
+                                        </div>
+                                        <div className="like pr-2 pt-2 d-flex mx-auto">
+                                        {
+                                            comment.frndId ? <div onClick={()=>unLikeComment(post._id, comment._id)} className="mx-auto"><i class="onHvr2 fas fa-heart" style={{fontSize: "1.5rem"}}></i></div> : <div onClick={()=>likeComment(post._id, comment._id)} className="mx-auto"><i class="onHvr far fa-heart"  style={{fontSize: "1.5rem"}}></i></div>
+                                        }
+                                        <p className=" mx-auto">{comment.likes.length>0? comment.likes.length : ''}</p>
                                         </div>
                                     </div>
-                                    
                                 </div>
-
                                 :''
                                 )}
-
                         </div>
                         )}
 

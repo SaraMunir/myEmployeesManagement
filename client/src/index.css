@@ -49,6 +49,18 @@ img {
   border-radius: 3px;
   cursor: pointer;
 }
+.myBtnTrnslu{
+  text-align: center;
+  background:  #e79fab96;
+  padding: 10px;
+  margin: 5px;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.myBtnTrnslu:hover{
+  background:  #e79fabc0;
+}
 .myBtnNew3{
   text-align: center;
   background:  #e79fab;
@@ -165,8 +177,12 @@ hr{
   padding: 0;
 }
 .newSideBar{
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 100vh;
   background-image: linear-gradient(135deg , #e79fab , #bd4a5d);
-  min-height: 100vh;
+  /* min-height: 100vh; */
   padding: 0;
 }
 
@@ -452,7 +468,7 @@ a:hover{
   padding: 10px;
   border-radius: 50%;
   top: 12px;
-  right: 50px;
+  right: 20px;
   border: 2px solid white;
 }
 .uploadIcon:hover{
@@ -467,9 +483,31 @@ a:hover{
   /* padding: 30px; */
 
 }
+.covCntnr{
+  position: relative;
+}
+.editBtns{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+.covrBtn{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.saveCncel{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 .CovImg{
-  background: rebeccapurple;
-  height: 30vh;
+  /* background: rebeccapurple; */
+  height: 40vh;
+  object-fit: cover;
+
 }
 .adminProImg{
   position: relative;
@@ -832,6 +870,7 @@ a:hover{
   margin: 5px;
 }
 .sqrThmbNl{
+  margin: 10px;
   width: 100px;
   height: 100px;
   border-radius: 10px;
@@ -909,9 +948,6 @@ a:hover{
 .postTime{
   font-size: .8rem;
 }
-.onHvr{
-  
-}
 .onHvr:hover , .onHvr2:hover{
   color: #ee7676;
   cursor: pointer;
@@ -924,4 +960,12 @@ a:hover{
 }
 .onHvr2{
   color: #ee7676;
+}
+.cursor{
+  cursor: pointer;
+}
+.like{
+  min-width: 87px;  height: 40px;
+  background: #343a407c;
+  border-radius: 30px;
 }

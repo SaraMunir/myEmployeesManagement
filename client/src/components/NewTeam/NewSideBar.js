@@ -38,6 +38,12 @@ function NewSideBar(props) {
                         <i class="fas fa-home"></i> My House
                         </li>
                     </Link>: ''}
+                    { userType == 'Admin' ? 
+                    <Link to={`/TeamDetail/${props.teamId}/House`} className="try">
+                        <li class={location.pathname === `/TeamDetail/${props.teamId}/House` ? "sidBarItem2Active" : "sidBarItem2"}>
+                        <i class="fas fa-cog"></i>  Houses
+                        </li>
+                    </Link> : ""}
                 <Link to={`/TeamDetail/${props.teamId}/Members`} className="try"> 
                     <li class={location.pathname === `/TeamDetail/${props.teamId}/Members` ? "sidBarItem2Active" : "sidBarItem2"}>
                     <i class="fas fa-users"></i>  Members
@@ -48,14 +54,6 @@ function NewSideBar(props) {
                     <i class="fas fa-cog"></i>  Settings
                     </li>
                 </Link> : ""}
-                { userType == 'Admin' ? 
-                    <Link to={`/TeamDetail/${props.teamId}/House`} className="try">
-                        <li class={location.pathname === `/TeamDetail/${props.teamId}/House` ? "sidBarItem2Active" : "sidBarItem2"}>
-                        <i class="fas fa-cog"></i>  Houses
-                        </li>
-                    </Link> : ""}
-                
-
             </ul>
         </div>
     )

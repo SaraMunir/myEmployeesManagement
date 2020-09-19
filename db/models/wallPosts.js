@@ -10,6 +10,11 @@ let wallPosts = new Schema ({
             frndId: String, 
         }
     ],
+    upVotes: [
+        { 
+            frndId: String, 
+        }
+    ],
     comments: [
         {
             commenterId: String,

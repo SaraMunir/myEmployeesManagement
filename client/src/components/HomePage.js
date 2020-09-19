@@ -11,7 +11,7 @@ function HomePage() {
     return (
         <div class="container mx-auto row hero">
             { userId && userType=='Admin' ? <Redirect to='/NewTeamsPage'/> : '' }
-            { userType=='Member' ? <Redirect to={`/UserProfile`}/> : ''}
+            { userType=='Member' ? <Redirect to={`/UserProfile/TimeLine`}/> : ''}
             <div class="col-10 mx-auto">
                 <img src={heroImg} alt=""style={{height: "40vh", width: "100%", objectFit:"cover"}}/>
             </div> 

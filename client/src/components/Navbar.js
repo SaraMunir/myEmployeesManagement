@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import NavIcon from './assets/group.png';
 
 import { Link, useLocation } from "react-router-dom";
@@ -9,7 +9,14 @@ function Navbar() {
     const userName = localStorage.name;
     const type = localStorage.type;
     const theme = localStorage.theme;
-
+    const [ memberDetail, setMemberDetail ]= useState({});
+    
+    async function loadMemberProfile(){
+        if(type === 'Member'){
+            const getEmpDetail = await fetch (`/api/memberProfile/${id}`).then( res => res.json());
+            setMemberDetail(getEmpDetail);
+        }
+    }
     async function changeTheme(time){
         const theme ={
             theme : time
@@ -40,8 +47,10 @@ function Navbar() {
             document.location.reload(true);
         }
     }
+    useEffect(function(){
+        loadMemberProfile();
+    },[])
     return (
-        //"navbar navbar-expand-lg navbar-light bg-light"
         <nav class={ theme === 'Dark' ? "navbar navbar-expand-lg navbar-dark bg-dark" : "navbar navbar-expand-lg navbar-light bg-light" }>
             <a class="navbar-brand col-2" href="#"><img className="navIcon" src={NavIcon} alt=""/></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,8 +78,9 @@ function Navbar() {
                     </li> : ''}
                     {id && type === 'Member' ?
                     <li class="nav-item  mx-auto">
-                        <Link to="/UserProfile" className={location.pathname === "/UserProfile" ? "nav-link active " : "nav-link"}>
-                        <i class="fas fa-2x fa-user-circle"></i> Profile
+                        <Link to="/UserProfile/TimeLine" className={location.pathname === "/UserProfile/TimeLine" ? "nav-link active " : "nav-link"}>
+                        <img className="postImgThmb mr-3" src={memberDetail.profileImg ? memberDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"} alt=""/>
+                        Profile
                         </Link>
                     </li> : ''}
                     {id && type === 'Member' ?
@@ -84,7 +94,8 @@ function Navbar() {
                         <Link to="/NewTeamsPage" className={location.pathname === "/NewTeamsPage" ? "nav-link active " : "nav-link"}>
                         <i class="fas fa-2x fa-users"></i> Teams
                         </Link>
-                    </li>}
+                    </li>
+                    }
                 </ul>
             </div>
             {!id ? '':

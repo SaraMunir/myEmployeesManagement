@@ -18,7 +18,7 @@ function TabBar(props) {
                 <div className={location.pathname === `/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/About` ? "TabActive" : "Tab"}>
                 <i class="fas fa-user"></i> About</div>
             </Link>
-            { props.isUserFriend == true ?
+            { props.isUserFriend == true ||  props.membId == userId ?
             <Link class="mr-1" to={`/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/Wall`} > 
             <div className={location.pathname === `/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/Wall` ? "TabActive" : "Tab"}>
             <i class="fas fa-border-all"></i> Wall</div>

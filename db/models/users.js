@@ -32,7 +32,9 @@ let users = new Schema ({
     pinnedTeams:[
         {teamId: String}
     ],
-    profileImg : String,    
+    profileImg : String,
+    coverImg: String,
+    coverImgSetting: {y: Number},
 }, {
         timestamps: true
 });

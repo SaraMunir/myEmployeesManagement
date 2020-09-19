@@ -18,6 +18,7 @@ function MemberProfile() {
     const [ frndReq, setFrndReq ]= useState('');
     const [lgShow, setLgShow] = useState(false);
     const [lgShow2, setLgShow2] = useState(false);
+    const [cvrFrmShow, setCvrFrmShow] = useState(false);
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
     const [ employeeEdit, setEmployeeEdit ] = useState({ name: "", email: "", role: "", house: "", birthday: "", phone: "",  membPassword: "", teamId: `${teamId}`});
     const [ passwordUpdate, setPasswordUpdate ] = useState({password: ""})
@@ -28,7 +29,8 @@ function MemberProfile() {
     const [ dropDownBirthday, setDropDownBirthday ] = useState( { type: ""} );
     const [ dropDownPassword, setDropDownPassword ] = useState( { type: ""} );
     const [ trial, setTrial ] = useState({})
-    const [ myPic, setMyPic] = useState ( '' );
+    const [ myPic, setMyPic] = useState ('');
+    const [ myCoverPIc, setMyCoverPIc] = useState ('');
     const [ showForm2, setShowForm2] = useState( false );
     const inputEmail = useRef();  
     const inputPassword = useRef();
@@ -131,11 +133,45 @@ function MemberProfile() {
         const file = e.target.files[0];
         setMyPic(file)
     }
+    function handleCvrPicChange(e){
+        const file = e.target.files[0];
+        setMyCoverPIc(file)
+    }
+    function uploadCoverPic( e ){
+        e.preventDefault();
+        setMyCoverPIc (false);
+    }
     function uploadPic( e ){
         e.preventDefault();
         setShowForm2(false);
-    } 
-
+    }
+    async function handleCvrPhtUpload(e){
+        e.preventDefault();
+        uploadCoverPic(e);
+        if(myCoverPIc){
+            let myForm = document.getElementById('myCvrForm');
+            let formData = new FormData(myForm);
+            const uploadPic = await fetch(`/api/uploadCvrPhto/${userId}`, 
+                {
+                    method: 'PUT',
+                    body: formData
+                }
+            ).then( result=>result.json())}
+        if(memberDetail.coverImg){
+            let oldPhoto = {old: memberDetail.coverImg};
+            //delet old photo
+            const deleteOldPIc = await fetch(`/api/deleteOldProfilePIc`, 
+            {   method: 'post',
+                headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+                body: JSON.stringify(oldPhoto)
+            }).then( result=>result.json());
+            }
+            setCvrFrmShow(false)
+            loadMemberProfile();
+    }
     async function handleUpload(e){
         e.preventDefault();
         uploadPic(e);
@@ -147,8 +183,7 @@ function MemberProfile() {
                     method: 'PUT',
                     body: formData
                 }
-            ).then( result=>result.json())
-        }
+            ).then( result=>result.json())}
         if(memberDetail.profileImg){
             let oldPhoto = {old: memberDetail.profileImg};
             //delet old photo
@@ -194,7 +229,36 @@ function MemberProfile() {
     return (
         <div>
             { userId ? '': <Redirect to='/HomePage' />  }
-            <div className="CovImg">
+            <div className="covCntnr">
+                <img className='CovImg' src={
+                        memberDetail.coverImg ? memberDetail.coverImg : "https://www.befunky.com/images/wp/wp-2016-03-blur-background-featured-1.jpg?auto=webp&format=jpg&width=880"
+                    } alt="coverPhoto"/>
+                {userType == 'Member' &&  userId == memberDetail._id ? <div  onClick={() => setCvrFrmShow(true)} className="covrBtn myBtnNew2" style={{width: '60px', fontSize:"1.4rem"}}> <i class="fas fa-camera-retro"></i></div>: ''}
+                
+                {/* cvrFrmShow, setCvrFrmShow */}
+                <Modal
+                    size="lg"
+                    show={cvrFrmShow}
+                    onHide={() => setCvrFrmShow(false)}
+                    aria-labelledby="example-modal-sizes-title-lg">
+                        <Modal.Header closeButton>
+                            <Modal.Title id="example-modal-sizes-title-lg"> 
+                            Upload Image
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form className="input-group mb-3" id='myCvrForm' role="form" encType="multipart/form-data" >
+                                <div className="custom-file">
+                                    <input 
+                                    type="file" 
+                                    name="myFile" className="custom-file-input" 
+                                    onChange={handleCvrPicChange}/>
+                                    <label className="custom-file-label" for="inputGroupFile02" onChange={handleCvrPicChange}>Choose file</label>
+                                </div>
+                            </form>
+                            <div className="myBtnNew" onClick={handleCvrPhtUpload}>Upload</div> 
+                        </Modal.Body>
+                </Modal>
             </div>
             <div className="row mx-auto membIntro">
                 <div className="adminProImg">

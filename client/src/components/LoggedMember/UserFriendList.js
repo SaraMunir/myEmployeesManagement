@@ -68,7 +68,7 @@ function UserFriendList() {
         loadMemberProfile();
     }
     function directTo(name, id) {
-        history.push(`/TeamDetail/${teamId}/MemberProfile/${name}/${id}`);
+        history.push(`/TeamDetail/${teamId}/MemberProfile/${name}/${id}/TimeLine`);
         document.location.reload(true);
     }
     useEffect(function(){

@@ -296,7 +296,11 @@ function MemberProfile() {
     },[])
     return (
         <div className="">
-            <div className="CovImg">
+            <div className="">
+                
+            <img className='CovImg' src={
+                        memberDetail.coverImg ? memberDetail.coverImg : "https://www.befunky.com/images/wp/wp-2016-03-blur-background-featured-1.jpg?auto=webp&format=jpg&width=880"
+                    } alt="coverPhoto"/>
             </div>
             <div className="row mx-auto membIntro">
                 <div className="membProImg col-lg-4">

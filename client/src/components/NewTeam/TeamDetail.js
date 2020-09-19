@@ -31,8 +31,8 @@ function TeamDetail() {
             <div className="d-flex wrapper">
             <UserContext.Provider value ={{teamDetail}}> 
                 <Router>
-                <NewSideBar teamId={teamId}/>
-                <div className={ theme === 'Dark'? 'fullWidth': "teamDashboard"}>
+                <NewSideBar teamId={teamId} class="col-2"/>
+                <div className={ theme === 'Dark'? 'fullWidth': "teamDashboard  justify-content-end"}>
                     <Route path={["/TeamDetail/:teamId/TeamDashboard"]} component={TeamDashboard} />
                     <Route path={["/TeamDetail/:teamId/Roles"]} component={Roles} />
                     <Route exact path={["/TeamDetail/:teamId/House"]} component={House} />

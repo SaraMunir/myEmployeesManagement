@@ -143,6 +143,7 @@ async function getTeams( userId ){
     })
     return getTeams
 }
+
 // getTeams
 async function getUserFriendList( userId ){
     const getTeams = await db.members.findOne({
@@ -267,6 +268,12 @@ async function getAllTeams( userId ){
         "teamAdmin" : userId
     })
     return getAllTeams
+}
+async function deleteTeam( teamId ){
+    const deleteTeam = await db.teams.deleteOne({
+        "_id" : teamId
+    })
+    return deleteTeam
 }
 // pinning team:
 async function pinTeam( teamId ){
@@ -485,10 +492,36 @@ async function updateAvatar( userId, imageUrl ){
     const imageData = {
         profileImg: imageUrl
     };
-    console.log('imageData : ', imageData)
     const dbResult = await db.members.findOneAndUpdate(
         {_id: userId}, {"$set": imageData});
 
+    return { message: `Thank you, updated` }
+}
+//uploading image
+async function updateCoverPhto( userId, imageUrl ){
+    const imageData = {
+        coverImg: imageUrl
+    };
+    const dbResult = await db.members.findOneAndUpdate(
+        {_id: userId}, {"$set": imageData});
+
+    return { message: `Thank you, updated` }
+}
+//uploading image
+async function updateAdmnCoverPhto( userId, imageUrl ){
+    const imageData = {
+        coverImg: imageUrl
+    };
+    const dbResult = await db.users.findOneAndUpdate(
+        {_id: userId}, {"$set": imageData});
+        
+    return { message: `Thank you, updated` }
+}
+//uploading image
+async function covrPhtoSetting(coverPhotoSetting, userId  ){
+    console.log('coverPhotoSetting', coverPhotoSetting)
+    const dbResult = await db.users.findOneAndUpdate(
+        {_id: userId}, {"$set": {coverImgSetting : coverPhotoSetting}});
     return { message: `Thank you, updated` }
 }
 //uploading Admin image
@@ -496,7 +529,6 @@ async function updateAdminAvatar( userId, imageUrl ){
     const imageData = {
         profileImg: imageUrl
     };
-    console.log('imageData : ', imageData)
     const dbResult = await db.users.findOneAndUpdate(
         {_id: userId}, {"$set": imageData});
 
@@ -602,12 +634,45 @@ async function postLike(likeData, postId){
     );
     return  { message: "like Added" };
 }
-async function unlikePost(unLikedata, postId){
+// like comment
+async function likeComnt(likeData, postId, cmntId){
     const friendRequest = await db.wallPosts.findOneAndUpdate(
+        { _id: postId, "comments._id" : cmntId},
+        { "$push": {"comments.$.likes" :  likeData } }
+    );
+    return  { message: "like Added" };
+}
+// unlike comment
+async function unLikeComnt(likeData, postId, cmntId){
+    const unlikeComnt = await db.wallPosts.findOneAndUpdate(
+        { _id: postId, "comments._id" : cmntId},
+        { "$pull": {"comments.$.likes" : {frndId: likeData.frndId} } }
+    );
+    return  { message: "like Added" };
+}
+
+async function unlikePost(unLikedata, postId){
+    const unLikePost = await db.wallPosts.findOneAndUpdate(
         { _id: postId},
         { "$pull": {likes: {frndId: unLikedata.frndId}}}
     );
     return  { message: "like Added" };
+}
+// upVote
+async function upVote(upVoteData, postId){
+    const friendRequest = await db.wallPosts.findOneAndUpdate(
+        { _id: postId},
+        { "$push": {upVotes: upVoteData}}
+    );
+    return  { message: "upvote Added" };
+}
+// downVote
+async function downVote(unLikedata, postId){
+    const downVote = await db.wallPosts.findOneAndUpdate(
+        { _id: postId},
+        { "$pull": {upVotes: {frndId: unLikedata.frndId}}}
+    );
+    return  { message: "upvote deleted" };
 }
 
 module.exports = {
@@ -628,10 +693,10 @@ module.exports = {
     updateAvatar,
     getMembDet,
     updateEmployee, 
-    
     // new stuffs
     postNewTeam,
     getAllTeams,
+    deleteTeam,
     postNewRoles,
     getAllRoles,
     deleteNewRole,
@@ -664,6 +729,12 @@ module.exports = {
     getAllPosts,
     postComment,
     postLike,
-    unlikePost
-
+    unlikePost,
+    likeComnt,
+    unLikeComnt,
+    upVote,
+    downVote,
+    updateCoverPhto,
+    updateAdmnCoverPhto,
+    covrPhtoSetting
 }

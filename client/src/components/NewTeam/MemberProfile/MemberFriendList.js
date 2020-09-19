@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext  } from 'react'
 import { UserContext } from './MemberProfile';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const userId = localStorage.id
 const teamId = localStorage.teamId
@@ -8,6 +8,8 @@ const userType = localStorage.type
 const theme = localStorage.theme;
 
 function MemberFriendList(props) {
+    let history = useHistory();
+
     const [ members, setMembers ] = useState([]);
     const [ membersFrndList, setMembersFrndList ] = useState([]);
     const { memberFriend } = useContext(UserContext);
@@ -29,6 +31,10 @@ function MemberFriendList(props) {
         setMembersFrndList(membersFrndList)
         setMembers(fetchMembers)
     }
+    function directTo(name, id) {
+        history.push(`/TeamDetail/${teamId}/MemberProfile/${name}/${id}/TimeLine`);
+        document.location.reload(true);
+    }
     useEffect(function(){
         loadMember()
     },[])
@@ -40,7 +46,7 @@ function MemberFriendList(props) {
                 members.map(member=>
                     member._id == friend.friendId ? 
                     <div className="membThms">
-                        <Link to={`/TeamDetail/${teamId}/MemberProfile/${member.name}/${member._id}`} ><img src={member.profileImg} alt="membImage" className="sqrThmbNl"/></Link>
+                        <img src={member.profileImg} alt="membImage" className="sqrThmbNl cursor" onClick={()=>directTo(member.name, member._id)}/>
                         <p className="sqrThmbNlname">{member.name} </p>
                     </div>
                     : '' 
