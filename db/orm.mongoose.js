@@ -378,7 +378,8 @@ async function getMemberDetail( membId ){
     return getMembDetail
 }
 async function updateMember( userEmployee, membId  ){
-    console.log('in orm: ', userEmployee.address)
+    console.log('in orm: ', userEmployee)
+    console.log('in orm memId: ', membId)
     const updateMembInfo = await db.members.findOneAndUpdate(
         { _id: membId},
             { "$set": userEmployee}
@@ -387,6 +388,7 @@ async function updateMember( userEmployee, membId  ){
         message: "Member successfully Updated", 
     };
 }
+
 async function updateMemberPass( member, membId  ){
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(member.membPassword, saltRounds);
@@ -590,6 +592,16 @@ async function getHouseDetail( houseId ){
     })
     return getHouseDetail
 }
+async function updateHouse( houseUpdt, houseId  ){
+    console.log('in orm: ', houseUpdt.address)
+    const updateHouseInfo = await db.house.findOneAndUpdate(
+        { _id: houseId},
+            { "$set": houseUpdt}
+    );
+    return { 
+        message: "Member successfully Updated", 
+    };
+}
 //uploading image
 async function updateHouseAvatar( userId, imageUrl ){
     const imageData = {
@@ -736,5 +748,6 @@ module.exports = {
     downVote,
     updateCoverPhto,
     updateAdmnCoverPhto,
-    covrPhtoSetting
+    covrPhtoSetting,
+    updateHouse
 }

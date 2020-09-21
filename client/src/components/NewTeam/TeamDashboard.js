@@ -92,7 +92,7 @@ function TeamDashboard() {
                 <hr/>
                 <div className="row mx-auto">
                 {members.slice(0,17).map((memb, idx)=>
-                    <div key={idx} className="hoverShwo">
+                    <div key={idx} className="hoverShow">
                         <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
                             <img className="houseMmb" src={memb.profileImg?memb.profileImg: "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"} alt="housemembThumb" style={{borderColor: 'white'}}/>
                         </Link>
@@ -102,7 +102,7 @@ function TeamDashboard() {
                     </div>
                     )}
                     <Link style={{color: "#b1b1b1"}} to={`/TeamDetail/${teamId}/Members`}>
-                        <div className="hoverShwo">
+                        <div className="hoverShow">
                                 { members.length <= 17 ? '':
                             <div className="houseMmb ">
                                     <h6 className="pt-3">  {members.length ? `+ ${members.length-17}` : ''}</h6>

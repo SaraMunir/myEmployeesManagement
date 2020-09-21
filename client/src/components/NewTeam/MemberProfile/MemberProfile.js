@@ -285,6 +285,7 @@ function MemberProfile() {
             }).then( result => result.json());
             console.log('friend added: ', apiResult.message)
         loadMemberProfile();
+        setRemvFrndBtn(false)
     }
     useEffect(function(){
         loadMemberProfile();
@@ -297,14 +298,12 @@ function MemberProfile() {
     return (
         <div className="">
             <div className="">
-                
-            <img className='CovImg' src={
-                        memberDetail.coverImg ? memberDetail.coverImg : "https://www.befunky.com/images/wp/wp-2016-03-blur-background-featured-1.jpg?auto=webp&format=jpg&width=880"
-                    } alt="coverPhoto"/>
+                <img className='CovImg' src={
+                    memberDetail.coverImg ? memberDetail.coverImg : "https://www.befunky.com/images/wp/wp-2016-03-blur-background-featured-1.jpg?auto=webp&format=jpg&width=880"} alt="coverPhoto"/>
             </div>
-            <div className="row mx-auto membIntro">
+            <div className="row mx-auto membIntro" style={{marginTop: "-30px"}}>
                 <div className="membProImg col-lg-4">
-                    <img className="profilePhoto mx-auto" src={
+                    <img className="profilePhoto mx-auto" style={{marginTop: "-80px"}} src={
                         memberDetail.profileImg ? memberDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"
                     } alt="memberImg"/>
                     {userType == 'Admin' ? <i className="fas fa-camera uploadIcon"  onClick={() => setLgShow2(true)}></i>: ''}
@@ -314,23 +313,23 @@ function MemberProfile() {
                         show={lgShow2}
                         onHide={() => setLgShow2(false)}
                         aria-labelledby="example-modal-sizes-title-lg">
-                            <Modal.Header closeButton>
-                                <Modal.Title id="example-modal-sizes-title-lg"> 
-                                Upload Image
-                                </Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <form className="input-group mb-3" id='myForm' role="form" encType="multipart/form-data" >
-                                    <div className="custom-file">
-                                        <input 
-                                        type="file" 
-                                        name="myFile" className="custom-file-input" 
-                                        onChange={handleChange}/>
-                                        <label className="custom-file-label" for="inputGroupFile02" onChange={handleChange}>Choose file</label>
-                                    </div>
-                                </form>
-                                <div className="myBtnNew" onClick={handleUpload}>Upload</div> 
-                            </Modal.Body>
+                        <Modal.Header closeButton>
+                            <Modal.Title id="example-modal-sizes-title-lg"> 
+                            Upload Image
+                            </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <form className="input-group mb-3" id='myForm' role="form" encType="multipart/form-data" >
+                                <div className="custom-file">
+                                    <input 
+                                    type="file" 
+                                    name="myFile" className="custom-file-input" 
+                                    onChange={handleChange}/>
+                                    <label className="custom-file-label" for="inputGroupFile02" onChange={handleChange}>Choose file</label>
+                                </div>
+                            </form>
+                            <div className="myBtnNew" onClick={handleUpload}>Upload</div> 
+                        </Modal.Body>
                     </Modal>
                 </div>
                 <div className="membAbout col-lg-4 mx-auto">
@@ -428,8 +427,8 @@ function MemberProfile() {
                                                     id="role" className="form-control" value={employeeEdit.role} 
                                                     onChange={handleInputChange} >
                                                         <option selected>Choose...</option>
-                                                        {teamRoles.map( role => 
-                                                        <option key={`r-${role}`} value={role.roleName}>{role.roleName}</option>
+                                                        {teamRoles.map( (role,idx) => 
+                                                        <option key={`r-${idx}`} value={role.roleName}>{role.roleName}</option>
                                                         )}
                                                     </select>
                                                     <div className="d-flex justify-content-end">
@@ -444,10 +443,10 @@ function MemberProfile() {
                                     <div className="house">
                                         <div className="d-flex justify-content-between">
                                             <p className="subHeader col-3 text-left"><i className="fas fa-user-tag"></i> House:</p>
-                                            {houses.map( house => 
+                                            {houses.map( (house,idx) => 
 
                                                 memberDetail.house == house._id ?
-                                                <p className="col-8 text-left" key={`r-${house}`} >{house.houseName}</p>: ''
+                                                <p className="col-8 text-left" key={`r-${idx}`} >{house.houseName}</p>: ''
                                             )}
                                             <i className="fas fa-edit col-1 text-left editBtn" onClick={()=>showForm("house")}></i>
                                         </div>
@@ -459,8 +458,8 @@ function MemberProfile() {
                                                     id="house" className="form-control" value={employeeEdit.house} 
                                                     onChange={handleInputChange} >
                                                         <option selected>Choose...</option>
-                                                        {houses.map( house => 
-                                                        <option key={`r-${house}`} value={house._id}>{house.houseName}</option>
+                                                        {houses.map( (house, idx) => 
+                                                        <option key={`r-${idx}`} value={house._id}>{house.houseName}</option>
                                                         )}
                                                     </select>
                                                     <div className="d-flex justify-content-end">

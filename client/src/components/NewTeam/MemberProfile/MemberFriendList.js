@@ -25,7 +25,7 @@ function MemberFriendList(props) {
                     }
                 })
             }
-            )
+        )
         console.log(memberFriend)
         console.log('membersFrndList: ', membersFrndList)
         setMembersFrndList(membersFrndList)
@@ -42,7 +42,6 @@ function MemberFriendList(props) {
         <div className="row">
             {
             memberFriend.map(friend=>
-                // friend.friendId
                 members.map(member=>
                     member._id == friend.friendId ? 
                     <div className="membThms">

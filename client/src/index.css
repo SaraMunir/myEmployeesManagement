@@ -352,8 +352,8 @@ a:hover{
 
 }
 .deleteBtn{
+  color: #797979;
   cursor: pointer;
-
 }
 .deleteBtn:hover{
   cursor: pointer;
@@ -467,8 +467,8 @@ a:hover{
   position: absolute;
   padding: 10px;
   border-radius: 50%;
-  top: 12px;
-  right: 20px;
+  top: -40px;
+  right: 30px;
   border: 2px solid white;
 }
 .uploadIcon:hover{
@@ -641,9 +641,13 @@ a:hover{
   right: 8vh;
   border: 2px solid white;
 }
-.houseMateSec{
+.houseMateSec {
   padding: 30px;
-  background: #b1b1b1;
+  background: #515161d0;
+}
+.houseLeader {
+  padding: 30px;
+  background: #515161d0;
 }
 .houseMmb{
   background: #444a5c;
@@ -671,10 +675,14 @@ a:hover{
   color: #eb8e8e;
 
 }
-.hoverShwo{
+.hoverShow{
   margin-left: -10px;
   width: 10vh;
   height: 10vh;
+  position: relative;
+  cursor: pointer;
+}
+.hoverShow2{
   position: relative;
   cursor: pointer;
 }
@@ -697,9 +705,22 @@ a:hover{
   right: 30px;
   border-radius: 8px;
 }
-.hoverShwo:hover .hoverName{
+.hoverName2{
+  width: 130px;
+  font-size: .8rem;
+  background: #dadada;
+  padding: 8px;
+  visibility: hidden;
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  border-radius: 8px;
+}
+.hoverShow:hover .hoverName,
+.hoverShow2:hover .hoverName2{
   visibility: visible;
 }
+
 .sideBarListItem{
   padding: 8px;
   border-radius: 8px;
@@ -968,4 +989,22 @@ a:hover{
   min-width: 87px;  height: 40px;
   background: #343a407c;
   border-radius: 30px;
+}
+/* .houseCont{
+  position: relative;
+} */
+.houseWindow{
+  background: #3033339a;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+.houseBox{
+  margin: 40px;
+  background: white;
+  padding: 60px;
+  color: #414141;
 }

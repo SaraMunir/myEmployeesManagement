@@ -9,10 +9,7 @@ let house = new Schema ({
     coverImg: String,
     houseColor: String,
     houseProfileImg: String,
-    houseLeader: {
-        Name: String,
-        memberId: String,
-    },
+    houseLeader: String,
     houseCoLeader:[
         {
             Name: String,
@@ -29,4 +26,3 @@ let house = new Schema ({
 });
 
 module.exports = mongoose.model('house', house);
-    

@@ -9,6 +9,8 @@ const theme = localStorage.theme;
 function Members() {
     const { teamId } = useParams();
     const [lgShow, setLgShow] = useState(false);
+    const [lgShow2, setLgShow2] = useState(false);
+    const [selectedHouse, setSelectedHouse] = useState({});
     const [ newMember, setNewMember ] = useState({ membName: "", membEmail: "", membRole: "", membSex: "",membPassword: "", teamId: `${teamId}`});
     const [ houses, setHouses ] = useState([]);
     const [ teamRoles, setTeamRoles ] = useState([])
@@ -23,7 +25,6 @@ function Members() {
     const [ filterCategory, setFilterCategory ] = useState([])
     const [ clearFilterBtn, setClearFilterBtn ] = useState()
     const [ membAvatar, setMembAvatar ] = useState("empAvatar")
-    
     const inputEmail = useRef();  
     const inputPassword = useRef();
 
@@ -31,6 +32,10 @@ function Members() {
         const { id, value } = e.target; 
         setNewMember( { ...newMember, [id]: value } );
         }
+    function handleHouseSelect( e ){
+        const { id, value } = e.target; 
+        setSelectedHouse ({ [id]: value })
+    }
     function handleSearchInputChange(e){
         const newInput2 = e.target.value;
         const newInput = newInput2.toLowerCase();
@@ -95,7 +100,6 @@ function Members() {
         setTeamRoles(fetchRoles.teamRoles)
     }
     async function deleteMember(membId){
-        // console.log('member id : ', employeeId)
         const apiDeleteMember= await fetch(`/api/deleteMember/${membId}`);
         loadMember()
     }
@@ -195,6 +199,35 @@ function Members() {
         console.log('someething to be cleared')
         setMemberFiltered([])
         setFilterCategory([])
+    }
+    async function assignHouse(membId, id){
+        console.log("selectedHouse: ", selectedHouse)
+        console.log("membId: ", membId)
+        const apiResult = await fetch(`/api/memberDetailUpdate/${membId}`, 
+            {   method: 'PUT',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(selectedHouse)
+            }).then( result => result.json());
+        setSelectedHouse({});
+        loadMember();
+        closeMenu(id)
+
+    }
+    function showMenu(id){
+        const el = document.getElementById(id);
+        if (el.className === 'houseWindow hide'){
+            el.className = 'houseWindow';
+        } else {
+            el.className = 'houseWindow hide';
+        }
+    }
+    function closeMenu(id){
+        const el = document.getElementById(id);
+        if (el.className == 'houseWindow'){
+            el.className = 'houseWindow hide';
+        }
     }
     useEffect(function(){
         loadMember()
@@ -329,7 +362,6 @@ function Members() {
             </div>
             <div>
                 <h5>{memberFiltered.length == 0  ? member.length : memberFiltered.length} results</h5>
-                
             </div>
             <div className="d-flex col-11 mx-auto">
                 { memberFiltered == '' ?  '' : filterCategory.map(cat=> <div className="filterName d-flex justify-content-between">{cat.category} <i class="fas fa-times filterX" onClick={()=>removeFilter(cat.category, cat.type)}></i></div>)}{ filterCategory.length >= 2 ? 
@@ -343,11 +375,60 @@ function Members() {
                     switch (memb.sex){
                         case "F": 
                             return <div key={`member${idx}`}  class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
-                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                                <div className="houseCont mb-2 mt-2 mr-2 d-flex justify-content-between">
                                 {houses.map(house=>
-                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
-                                )}
-                                {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                                    house.houseColor ? house._id == memb.house ? 
+                                    <div className="hoverShow2">
+                                        <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i>
+                                        <div className="hoverName2">
+                                        {house.houseName}
+                                        </div> 
+                                    </div>
+                                    : '' : <i class="fas fa-2x fa-bookmark"></i>
+                                    )}
+                                {userType == 'Admin'? 
+                                <div className="hoverShow2">
+                                    <i class="fas fa-user-times deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>
+                                    <div className="hoverName2">
+                                        Delete Member
+                                    </div>
+                                </div>
+                                : ''}
+                                
+                                {userType == 'Admin'? 
+                                <div className="hoverShow2">
+                                    <div className="deleteBtn" onClick={()=>showMenu(`show_${idx}`)}>
+                                        <i class="fas fa-home" ></i>
+                                        <i class="fas fa-plus" style={{fontSize: '.7rem'}}></i>
+                                    </div>
+                                    <div className="hoverName2">
+                                        Assign House
+                                    </div>
+                                </div>
+                                : ''}
+                                    <div className="houseWindow hide" id={`show_${idx}`}>
+                                        <form className="col-10 mx-auto houseBox">
+                                            <div class="form-group">
+                                                <div className="d-flex justify-content-end">
+                                                    <i class="far fa-2x fa-times-circle deleteBtn" onClick={()=>closeMenu(`show_${idx}`)} ></i>
+                                                </div>
+                                                <div className="row mx-aut0">
+                                                    <div class="col-10  mx-auto">
+                                                        <h4 className="pt-3 pb-3">Select House</h4>
+                                                        <select 
+                                                            id="house" class="form-control" value={selectedHouse.assignedHouse} 
+                                                            onChange={handleHouseSelect} >
+                                                                <option selected>Choose...</option>
+                                                                {houses.map( (house, idx) => 
+                                                                <option key={`house-${idx}`}  value={house._id}>{house.houseName}</option>
+                                                                )}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="myBtnNew2 col-4 mx-auto" onClick={()=>assignHouse(memb._id, `show_${idx}`)}>Submit House</div>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <img src={memb.profileImg ? memb.profileImg : "https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png"} alt="" class={membAvatar}/>
@@ -362,9 +443,57 @@ function Members() {
                             return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
                                 <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
                                 {houses.map(house=>
-                                    house.houseColor ? house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : '' : <i class="fas fa-2x fa-bookmark"></i>
+                                    house.houseColor ? house._id == memb.house ? 
+                                    <div className="hoverShow2">
+                                        <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i>
+                                        <div className="hoverName2">
+                                        {house.houseName}
+                                        </div> 
+                                    </div>
+                                    : '' : <i class="fas fa-2x fa-bookmark"></i>
                                     )}
-                                    {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                                    {userType == 'Admin'? 
+                                    <div className="hoverShow2">
+                                        <i class="fas fa-user-times deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>
+                                        <div className="hoverName2">
+                                            Delete Member
+                                        </div>
+                                    </div>
+                                    : ''}
+                                    {userType == 'Admin'? 
+                                    <div className="hoverShow2">
+                                        <div className="deleteBtn" onClick={()=>showMenu(`show_${idx}`)}>
+                                            <i class="fas fa-home" ></i>
+                                            <i class="fas fa-plus" style={{fontSize: '.7rem'}}></i>
+                                        </div>
+                                        <div className="hoverName2">
+                                            Assign House
+                                        </div>
+                                    </div>
+                                    : ''}
+                                    <div className="houseWindow hide" id={`show_${idx}`}>
+                                        <form className="col-10 mx-auto houseBox">
+                                            <div class="form-group">
+                                                <div className="d-flex justify-content-end">
+                                                    <i class="far fa-2x fa-times-circle deleteBtn" onClick={()=>closeMenu(`show_${idx}`)} ></i>
+                                                </div>
+                                                <div className="row mx-aut0">
+                                                    <div class="col-10  mx-auto">
+                                                        <h4 className="pt-3 pb-3">Select House</h4>
+                                                        <select 
+                                                            id="house" class="form-control" value={selectedHouse.assignedHouse} 
+                                                            onChange={handleHouseSelect} >
+                                                                <option selected>Choose...</option>
+                                                                {houses.map( (house, idx) => 
+                                                                <option key={`house-${idx}`}  value={house._id}>{house.houseName}</option>
+                                                                )}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="myBtnNew2 col-4 mx-auto" onClick={()=>assignHouse(memb._id, `show_${idx}`)}>Submit House</div>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <img src={ memb.profileImg ? memb.profileImg : "https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg" } alt="" class={membAvatar}/>
@@ -376,10 +505,59 @@ function Members() {
                                 </div>
                             </div>
                         default:   return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
-                        <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
-                            {houses.map(house=>
-                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
-                                )} {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                            <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
+                                {houses.map(house=>
+                                    house.houseColor ? house._id == memb.house ? 
+                                    <div className="hoverShow2">
+                                        <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i>
+                                        <div className="hoverName2">
+                                        {house.houseName}
+                                        </div> 
+                                    </div>
+                                    : '' : <i class="fas fa-2x fa-bookmark"></i>
+                                )}
+                                {userType == 'Admin'? 
+                                <div className="hoverShow2">
+                                    <i class="fas fa-user-times deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>
+                                    <div className="hoverName2">
+                                        Delete Member
+                                    </div>
+                                </div>
+                                : ''}
+                                {userType == 'Admin'? 
+                                <div className="hoverShow2">
+                                    <div className="deleteBtn" onClick={()=>showMenu(`show_${idx}`)}>
+                                        <i class="fas fa-home" ></i>
+                                        <i class="fas fa-plus" style={{fontSize: '.7rem'}}></i>
+                                    </div>
+                                    <div className="hoverName2">
+                                        Assign House
+                                    </div>
+                                </div>
+                                : ''}
+                                    <div className="houseWindow hide" id={`show_${idx}`}>
+                                        <form className="col-10 mx-auto houseBox">
+                                            <div class="form-group">
+                                                <div className="d-flex justify-content-end">
+                                                    <i class="far fa-2x fa-times-circle deleteBtn" onClick={()=>closeMenu(`show_${idx}`)} ></i>
+                                                </div>
+                                                <div className="row mx-aut0">
+                                                    <div class="col-10  mx-auto">
+                                                        <h4 className="pt-3 pb-3">Select House</h4>
+                                                        <select 
+                                                            id="house" class="form-control" value={selectedHouse.assignedHouse} 
+                                                            onChange={handleHouseSelect} >
+                                                                <option selected>Choose...</option>
+                                                                {houses.map( (house, idx) => 
+                                                                <option key={`house-${idx}`}  value={house._id}>{house.houseName}</option>
+                                                                )}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="myBtnNew2 col-4 mx-auto" onClick={()=>assignHouse(memb._id, `show_${idx}`)}>Submit House</div>
+                                        </form>
+                                    </div>
                         </div>
                         <div class="card-body">
                             <img src={memb.profileImg ? memb.profileImg : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" } alt="" class={membAvatar}/>
@@ -401,9 +579,57 @@ function Members() {
                             return <div key={`member${idx}`}  class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
                                 <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
                                 {houses.map(house=>
-                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
+                                    house.houseColor ? house._id == memb.house ? 
+                                    <div className="hoverShow2">
+                                        <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i>
+                                        <div className="hoverName2">
+                                        {house.houseName}
+                                        </div> 
+                                    </div>
+                                    : '' : <i class="fas fa-2x fa-bookmark"></i>
                                 )}
-                                {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                                {userType == 'Admin'? 
+                                <div className="hoverShow2">
+                                    <i class="fas fa-user-times deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>
+                                    <div className="hoverName2">
+                                        Delete Member
+                                    </div>
+                                </div>
+                                : ''}
+                                {userType == 'Admin'? 
+                                <div className="hoverShow2">
+                                    <div className="deleteBtn" onClick={()=>showMenu(`show_${idx}`)}>
+                                        <i class="fas fa-home" ></i>
+                                        <i class="fas fa-plus" style={{fontSize: '.7rem'}}></i>
+                                    </div>
+                                    <div className="hoverName2">
+                                        Assign House
+                                    </div>
+                                </div>
+                                : ''}
+                                    <div className="houseWindow hide" id={`show_${idx}`}>
+                                        <form className="col-10 mx-auto houseBox">
+                                            <div class="form-group">
+                                                <div className="d-flex justify-content-end">
+                                                    <i class="far fa-2x fa-times-circle deleteBtn" onClick={()=>closeMenu(`show_${idx}`)} ></i>
+                                                </div>
+                                                <div className="row mx-aut0">
+                                                    <div class="col-10  mx-auto">
+                                                        <h4 className="pt-3 pb-3">Select House</h4>
+                                                        <select 
+                                                            id="house" class="form-control" value={selectedHouse.assignedHouse} 
+                                                            onChange={handleHouseSelect} >
+                                                                <option selected>Choose...</option>
+                                                                {houses.map( (house, idx) => 
+                                                                <option key={`house-${idx}`}  value={house._id}>{house.houseName}</option>
+                                                                )}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="myBtnNew2 col-4 mx-auto" onClick={()=>assignHouse(memb._id, `show_${idx}`)}>Submit House</div>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <img src={memb.profileImg ? memb.profileImg : "https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png"} alt="" class={membAvatar}/>
@@ -420,9 +646,57 @@ function Members() {
                             return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
                                 <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
                                 {houses.map(house=>
-                                    house.houseColor ? house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : '' : <i class="fas fa-2x fa-bookmark"></i>
-                                    )}
-                                    {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                                    house.houseColor ? house._id == memb.house ? 
+                                    <div className="hoverShow2">
+                                        <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i>
+                                        <div className="hoverName2">
+                                        {house.houseName}
+                                        </div> 
+                                    </div>
+                                    : '' : <i class="fas fa-2x fa-bookmark"></i>
+                                )}
+                                    {userType == 'Admin'? 
+                                    <div className="hoverShow2">
+                                        <i class="fas fa-user-times deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>
+                                        <div className="hoverName2">
+                                            Delete Member
+                                        </div>
+                                    </div>
+                                    : ''}
+                                    {userType == 'Admin'? 
+                                    <div className="hoverShow2">
+                                        <div className="deleteBtn" onClick={()=>showMenu(`show_${idx}`)}>
+                                            <i class="fas fa-home" ></i>
+                                            <i class="fas fa-plus" style={{fontSize: '.7rem'}}></i>
+                                        </div>
+                                        <div className="hoverName2">
+                                            Assign House
+                                        </div>
+                                    </div>
+                                    : ''}
+                                    <div className="houseWindow hide" id={`show_${idx}`}>
+                                        <form className="col-10 mx-auto houseBox">
+                                            <div class="form-group">
+                                                <div className="d-flex justify-content-end">
+                                                    <i class="far fa-2x fa-times-circle deleteBtn" onClick={()=>closeMenu(`show_${idx}`)} ></i>
+                                                </div>
+                                                <div className="row mx-aut0">
+                                                    <div class="col-10  mx-auto">
+                                                        <h4 className="pt-3 pb-3">Select House</h4>
+                                                        <select 
+                                                            id="house" class="form-control" value={selectedHouse.assignedHouse} 
+                                                            onChange={handleHouseSelect} >
+                                                                <option selected>Choose...</option>
+                                                                {houses.map( (house, idx) => 
+                                                                <option key={`house-${idx}`}  value={house._id}>{house.houseName}</option>
+                                                                )}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="myBtnNew2 col-4 mx-auto" onClick={()=>assignHouse(memb._id, `show_${idx}`)}>Submit House</div>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <img src={ memb.profileImg ? memb.profileImg : "https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg" } alt="" class={membAvatar}/>
@@ -436,8 +710,57 @@ function Members() {
                         default:   return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
                         <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
                             {houses.map(house=>
-                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
-                                )} {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
+                                house.houseColor ? house._id == memb.house ? 
+                                    <div className="hoverShow2">
+                                        <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i>
+                                        <div className="hoverName2">
+                                        {house.houseName}
+                                        </div> 
+                                    </div>
+                                    : '' : <i class="fas fa-2x fa-bookmark"></i>
+                            )}
+                                {userType == 'Admin'? 
+                                <div className="hoverShow2">
+                                    <i class="fas fa-user-times deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>
+                                    <div className="hoverName2">
+                                        Delete Member
+                                    </div>
+                                </div>
+                                : ''}
+                                    {userType == 'Admin'? 
+                                    <div className="hoverShow2">
+                                        <div className="deleteBtn" onClick={()=>showMenu(`show_${idx}`)}>
+                                            <i class="fas fa-home" ></i>
+                                            <i class="fas fa-plus" style={{fontSize: '.7rem'}}></i>
+                                        </div>
+                                        <div className="hoverName2">
+                                            Assign House
+                                        </div>
+                                    </div>
+                                    : ''}
+                                    <div className="houseWindow hide" id={`show_${idx}`}>
+                                        <form className="col-10 mx-auto houseBox">
+                                            <div class="form-group">
+                                                <div className="d-flex justify-content-end">
+                                                    <i class="far fa-2x fa-times-circle deleteBtn" onClick={()=>closeMenu(`show_${idx}`)} ></i>
+                                                </div>
+                                                <div className="row mx-aut0">
+                                                    <div class="col-10  mx-auto">
+                                                        <h4 className="pt-3 pb-3">Select House</h4>
+                                                        <select 
+                                                            id="house" class="form-control" value={selectedHouse.assignedHouse} 
+                                                            onChange={handleHouseSelect} >
+                                                                <option selected>Choose...</option>
+                                                                {houses.map( (house, idx) => 
+                                                                <option key={`house-${idx}`}  value={house._id}>{house.houseName}</option>
+                                                                )}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="myBtnNew2 col-4 mx-auto" onClick={()=>assignHouse(memb._id, `show_${idx}`)}>Submit House</div>
+                                        </form>
+                                    </div>
                         </div>
                         <div class="card-body">
                             <img src={memb.profileImg ? memb.profileImg : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" } alt="" class={membAvatar}/>
@@ -454,69 +777,6 @@ function Members() {
                     }
                 })
                 }
-                
-                {/* { !member ? 
-                <h4 class="mt-5 mx-auto">You have not added any team mates yet</h4>
-                :
-                memberFiltered.map( (memb, idx) => {
-                    switch (memb.sex){
-                        case "F": 
-                            return <div key={`member${idx}`}  class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
-                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
-                                {houses.map(house=>
-                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
-                                )}
-                                {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
-                                </div>
-                                <div class="card-body">
-                                    <img src={memb.profileImg ? memb.profileImg : "https://img2.pngio.com/avatar-female-person-profile-user-website-woman-icon-female-avatar-png-512_512.png"} alt="" class={membAvatar}/>
-                                    <div className={listStuff}>
-                                        <h5 class="card-title myTitle">{memb.name}</h5>
-                                        <p class="card-text mySubTxt">{memb.role}</p>
-                                    </div>
-                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
-                                        <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
-                                    </Link>
-                                </div>
-                            </div>
-                        case "M":
-                            return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
-                                <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
-                                {houses.map(house=>
-                                    house.houseColor ? house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : '' : <i class="fas fa-2x fa-bookmark"></i>
-                                    )}
-                                    {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
-                                </div>
-                                <div class="card-body">
-                                    <img src={ memb.profileImg ? memb.profileImg : "https://www.epicentrofestival.com/wp-content/uploads/2020/01/epicentrofestival-avatar-avatar-5j0hepy7wd-720x811.jpg" } alt="" class={membAvatar}/>
-                                    <div className={listStuff}>
-                                        <h5 class="card-title myTitle">{memb.name}</h5>
-                                        <p class="card-text mySubTxt">{memb.role}</p>
-                                    </div>
-                                    <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} ><div class="myBtnNew mx-auto" href="#" role="button">view Detail </div></Link>
-                                </div>
-                            </div>
-                        default:   return <div key={`member${idx}`} class={ theme === 'Dark' ? "myCardDark mx-auto" : "myCard mx-auto"}>
-                        <div className="mb-2 mt-2 mr-2 d-flex justify-content-between">
-                            {houses.map(house=>
-                                house._id == memb.house ? <i class="fas fa-2x fa-bookmark" style={{color: house.houseColor}}></i> : ''
-                                )} {userType == 'Admin'? <i class="far fa-times-circle deleteBtn" onClick={()=>deleteMember(memb._id)} ></i>: ''}
-                        </div>
-                        <div class="card-body">
-                            <img src={memb.profileImg ? memb.profileImg : "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" } alt="" class={membAvatar}/>
-                            <div className={listStuff}>
-                                <h5 class="card-title myTitle">{memb.name}</h5>
-                                <p class="card-text mySubTxt">{memb.role}</p>
-
-                            </div>
-                            <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
-                                <div class="myBtnNew mx-auto" href="#" role="button">view Detail </div>
-                            </Link>
-                        </div>
-                    </div>;
-                    }
-                })
-                } */}
             </div>
         </div>
     )

@@ -449,7 +449,7 @@ function MemberProfile() {
                         <Router>
                         <div className="d-flexb tabBox">
                             <TabBar teamId={teamId} membName={memberDetail.name} userId={memberDetail._id} frndReq={frndReq}/>
-                        </div>
+                        </div> 
                         <div className={ theme === 'Dark' ? "memDetailDark" : "memDetail" }>
                             <Route exact path={["/UserProfile/TimeLine"]} component={TimeLine} />
                             <Route path={["/UserProfile/About"]} component={About} memberDetail={memberDetail} />

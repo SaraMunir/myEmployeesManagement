@@ -310,8 +310,16 @@ app.get('/api/memberProfile/:membId', async(req, res) => {
 app.put('/api/memberDetailUpdate/:membId', async function( req,res ){
     const membId = req.params.membId
     const userMember = req.body;
+    console.log('in server userMember:', userMember)
     const updateMember = await orm.updateMember( userMember, membId );
     res.send(updateMember);
+})
+// update employee info
+app.put('/api/houseDtlUpdate/:teamId', async function( req,res ){
+    const teamId = req.params.teamId
+    const houseDetail = req.body;
+    const updateHouse = await orm.updateHouse( houseDetail, teamId );
+    res.send(updateHouse);
 })
 // update employee info
 app.put('/api/memberPasswordUpdate/:membId', async function( req,res ){

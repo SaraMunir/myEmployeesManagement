@@ -9,8 +9,6 @@ function UserFriendList() {
     const [ memberFreindList, setMemberFreindList ]= useState([]);
     const [ members, setMembers ] = useState([]);
     let history = useHistory();
-
-
     async function loadMemberProfile(){
         const getEmpDetail = await fetch (`/api/memberProfile/${userId}`).then( res => res.json());
         console.log('in friend list tab fetched Members friends detail is: ', getEmpDetail)
@@ -77,8 +75,6 @@ function UserFriendList() {
     },[])
     return (
         <div className="row">
-            {/* className={ theme === 'Dark' ? "memDetailDark" : "memDetail"  */}
-            {/*    "col-lg-5 myCardDark friendRequests mx-auto"     */}
             <div className={ theme === 'Dark' ? "col-lg-4 myCardDark friendRequests mx-auto" : "col-lg-4 myCard friendRequests mx-auto" }>
                 <h4>Friend Requests</h4>
                 <hr/>

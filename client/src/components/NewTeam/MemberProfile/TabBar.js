@@ -5,9 +5,6 @@ function TabBar(props) {
     const userId = localStorage.id
     const userType = localStorage.type
     const theme = localStorage.theme;
-
-
-
     return (
         <div class="d-flex tabBAr">
             <Link class="mr-1" to={`/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/TimeLine`} >
@@ -24,7 +21,7 @@ function TabBar(props) {
             <i class="fas fa-border-all"></i> Wall</div>
             </Link> : ""
             }
-            <Link class="mr-1" to={`/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/FriendList`} > 
+            <Link class="mr-1" to={`/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/FriendList`} >
                 <div className={location.pathname === `/TeamDetail/${props.teamId}/MemberProfile/${props.membName}/${props.membId}/FriendList` ? "TabActive" : "Tab"}>
                 <i class="fas fa-user-friends"></i> Friend List</div>
             </Link>

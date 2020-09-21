@@ -39,7 +39,7 @@ function TabBar(props) {
                 <i class="fas fa-border-all"></i> Wall</div>
             </Link>
             <Link class="mr-1 notCont" to={`/UserProfile/FriendList`} >
-                {
+                { 
                     props.frndReq > 0 ? <div className="notificationBtn">{props.frndReq}</div> : ''
                 }
                 <div className={location.pathname === `/UserProfile/FriendList` ? "TabActive" : "Tab"}>

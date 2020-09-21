@@ -26,7 +26,14 @@ function ProfilePage() {
     const [ coverPhoto, setCoverPhoto] = useState({y : 0})
 
     function closeBtn(){
-        setLgShow(false)
+        setLgShow(false);
+        setDropDownEmail( { type: '' } )
+        setDropDownAddress( { type: '' } )
+        setDropDownPhone( { type: '' } )
+        setDropDownRole( { type: '' } )
+        setDropDownBirthday( { type: '' } )
+        setDropDownBio( { type: '' } )
+        setDropDownHouse( { type: '' } )
     }    
     function handleChange(e){
         const file = e.target.files[0];
@@ -216,7 +223,6 @@ function ProfilePage() {
             setCoverPhoto(adminDetail.coverImgSetting)
         }
     }
-
     async function saveCvrImgSett(){
         console.log( "coverPhoto : ", coverPhoto)
         const apiResult = await fetch(`api/saveCvrImgSettng/${userId}`,

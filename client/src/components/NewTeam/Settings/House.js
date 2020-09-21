@@ -180,22 +180,6 @@ function House() {
                                     id="housePin"  minlength="4" maxLength="5"
                                     type="password" class="form-control" placeholder="Provide Pin" />
                                 </div>
-                                <div class="form-group">
-                                    <label for="houseLeader">Select House Leader</label>
-                                    <input class="form-control mr-sm-2"
-                                    id="leaderName" type="search" placeholder="Search Employees" aria-label="Search"
-                                    onChange={handleSearchInputChange}
-                                    value={searchInput}
-                                    />
-                                    <ul class="list-group">
-                                        {showMembers.map(member=>
-                                            showMembers ?
-                                            <li class="list-group-item" onClick={() => setleader(member.name, member._id)}>
-                                                <img class="imgThmbnail" src={member.profileImg} alt=""/>
-                                                {member.name}</li> : ''
-                                        )}
-                                    </ul>
-                                </div>
                             </div>
                             <button type="submit" class="btn btn-primary" onClick={submitHouse}>Submit</button>
                         </form>
