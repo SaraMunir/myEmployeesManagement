@@ -88,7 +88,7 @@ function Teams() {
                             <img class="card-img-top myCrdImgTp" src="https://images.squarespace-cdn.com/content/v1/59685a82893fc01de25af303/1526696054881-K3PHNE63S3CR3EBW0D98/ke17ZwdGBToddI8pDm48kA47qaxzGU3oa60Mv3IrElh7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0jBK0T3M-v-AVkQFEHxhNgUudw45kiY-UQ73op4W9iSPFDhmgzum_ZisgY9UJzHOlA/Teams_illustrations_Full+Res-01.png?format=2500w" alt="Card image cap"/>
                             <h5 class="card-title">{team.teamName}</h5>
                             <p class="card-text">{team.teamDesc}</p>
-                            <Link to={`/TeamDetail/${team._id}/TeamDashboard`} >
+                            <Link to={`/TeamDetail/${team._id}/TeamDashboard/HomePage`} >
                                 <div class="btn myBtnNew" href="#" role="button">View Detail </div>
                             </Link>
                         </div>

@@ -5,7 +5,6 @@ const { v4: uuidv4 } = require('uuid');
 var short = require('short-uuid');
 
 // mongoose.connect(`mongodb://${process.env.movieTracker}`,{useNewUrlParser: true});
-
 mongoose.connect(`mongodb://localhost:27017/myEmployeeManagement`, {useNewUrlParser: true, useFindAndModify: false});
 const db = require( './models' );
 const e = require('express');
@@ -342,7 +341,6 @@ async function getTeamDetails( teamId ){
 }
 // postMember
 async function postMember( memberInfo ){
-
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(memberInfo.membPassword, saltRounds);    
     const memberData = {
@@ -687,6 +685,21 @@ async function downVote(unLikedata, postId){
     return  { message: "upvote deleted" };
 }
 
+async function postDiscussion(discussionData){
+    const dbDiscussionPost = new db.discussionPost( discussionData );
+    const saveDiscussionPost = await dbDiscussionPost.save();
+    return  { message: "discussion added" };
+}
+async function getDiscussions(teamId){
+    // const dbDiscussionPost = new db.discussionPost( discussionData );
+    // const saveDiscussionPost = await dbDiscussionPost.save();
+    const getAllDiscussions = await db.discussionPost.find({
+        "teamId" : teamId
+    })
+    return getAllDiscussions
+
+}
+
 module.exports = {
     registerUser,
     getAllEmail,
@@ -749,5 +762,7 @@ module.exports = {
     updateCoverPhto,
     updateAdmnCoverPhto,
     covrPhtoSetting,
-    updateHouse
+    updateHouse,
+    postDiscussion,
+    getDiscussions
 }

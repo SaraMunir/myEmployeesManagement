@@ -358,9 +358,8 @@ app.put( '/api/upload/:userid', upload.single('myFile'), async function( req, re
     const originalName = req.file.originalname;
     
     const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
-        fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
-
-        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+    fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
+    const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
     const imgUploadDb = await orm.updateAvatar( userId, imageUrl );
     res.send( imgUploadDb );
 });
@@ -407,6 +406,17 @@ app.put( '/api/adminUpload/:userid', upload.single('myFile'), async function( re
         const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
     const imgUploadDb = await orm.updateAdminAvatar( userId, imageUrl );
     res.send( imgUploadDb );
+});
+app.put( '/api/discussionBoardPic', upload.single('myFile'), async function( req, res ){
+    console.log('is it coming in server')
+    const filePath = req.file.path;
+    const originalName = req.file.originalname;
+    const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
+        fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+    // const imgUploadDb = await orm.updateAdminAvatar( userId, imageUrl );
+    console.log(imageUrl)
+    res.json( imageUrl );
 });
 
 
@@ -516,4 +526,19 @@ app.put('/api/downVotePost/:postId', async function( req,res ){
     const downVoteData = req.body;
     const downVote = await orm.downVote( downVoteData, postId );
     res.json(downVote);
+})
+
+
+
+//creating discussions
+app.post('/api/postDiscussion', async function( req,res ){
+    const discussionData = req.body;
+    const postDiscussion = await orm.postDiscussion( discussionData );
+    res.send(postDiscussion);
+})
+// getting discussions
+app.get('/api/discussions/:teamId', async(req, res) => {
+    const teamId = req.params.teamId;
+    const getDiscussions = await orm.getDiscussions( teamId );
+    res.json( getDiscussions );
 })

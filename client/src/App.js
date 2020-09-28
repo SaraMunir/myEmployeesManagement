@@ -15,6 +15,7 @@ import UserProfile from './components/LoggedMember/UserProfile'
 //starting fressh from below: 
 import NewTeamsPage from './components/NewTeam/Teams'
 import TeamDetail from './components/NewTeam/TeamDetail'
+// import AnimationTrial from './components/Animation'
 
 function App() {
   const theme = localStorage.theme;
@@ -30,9 +31,10 @@ function App() {
         <Route exact path={["/SignUp"]} component={SignUp}/>
         <Route exact path={["/logout"]} component={LogOut}/> 
         <Route exact path={["/Dashboard"]} component={Dashboard}/>
-        <Route path={["/UserProfile/TimeLine"]} component={UserProfile}/>
+        <Route path={["/UserProfile"]} component={UserProfile}/>
         <Route path={["/NewTeamsPage"]} component={NewTeamsPage}/>
         <Route path={["/TeamDetail/:teamId"]} component={TeamDetail} />
+        {/* <Route path={["/AnimationTrial"]} component={AnimationTrial} /> */}
       </Router>
     </div>
   );

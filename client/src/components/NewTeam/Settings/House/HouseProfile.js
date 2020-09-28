@@ -219,57 +219,58 @@ function HouseProfile() {
                 </Modal>
             </div>
             <div className="detail">
-                <div className="row col-12 justify-content-end">
-                    <h3 className="houseTitle" >{houseDetail.houseName}</h3>
-                    <div className="houseAvatar">
-                        <img className="houseImg" src={houseDetail.profileImg? houseDetail.profileImg : "https://cdn.pixabay.com/photo/2014/04/03/00/38/shield-308943_1280.png"}/>
-                        { userType == 'Admin' || userType == 'HouseLeader'  ? <i className="fas fa-camera uploadIcon2" style={{background: `${houseDetail.houseColor}`, color: "white"}}  onClick={() => setLgShow2(true)}></i> :''}
-                        <Modal
-                            size="lg"
-                            show={lgShow2}
-                            onHide={() => setLgShow2(false)}
-                            aria-labelledby="example-modal-sizes-title-lg">
-                            <Modal.Header closeButton>
-                                <Modal.Title id="example-modal-sizes-title-lg"> 
-                                Upload Image
-                                </Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                <form className="input-group mb-3" id='myForm' role="form" encType="multipart/form-data" >
-                                    <div className="custom-file">
-                                        <input 
-                                        type="file" 
-                                        name="myFile" className="custom-file-input" 
-                                        onChange={handleChange}/>
-                                        <label className="custom-file-label" for="inputGroupFile02" onChange={handleChange}>Choose file</label>
-                                    </div>
-                                </form>
-                                <div className="myBtnNew" onClick={handleUpload}>Upload</div> 
-                            </Modal.Body>
-                        </Modal>
-                    </div>
-                </div>
-                <div className="houseLeader mb-2 ">
-                    <h5 className="text-left">House Leader</h5>
-                    <hr style={{marginTop: '0', marginBottom: '15px'}}/>
-                    <div className="d-flex">
-                        {member.map((memb, idx)=>
-                        memb._id == houseDetail.houseLeader ?
-                        <div key={idx}  className="hoverShow">
-                            <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
-                                <img className="houseMmb" src={memb.profileImg?memb.profileImg: "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"} alt="housemembThumb" style={{borderColor: `${houseDetail.houseColor}`}}/>
-                            </Link>
-                            <div className="hoverName ">
-                                <Link className="d-flex" to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
-                                <img className="houseMmbHovr mr-3" src={memb.profileImg?memb.profileImg: "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"} alt="housemembThumb" style={{borderColor: `${houseDetail.houseColor}`}}/>
-                                <h5>{memb.name}</h5>
+                <div className="row col-12">
+                    <div className="mb-2 col-6 pt-4 pb-4 pr-4 pl-4">
+                        <div className="d-flex" style={{marginLeft: "11px"}}>
+                            {member.map((memb, idx)=>
+                            memb._id == houseDetail.houseLeader ?
+                            <div key={idx}  className="hoverShow">
+                                <Link to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
+                                    <img className="houseMmb" src={memb.profileImg?memb.profileImg: "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"} alt="housemembThumb" style={{borderColor: `${houseDetail.houseColor}`}}/>
                                 </Link>
+                                <div className="hoverName ">
+                                    <Link className="d-flex" to={`/TeamDetail/${teamId}/MemberProfile/${memb.name}/${memb._id}/TimeLine`} >
+                                    <img className="houseMmbHovr mr-3" src={memb.profileImg?memb.profileImg: "https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png"} alt="housemembThumb" style={{borderColor: `${houseDetail.houseColor}`}}/>
+                                    <h5>{memb.name}</h5>
+                                    </Link>
+                                </div>
                             </div>
+                            : '')}
                         </div>
-                        : '')}
-
+                        <h5 className="text-left mt-2">House Leader</h5>
+                    </div>
+                    <div className='d-flex col-6 justify-content-end border'>
+                        <h3 className="houseTitle" >{houseDetail.houseName}</h3>
+                        <div className="houseAvatar">
+                            <img className="houseImg" src={houseDetail.profileImg? houseDetail.profileImg : "https://cdn.pixabay.com/photo/2014/04/03/00/38/shield-308943_1280.png"}/>
+                            { userType == 'Admin' || userType == 'HouseLeader'  ? <i className="fas fa-camera uploadIcon2" style={{background: `${houseDetail.houseColor}`, color: "white"}}  onClick={() => setLgShow2(true)}></i> :''}
+                            <Modal
+                                size="lg"
+                                show={lgShow2}
+                                onHide={() => setLgShow2(false)}
+                                aria-labelledby="example-modal-sizes-title-lg">
+                                <Modal.Header closeButton>
+                                    <Modal.Title id="example-modal-sizes-title-lg"> 
+                                    Upload Image
+                                    </Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <form className="input-group mb-3" id='myForm' role="form" encType="multipart/form-data" >
+                                        <div className="custom-file">
+                                            <input 
+                                            type="file" 
+                                            name="myFile" className="custom-file-input" 
+                                            onChange={handleChange}/>
+                                            <label className="custom-file-label" for="inputGroupFile02" onChange={handleChange}>Choose file</label>
+                                        </div>
+                                    </form>
+                                    <div className="myBtnNew" onClick={handleUpload}>Upload</div> 
+                                </Modal.Body>
+                            </Modal>
+                        </div>
                     </div>
                 </div>
+                
                 <div className="houseMateSec">
                     <h5 className="text-left">House Mates</h5>
                     <hr style={{marginTop: '0', marginBottom: '15px'}}/>

@@ -1,6 +1,5 @@
 import React, {useState, useEffect, useRef } from 'react';
 import NavIcon from './assets/group.png';
-
 import { Link, useLocation } from "react-router-dom";
 function Navbar() {
     const location = useLocation();
@@ -85,7 +84,7 @@ function Navbar() {
                     </li> : ''}
                     {id && type === 'Member' ?
                     <li class="nav-item  mx-auto">
-                        <Link to={`/TeamDetail/${teamId}/TeamDashboard`} className={location.pathname === `/TeamDetail/${teamId}/TeamDashboard` ? "nav-link active " : "nav-link"}>
+                        <Link to={`/TeamDetail/${teamId}/TeamDashboard/HomePage`} className={location.pathname === `/TeamDetail/${teamId}/TeamDashboard/HomePage` ? "nav-link active " : "nav-link"}>
                         <i class="fas fa-2x fa-columns"></i> Team Dashboard
                         </Link>
                     </li> : ''}

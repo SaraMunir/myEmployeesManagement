@@ -1,19 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { Link, useParams, Redirect } from "react-router-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 
-// import MyCalendar from "./Calendar/MyCalendar"
-import OnHoverScrollContainer from "../scroll/CustomScrollDiv";
-// import Birthdays from "./TeamDashboard/Birthdays.js"
-import TeamNavbar from "./TeamDashboard/TeamNavbar"
-import HomePage from "./TeamDashboard/HomePage"
-import DiscussionBoard from "./TeamDashboard/DiscussionBoard"
-import EventsPage from './TeamDashboard/EventsPage';
-const userType = localStorage.type
+import MyCalendar from "./MyCalendar"
+import OnHoverScrollContainer from './scroll/CustomScrollDiv';
+import Birthdays from "./Birthdays"
 const theme = localStorage.theme;
-const userId = localStorage.id;
 
-function TeamDashboard() {
+function HomePage() {
     const { teamId } = useParams();
     const [teamDetail, setTeamDetail]= useState( {});
     const [members, setMember] = useState([]);
@@ -22,7 +15,6 @@ function TeamDashboard() {
     const [upcomingBirthday, setUpcomingBirthday] = useState([]);
     const [todayBirth, setTodayBirth] = useState([]);
     const [houses, setHouses] = useState([]);
-
     async function loadTeamDetail(){
         const fetchTeamDetail = await fetch (`/api/teamDetails/${teamId}`).then( res => res.json());
         console.log('fetched team detail is: ', fetchTeamDetail)
@@ -85,13 +77,7 @@ function TeamDashboard() {
     },[])
     return (
         <div>
-            { userId ? '' : <Redirect to={`/HomePage`}/>}
-            <Router>
-                <TeamNavbar teamId={teamId} />
-                <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/HomePage`]} component={HomePage}/>
-                <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/DiscussionBoard`]} component={DiscussionBoard}/>
-                <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/EventsPage`]} component={EventsPage}/>
-            {/* <div className={ theme === 'Dark' ? "myCardDark mx-auto col-11" : "myCard mx-auto col-11"} style={{padding: '30px'}}>
+            <div className={ theme === 'Dark' ? "myCardDark mx-auto col-11" : "myCard mx-auto col-11"} style={{padding: '30px'}}>
                 <h5 className="text-left">Houses</h5>
                 <hr/>
                 {houses ? houses.map((house, idx)=>
@@ -145,12 +131,9 @@ function TeamDashboard() {
                     </div>
                 </div>
                 <Birthdays {...object}/>
-            </div> */}
-            </Router>
-
+            </div>
         </div>
     )
 }
 
-export default TeamDashboard
-
+export default HomePage

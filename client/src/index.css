@@ -177,22 +177,67 @@ hr{
   padding: 0;
 }
 .newSideBar{
+  width: 60px;
   position: sticky;
   top: 0;
   left: 0;
   height: 100vh;
   background-image: linear-gradient(135deg , #e79fab , #bd4a5d);
-  /* min-height: 100vh; */
   padding: 0;
+  z-index: 120;
+  /* position: relative; */
+}
+.sideArw2{
+  height: 100vh;
+  position: absolute;
+  background-image: linear-gradient(135deg , #e79fab , #bd4a5d);
+  padding: 0;
+  z-index: 120;
+  transition: .9s ease all ;
+}
+.sideBarTxt{
+  padding: 6px;
+  margin: 0;
+}
+.newSideBar:hover .sideArw{
+  left: 0px;
+  opacity: 1;
+}
+.myBubbleCnt{
+  position: relative;
+}
+.myBubble{
+  opacity: 0;
+  min-width: 115px;
+  padding: 31px 15px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: -150px;
+  background-image: linear-gradient(135deg , #e79fab , #fd788e);
+  z-index: 200;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  /* box-shadow: 1px 2px 3px #242022be; */
+  transition: .5s ease-in-out all;
 }
 
+.myBubbleCnt:hover .myBubble{
+  opacity: 1;
+  left: 61px;
+}
+.crclBtn{
+  padding: 10px;
+  border-radius: 50%;
+  background-image: linear-gradient(135deg , #e79fab , #bd4a5d);
+  transition: .7s ease-in-out all;
+}
+.crclBtn:hover{
+  background-image: linear-gradient(135deg , #bd4a5d,  #e79fab);
+}
 .sidBarItem2:hover{
-  /* list-style: none;
-  text-align: left;
-  padding: 25px 30px; */
   color: white;
   background: #fd788e;
-  /* border: 1px solid white; */
   text-decoration: none;
 }
 .sidBarItem2{
@@ -200,7 +245,7 @@ hr{
   width: 100%;
   list-style: none;
   text-align: left;
-  padding: 25px 20px;
+  padding: 25px 10px;
   color: white;
   border: 1px solid #16232400;
 }
@@ -210,7 +255,7 @@ hr{
   width: 100%;
   list-style: none;
   text-align: left;
-  padding: 25px 20px;
+  padding: 25px 10px;
   color: black;
   border: 1px solid #16232400;
   text-decoration: none;
@@ -605,7 +650,7 @@ a:hover{
   width: 30vh;
   height: 30vh;
   margin-top: -8vh;
-  margin-right: 10vh;
+  /* margin-right: 10vh; */
   border-radius: 15px;
   /* background: #303030; */
 }
@@ -709,12 +754,14 @@ a:hover{
   width: 130px;
   font-size: .8rem;
   background: #dadada;
+  color: #1d2024;
   padding: 8px;
   visibility: hidden;
   position: absolute;
   bottom: 25px;
-  right: 25px;
+  left: 25px;  
   border-radius: 8px;
+  z-index: 200;
 }
 .hoverShow:hover .hoverName,
 .hoverShow2:hover .hoverName2{
@@ -851,7 +898,6 @@ a:hover{
 }
 .hvrLink{
   cursor: pointer;
-  
 }
 .listHoverItem{
   background: #d6d6d6;
@@ -902,16 +948,6 @@ a:hover{
   font-size: .9rem;
   font-weight: 500;
 }
-/* #post {
-  width: 100%;
-  min-height: 100px;
-  padding: 12px 20px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  background-color: #ee8e8e;
-  font-size: 16px;
-  resize: none;
-} */
 .input1{
   background-color: #9eee8e;
   height: 120px;
@@ -969,6 +1005,9 @@ a:hover{
 .postTime{
   font-size: .8rem;
 }
+.onHvr{
+  color: #9295a3;
+}
 .onHvr:hover , .onHvr2:hover{
   color: #ee7676;
   cursor: pointer;
@@ -981,6 +1020,8 @@ a:hover{
 }
 .onHvr2{
   color: #ee7676;
+  cursor: pointer;
+
 }
 .cursor{
   cursor: pointer;
@@ -1007,4 +1048,72 @@ a:hover{
   background: white;
   padding: 60px;
   color: #414141;
+}
+.teamNavBarDark{
+  background: #3e444b;
+  margin-bottom: 20px;
+  box-shadow: 1px 2px 12px #1d2024;
+}
+.teamNavBarLight{
+  background: #f5f5f5;
+  margin-bottom: 20px;
+  box-shadow: 1px 2px 3px #998893;
+}
+.myNav{
+  padding: 20px;
+  transition: .5s all ease;
+
+}
+.myNavActive{
+  padding: 20px;
+  color: #ee7676;
+  border-bottom: 3px solid #ee7676;
+  transition: .8s all ease;
+}
+.myNav:hover, .myNavActive:hover{
+  background-color: #ee7676;
+  border-radius: 10px;
+  color: whitesmoke;
+}
+.discBoards{
+  width: 340px;
+  background-image: linear-gradient(135deg , #ce6678 , #bd4a5d);  padding: 20px;
+  margin: 10px 5px;
+  border-radius: 8px;
+  box-shadow: 1px 2px 3px #31282e;
+
+}
+
+.fruitInp{
+  width: 94%;
+  cursor: text;
+  border: 1px solid grey;
+  outline: grey;
+  padding: 8px;
+  border-radius: 5px;
+  margin: 5px;
+}
+.uploadingDiscPic{
+  position: relative;
+}
+.cancelImg{
+  width: 40px;
+  height: 40px;
+  padding: 13px 15px;
+  border-radius: 50%;
+  color: #d6d6d6;
+  background: #836767a9;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+.cancelImg:hover{
+  background: #b49a9ac5;
+
+}
+.discnImgUp{
+  width: 100%;
+  height: 50vh;
+  object-fit: cover;
 }

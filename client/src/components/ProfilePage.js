@@ -62,7 +62,8 @@ function ProfilePage() {
             },
                 body: JSON.stringify(oldPhoto)
             }).then( result=>result.json());
-            }
+            
+        }
             setLgShow2(false)
             loadAdminProfile();
         

@@ -8,6 +8,7 @@ import House from './Settings/House'
 import MyHouse from './Settings/House/HouseProfile'
 import NewSideBar from './NewSideBar';
 import MembersProfile from './MemberProfile/MemberProfile';
+import HomePage from './TeamDashboard/HomePage';
 import Settings from './Settings/Settings';
 export const UserContext = React.createContext();
 function TeamDetail() {
@@ -39,10 +40,6 @@ function TeamDetail() {
                     <Route exact path={["/TeamDetail/:teamId/House/:houseId/:houseName"]} component={MyHouse} />
                     <Route path={["/TeamDetail/:teamId/Settings"]} component={Settings} />
                     <Route path={["/TeamDetail/:teamId/Members"]} component={Members} />
-                    {/* /TeamDetail/${teamId}/MemberProfile */}
-                    {/* /TeamDetail/${teamId}/MemberProfile/${name}/${userId}/TimeLine */}
-                    {/* /TeamDetail/${teamId}/MemberProfile/TimeLine */}
-                    {/* <Route path={["/TeamDetail/:teamId/MemberProfile/:name/:userId"]} component={UsersProfile} /> */}
                     <Route path={["/TeamDetail/:teamId/MemberProfile/:membName/:membId"]} component={MembersProfile} />
                 </div>
                 </Router>
