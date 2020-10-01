@@ -7,6 +7,9 @@ function DiscussionBoard() {
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
     const [ myPic, setMyPic] = useState ( '' );
     const [ discussions, setDiscussions ] = useState([]);
+    const [ members, setMembers ] = useState([]);
+    const [ adminDetail, setAdminDetail ]= useState({});
+    const [allMembers, setAllMembers]=useState([])
 
     const inputDiscussionTitle = useRef();
     const inputDiscussionPost = useRef();
@@ -19,8 +22,8 @@ function DiscussionBoard() {
     const [newDiscussion, setNewDiscussion]= useState({
         teamId: `${teamId}`, creatorId: `${userId}`, discussionTitle: '', discussionPost: '', discussionImg: localStorage.unUploaded,discussionType:'',
     })
-    const 
-    function handleChange(e){
+    let allMembs=[]
+    async function handleChange(e){
         const file = e.target.files[0];
         setMyPic(file)
     }
@@ -91,7 +94,6 @@ function DiscussionBoard() {
             option.optionId !== Id)
         setPollOptions(filteredArr); // ??
     }
-    // array.splice(index, 1);
     const updateFieldChanged = index => e => {
         let newArr = [...pollOptions]; // copying the old datas array
         // newArr[index].optionTxt = e.target.value; 
@@ -147,13 +149,30 @@ function DiscussionBoard() {
         setNewDiscussion({
             teamId: `${teamId}`, creatorId: `${userId}`, discussionTitle: '', discussionPost: '', discussionImg: localStorage.unUploaded,discussionType:'',
         })
+        setLgShow(false)
     }
     async function loadDiscussions(){
-        const fetchDiscussions = await fetch (`/api/member/${teamId}`).then( res => res.json());
+        const fetchDiscussions = await fetch (`/api/discussions/${teamId}`).then( res => res.json());
+        console.log('fetchDiscussions: ', fetchDiscussions)
         setDiscussions(fetchDiscussions)
     }
+    async function loadMembers(){
+        const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
+        console.log('fetched members are: ', fetchMembers)
+        allMembs = fetchMembers;
+        setMembers(fetchMembers)
+        // setAllMembers(...allMembers, ...fetchMembers)
+    }
+    async function loadAdminProfile(){
+        const getAdmnDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
+        setAdminDetail(getAdmnDetail);
+        allMembs.push(getAdmnDetail);
+        setAllMembers(allMembs)
+    }
     useEffect(function(){
-        loadDiscussions()
+        loadDiscussions();
+        loadMembers();
+        loadAdminProfile();
     },[])
     return (
         <div>
@@ -248,66 +267,25 @@ function DiscussionBoard() {
                 </Modal>
             </div>
             <div className="myCardDark mx-auto col-md-11 row">
-                <div className="discBoards mx-auto">
-                    <div className="d-flex">
-                        <img className="postImgThmb" src="https://www.iconfinder.com/data/icons/calico-cat-emoticon-filled/64/cute_cat_kitten_face_avatar_calico-28-512.png" alt=""/>
-                        <h5 className="discnName">discussion name might be big let see</h5>
+                {
+                discussions ? 
+                discussions.map(discussion=>
+                    <div className="discBoards mx-auto">
+                        <div className="d-flex">
+                            {allMembers.map(member=>
+                                member._id === discussion.creatorId ? <img className="postImgThmb" src={member.profileImg} alt=""/> : ''
+                                )}
+                            <h5 className="discnName pl-4">{discussion.discussionTitle}</h5>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                        {/* {new Date( discussion.created ).toLocaleString('en-US').slice(0,9)} */}
+                            <p className="pt-3">{new Date( discussion.created ).toLocaleString()}</p>
+                            <Link to={`/TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage/${discussion._id}`} className="myBtnNew2">
+                            view detail
+                            </Link>
+                        </div>
                     </div>
-                    <div className="pl-3 d-flex justify-content-between">
-                        <p>time posted </p>
-                        <Link to={`/TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage`} className="myBtnNew2">
-                        view detail
-                        </Link>
-                    </div>
-                </div>
-                <div className="discBoards mx-auto">
-                    <div className="d-flex">
-                        <img className="postImgThmb" src="https://www.iconfinder.com/data/icons/calico-cat-emoticon-filled/64/cute_cat_kitten_face_avatar_calico-28-512.png" alt=""/>
-                        <h5 className="discnName">discussion name might be big let see</h5>
-                    </div>
-                    <div className="pl-3 d-flex justify-content-between">
-                        <p>time posted </p>
-                        <Link to={`/TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage`} className="myBtnNew2">
-                        view detail
-                        </Link>
-                    </div>
-                </div>
-                <div className="discBoards mx-auto">
-                    <div className="d-flex">
-                        <img className="postImgThmb" src="https://www.iconfinder.com/data/icons/calico-cat-emoticon-filled/64/cute_cat_kitten_face_avatar_calico-28-512.png" alt=""/>
-                        <h5 className="discnName">discussion name might be big let see</h5>
-                    </div>
-                    <div className="pl-3 d-flex justify-content-between">
-                        <p>time posted </p>
-                        <Link to={`/TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage`} className="myBtnNew2">
-                        view detail
-                        </Link>
-                    </div>
-                </div>
-                <div className="discBoards mx-auto">
-                    <div className="d-flex">
-                        <img className="postImgThmb" src="https://www.iconfinder.com/data/icons/calico-cat-emoticon-filled/64/cute_cat_kitten_face_avatar_calico-28-512.png" alt=""/>
-                        <h5 className="discnName">discussion name might be big let see</h5>
-                    </div>
-                    <div className="pl-3 d-flex justify-content-between">
-                        <p>time posted </p>
-                        <Link to={`/TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage`} className="myBtnNew2">
-                        view detail
-                        </Link>
-                    </div>
-                </div>
-                <div className="discBoards mx-auto">
-                    <div className="d-flex">
-                        <img className="postImgThmb" src="https://www.iconfinder.com/data/icons/calico-cat-emoticon-filled/64/cute_cat_kitten_face_avatar_calico-28-512.png" alt=""/>
-                        <h5 className="discnName">discussion name might be big let see</h5>
-                    </div>
-                    <div className="pl-3 d-flex justify-content-between">
-                        <p>time posted </p>
-                        <Link to={`/TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage`} className="myBtnNew2">
-                        view detail
-                        </Link>
-                    </div>
-                </div>
+                    ):''}
             </div>
         </div>
     )

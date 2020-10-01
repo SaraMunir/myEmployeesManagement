@@ -691,13 +691,16 @@ async function postDiscussion(discussionData){
     return  { message: "discussion added" };
 }
 async function getDiscussions(teamId){
-    // const dbDiscussionPost = new db.discussionPost( discussionData );
-    // const saveDiscussionPost = await dbDiscussionPost.save();
     const getAllDiscussions = await db.discussionPost.find({
         "teamId" : teamId
     })
     return getAllDiscussions
-
+}
+async function getDiscPost(discnId){
+    const getAllDiscussions = await db.discussionPost.findOne({
+        "_id" : discnId
+    })
+    return getAllDiscussions
 }
 
 module.exports = {
@@ -764,5 +767,6 @@ module.exports = {
     covrPhtoSetting,
     updateHouse,
     postDiscussion,
-    getDiscussions
+    getDiscussions,
+    getDiscPost
 }

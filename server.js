@@ -274,7 +274,7 @@ app.get('/api/deleteMember/:membId', async(req, res) => {
     const deleteMember = await orm.deleteMember( memberId );
     res.json( deleteMember );
 })
-
+ 
 //posting member
 //creating employees
 app.post('/api/postMember', async function( req,res ){
@@ -420,6 +420,7 @@ app.put( '/api/discussionBoardPic', upload.single('myFile'), async function( req
 });
 
 
+
 //creating Houses:
 //creating employees
 app.post('/api/postHouse', async function( req,res ){
@@ -541,4 +542,9 @@ app.get('/api/discussions/:teamId', async(req, res) => {
     const teamId = req.params.teamId;
     const getDiscussions = await orm.getDiscussions( teamId );
     res.json( getDiscussions );
+})
+app.get('/api/discussionPost/:discnId', async(req, res) => {
+    const discnId = req.params.discnId;
+    const getDiscPost = await orm.getDiscPost( discnId );
+    res.json( getDiscPost );
 })
