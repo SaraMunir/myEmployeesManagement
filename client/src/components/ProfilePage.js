@@ -11,7 +11,7 @@ function ProfilePage() {
     const [cvrFrmShow, setCvrFrmShow] = useState(false);
     // const [cvrFrmEdtShow, setCvrFrmEdtShow] = useState(false);
     const [showBtns, setShowBtns] = useState(false);
-    const [dontCenter, setDontCenter] = useState(true);
+    // const [dontCenter, setDontCenter] = useState(true);
     const [ myCoverPIc, setMyCoverPIc] = useState ('');
 
     const [ dropDownEmail, setDropDownEmail ] = useState( { type: ""} );
@@ -165,7 +165,7 @@ function ProfilePage() {
         console.log('cover setting: ', getAdmnDetail.coverImgSetting)
         if(getAdmnDetail.coverImgSetting){
             setCoverPhoto(getAdmnDetail.coverImgSetting)
-            setDontCenter(false)
+            // setDontCenter(false)
         }
         setAdminDetail(getAdmnDetail);
     }

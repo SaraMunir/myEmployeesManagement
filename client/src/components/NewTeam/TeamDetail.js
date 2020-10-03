@@ -8,7 +8,7 @@ import House from './Settings/House'
 import MyHouse from './Settings/House/HouseProfile'
 import NewSideBar from './NewSideBar';
 import MembersProfile from './MemberProfile/MemberProfile';
-import HomePage from './TeamDashboard/HomePage';
+// import HomePage from './TeamDashboard/HomePage';
 import Settings from './Settings/Settings';
 export const UserContext = React.createContext();
 function TeamDetail() {

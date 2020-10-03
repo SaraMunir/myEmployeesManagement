@@ -49,6 +49,15 @@ img {
   border-radius: 3px;
   cursor: pointer;
 }
+.myBtnNew4{
+  text-align: center;
+  background:  #e79fab;
+  margin: 5px;
+  padding: 8px 15px;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
 .myBtnTrnslu{
   text-align: center;
   background:  #e79fab96;
@@ -981,6 +990,13 @@ a:hover{
   object-fit: cover;
   box-shadow: 1px 2px 3px #1d2024;
 }
+.repImgThmb{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 1px 2px 3px #1d2024;
+}
 .cmntImgThmb{
   margin: 10px 20px;
   width: 60px;
@@ -989,7 +1005,15 @@ a:hover{
   object-fit: cover;
   box-shadow: 1px 2px 3px #1d2024;
 }
+.postImgProf{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 1px 2px 3px #1d2024;
+}
 .post{
+  /* color: #cacaca; */
   margin: 10px;
   border: 1px solid rgb(78, 199, 78);
 }
@@ -1076,9 +1100,10 @@ a:hover{
   color: whitesmoke;
 }
 .discBoards{
-  width: 340px;
-  background-image: linear-gradient(135deg , #ce6678 , #bd4a5d);  padding: 20px;
-  margin: 10px 5px;
+  /* width: 340px; */
+  background-image: linear-gradient(135deg , #ce6678 , #bd4a5d);  padding: 20px 10px;
+  /* padding: 15px 40px 5px 40px; */
+  margin: 10px;
   border-radius: 8px;
   box-shadow: 1px 2px 3px #31282e;
 
@@ -1116,4 +1141,100 @@ a:hover{
   width: 100%;
   height: 50vh;
   object-fit: cover;
+}
+.discContnr{
+  position: relative;
+}
+.discAside{
+  height: 98vh;
+  position: sticky;
+  top: 0;
+  right: 0;
+}
+.lineDivdr{
+  border-color: #e99daa;
+}
+.comntForm{
+  /* padding: 10px; */
+  background: #e58c9d;
+  border: none;
+  border-radius: 5px;
+}
+.comntForm:focus{
+  background: #e599a7;
+  outline: none;
+}
+.comntDet p{
+  margin: 0;
+
+}
+.postTimes{
+  font-size: .9rem;
+  color: #9496a5;
+  font-weight: 500;
+  margin: 0;
+}
+.singlRep{
+  /* border: 1px solid #8f8e8c; */
+  border-radius: 5px;
+  background: #f3eded;
+  padding: 5px 10px;
+  box-shadow: 2px 2px 4px #4f4e615b;
+}
+.myOtherBtn{
+  padding: 10px;
+  border-style: none;
+  background: #ffffff;
+  transition: .5s ease all;
+  border-radius: 5px;
+}
+.myOtherBtn:hover{
+  background: #e599a7;
+  color: white;
+}
+.myOtherBtn:focus{
+  border-style: none;
+  outline-style: none;
+}
+button{
+  border-style: none;
+}
+button:focus{
+  border-style: none;
+  outline-style: none;
+}
+.pollItem{
+  background: #d1dfe0;
+  padding: 10px 20px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.voteItm{
+  background: #518488;
+  padding: 10px 20px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+.votedItm{
+  background: #4dbac2;
+  padding: 10px 20px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.voteItm:hover{
+  background: #55bcc4;
+}
+.pollPercentage{
+  background: #a1b8bb; 
+  padding: 5px 10px;  
+  border-radius: 5px;
+}
+.discImg{
+  height: 50vh ;
+  object-fit: contain;
 }

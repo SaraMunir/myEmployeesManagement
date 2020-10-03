@@ -529,13 +529,17 @@ app.put('/api/downVotePost/:postId', async function( req,res ){
     res.json(downVote);
 })
 
-
-
 //creating discussions
 app.post('/api/postDiscussion', async function( req,res ){
     const discussionData = req.body;
     const postDiscussion = await orm.postDiscussion( discussionData );
     res.send(postDiscussion);
+})
+//creating discussions
+app.post('/api/followDiscussion', async function( req,res ){
+    const DiscussionData = req.body;
+    const followDiscussionData = await orm.followDiscussionData( DiscussionData );
+    res.send(followDiscussionData);
 })
 // getting discussions
 app.get('/api/discussions/:teamId', async(req, res) => {
@@ -547,4 +551,76 @@ app.get('/api/discussionPost/:discnId', async(req, res) => {
     const discnId = req.params.discnId;
     const getDiscPost = await orm.getDiscPost( discnId );
     res.json( getDiscPost );
+})
+// like post
+app.put('/api/likeDiscPost/:postId', async function( req,res ){
+    const postId = req.params.postId
+    const likeData = req.body;
+    const postDiscLike = await orm.postDiscLike( likeData, postId );
+    res.json(postDiscLike);
+})
+app.put('/api/unLikeDiscPost/:postId', async function( req,res ){
+    const postId = req.params.postId
+    const likeData = req.body;
+    const postDiscUnLike = await orm.postDiscUnLike( likeData, postId );
+    res.json(postDiscUnLike);
+})
+app.put('/api/postDiscsnCmnt/:discussionId', async function( req,res ){
+    const discussionId = req.params.discussionId
+    const commentData = req.body;
+    const postDisckCmnt = await orm.postDisckCmnt( commentData, discussionId );
+    res.json(postDisckCmnt);
+})
+app.put('/api/replyToComment/:discussionId/:commentId', async function( req,res ){
+    const discussionId = req.params.discussionId
+    const commentId = req.params.commentId
+    const replyData = req.body;
+    const postCmntReplies = await orm.postCmntReplies( replyData,discussionId, commentId );
+    res.json(postCmntReplies);
+})
+// like post
+app.put('/api/likeDiscComnt/:discussionId/:postId', async function( req,res ){
+    const discussionId = req.params.discussionId
+    const postId = req.params.postId
+    const likeData = req.body;
+    const postComntLike = await orm.postComntLike( likeData, discussionId,postId );
+    res.json(postComntLike);
+})
+// like post
+app.put('/api/unLikeDiscComnt/:discussionId/:postId', async function( req,res ){
+    const discussionId = req.params.discussionId
+    const postId = req.params.postId
+    const likeData = req.body;
+    const unLikeComment = await orm.unLikeComment( likeData, discussionId,postId );
+    res.json(unLikeComment);
+})
+// like reply
+app.put('/api/likeCmntReply/:discussionId', async function( req,res ){
+    const discussionId = req.params.discussionId
+    const replyLikeData = req.body;
+    const postReplytLike = await orm.postReplytLike( replyLikeData, discussionId );
+    res.json(postReplytLike);
+})
+// like reply
+app.put('/api/unLikeCmntReply/:discussionId', async function( req,res ){
+    const discussionId = req.params.discussionId
+    const replyUnLikeData = req.body;
+    const unLikeReply = await orm.unLikeReply( replyUnLikeData, discussionId );
+    res.json(unLikeReply);
+})
+// vote poll
+app.put('/api/votePoll/:discussionId/:pollOptId', async function( req,res ){
+    const discussionId = req.params.discussionId
+    const pollOptId = req.params.pollOptId
+    const pollData = req.body;
+    const postPoll = await orm.postPoll( pollData, discussionId, pollOptId);
+    res.json(postPoll);
+})
+// vote poll
+app.put('/api/unVotePoll/:discussionId/:pollOptId', async function( req,res ){
+    const discussionId = req.params.discussionId
+    const pollOptId = req.params.pollOptId
+    const pollData = req.body;
+    const unvotePoll = await orm.unvotePoll( pollData, discussionId, pollOptId);
+    res.json(unvotePoll);
 })

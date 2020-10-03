@@ -17,6 +17,7 @@ const userId = localStorage.id;
 function TeamDashboard() {
     const { teamId } = useParams();
     const [teamDetail, setTeamDetail]= useState( {});
+    const [teamAdmin, setTeamAdmin]= useState('');
     const [members, setMember] = useState([]);
     // const [membersBirth, setMembersBirth] = useState([]);
     const [closestBirth, setClosestBirth] = useState([]);
@@ -27,7 +28,9 @@ function TeamDashboard() {
     async function loadTeamDetail(){
         const fetchTeamDetail = await fetch (`/api/teamDetails/${teamId}`).then( res => res.json());
         console.log('fetched team detail is: ', fetchTeamDetail)
-        setTeamDetail(fetchTeamDetail)
+        setTeamDetail(fetchTeamDetail);
+        setTeamAdmin(fetchTeamDetail.teamAdmin)
+
     }
     async function loadMember(){
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
@@ -80,9 +83,9 @@ function TeamDashboard() {
         upcomingBirthday: upcomingBirthday
     }
     useEffect(function(){
-        loadTeamDetail()
-        loadMember()
-        loadHouse()
+        // loadTeamDetail()
+        // loadMember()
+        // loadHouse()
     },[])
     return (
         <div>
@@ -92,7 +95,7 @@ function TeamDashboard() {
                 <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/HomePage`]} component={HomePage}/>
                 <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/DiscussionBoard`]} component={DiscussionBoard}/>
                 {/* /TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage/${discussion._id} */}
-                <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/DiscussionBoard/DiscussionPage/:discussionId`]} component={DiscussionPage}/>
+                <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/DiscussionBoard/DiscussionPage/:discussionId`]} component={DiscussionPage} teamAdmin={teamAdmin}/>
                 <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/EventsPage`]} component={EventsPage}/>
             {/* <div className={ theme === 'Dark' ? "myCardDark mx-auto col-11" : "myCard mx-auto col-11"} style={{padding: '30px'}}>
                 <h5 className="text-left">Houses</h5>

@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useRef }from 'react'
-import { useHistory, useParams , Link } from "react-router-dom";
+import React, {useState, useEffect }from 'react'
+import { useHistory, useParams } from "react-router-dom";
 
 const userId = localStorage.id
 const teamId = localStorage.teamId
-const userType = localStorage.type
+// const userType = localStorage.type
 const theme = localStorage.theme;
 
 

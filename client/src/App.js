@@ -10,7 +10,7 @@ import SignUp from './components/SignUp';
 import LogOut from './components/LogOut';
 import Dashboard from './components/AdminDashboard';
 import MemberLogIn from './components/MembLogIn'
-import MemberDashboard from './components/NewTeam/TeamDashboard'
+// import MemberDashboard from './components/NewTeam/TeamDashboard'
 import UserProfile from './components/LoggedMember/UserProfile'
 //starting fressh from below: 
 import NewTeamsPage from './components/NewTeam/Teams'

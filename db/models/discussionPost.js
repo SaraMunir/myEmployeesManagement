@@ -1,17 +1,22 @@
 const mongoose = require("mongoose");
+const { stringify } = require("uuid");
 const Schema = mongoose.Schema;
 
 let discussionPost = new Schema ({
     creatorId: String,
+    followers: [{userId: String, userType: String}],
     discussionImg: String,
     teamId: String,
     discussionPost: String,
     discussionTitle: String,
     discussionType: String,
+    resolved: {type: Boolean, default: false},
+    closed: {type: Boolean, default: false},
     pollOptions: [
         {
             optionId: Number,
-            optionTxt: String
+            optionTxt: String,
+            votes: [{ userId: String }],
         }
     ],
     likes: [
@@ -30,10 +35,20 @@ let discussionPost = new Schema ({
             comment: String,
             likes: [
                 { 
-                    frndId: String, 
+                    userId: String, 
                 }
             ],
-            created: {type: Date, default: Date.now}
+            created: {type: Date, default: Date.now},
+            replies:[{
+                replierId: String,
+                reply: String,
+                likes: [
+                    { 
+                        userId: String, 
+                    }
+                ],
+                created: {type: Date, default: Date.now},
+            }]
         }
     ],
     created: {type: Date, default: Date.now},

@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef }from 'react'
-import { useHistory, useParams , Link } from "react-router-dom";
+import React, {useState, useEffect }from 'react'
+import { useHistory } from "react-router-dom";
 
 const userId = localStorage.id
 const teamId = localStorage.teamId
@@ -8,7 +8,7 @@ const theme = localStorage.theme;
 
 function UserWall() {
     const membId = localStorage.id;
-    const [ memberDetail, setMemberDetail ]= useState({});
+    // const [ memberDetail, setMemberDetail ]= useState({});
     const [ posts, setPosts ]= useState([]);
     const [ comment, setComment ]= useState({});
     const [ members, setMembers ] = useState([]);
@@ -33,7 +33,7 @@ function UserWall() {
     }
     async function loadMemberProfile(){
         const getEmpDetail = await fetch (`/api/memberProfile/${membId}`).then( res => res.json());
-        setMemberDetail(getEmpDetail);
+        // setMemberDetail(getEmpDetail);
     }
     async function loadMember(){
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());

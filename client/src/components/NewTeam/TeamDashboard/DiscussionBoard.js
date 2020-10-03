@@ -4,22 +4,27 @@ import {Modal} from 'react-bootstrap'
 
 function DiscussionBoard() {
     const { teamId } = useParams();
-    const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
-    const [ myPic, setMyPic] = useState ( '' );
-    const [ discussions, setDiscussions ] = useState([]);
-    const [ members, setMembers ] = useState([]);
-    const [ adminDetail, setAdminDetail ]= useState({});
-    const [allMembers, setAllMembers]=useState([])
-
     const inputDiscussionTitle = useRef();
     const inputDiscussionPost = useRef();
     const userId = localStorage.id
-    const [lgShow, setLgShow] = useState(false);
-    const [pollForm, setPollForm] = useState(false);
-    const [imgForm, setImgForm] = useState(false);
-    const [pollOptions, setPollOptions] = useState([
+    const userType = localStorage.type;
+    const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
+    // const [teamDetail, setTeamDetail]= useState( {});
+    const [teamAdmin, setTeamAdmin]= useState('');
+
+    const [ myPic, setMyPic] = useState ( '' );
+    const [ discussions, setDiscussions ] = useState([]);
+    const [ members, setMembers ] = useState([]);
+    const [ myDetail, setMyDetail ]= useState({});
+    const [ myDiscussions, setMyDiscussions ]= useState([]);
+    const [ adminDetail, setAdminDetail ]= useState({});
+    const [ allMembers, setAllMembers]=useState([])
+    const [ lgShow, setLgShow] = useState(false);
+    const [ pollForm, setPollForm] = useState(false);
+    const [ imgForm, setImgForm] = useState(false);
+    const [ pollOptions, setPollOptions] = useState([
         {optionTxt: '',optionId: 0},{optionTxt: '',optionId: 1}]);
-    const [newDiscussion, setNewDiscussion]= useState({
+    const [ newDiscussion, setNewDiscussion]= useState({
         teamId: `${teamId}`, creatorId: `${userId}`, discussionTitle: '', discussionPost: '', discussionImg: localStorage.unUploaded,discussionType:'',
     })
     let allMembs=[]
@@ -150,6 +155,7 @@ function DiscussionBoard() {
             teamId: `${teamId}`, creatorId: `${userId}`, discussionTitle: '', discussionPost: '', discussionImg: localStorage.unUploaded,discussionType:'',
         })
         setLgShow(false)
+        loadDiscussions()
     }
     async function loadDiscussions(){
         const fetchDiscussions = await fetch (`/api/discussions/${teamId}`).then( res => res.json());
@@ -163,16 +169,47 @@ function DiscussionBoard() {
         setMembers(fetchMembers)
         // setAllMembers(...allMembers, ...fetchMembers)
     }
-    async function loadAdminProfile(){
-        const getAdmnDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
-        setAdminDetail(getAdmnDetail);
-        allMembs.push(getAdmnDetail);
-        setAllMembers(allMembs)
+    async function loadProfiles(){
+        if(userType==="Admin"){
+            const getAdmnDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
+            setAdminDetail(getAdmnDetail);
+            allMembs.push(getAdmnDetail);
+            console.log("allMembs: ", allMembs)
+            setAllMembers(allMembs)
+            return
+        }
+        if(userType==="Member"){
+            const fetchTeamDetail = await fetch (`/api/teamDetails/${teamId}`).then( res => res.json());
+            // setTeamDetail(fetchTeamDetail);
+            const getAdmnDetail = await fetch (`/api/adminProfile/${fetchTeamDetail.teamAdmin}`).then( res => res.json());
+            setAdminDetail(getAdmnDetail);
+            allMembs.push(getAdmnDetail);
+            console.log("allMembs: ", allMembs)
+            setAllMembers(allMembs)
+            return
+        }
+    }
+    async function loadMyProfile(){
+        if(userType==="Admin"){
+            const myDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
+            console.log('myDetail: ', myDetail)
+            setMyDetail(myDetail)
+            setMyDiscussions(myDetail.myDiscussions)
+            return
+        }
+        if(userType==="Member"){
+            const myDetail = await fetch (`/api/memberProfile/${userId}`).then( res => res.json());
+            console.log('myDetail: ', myDetail)
+            setMyDetail(myDetail)
+            setMyDiscussions(myDetail.myDiscussions)
+            return
+        }
     }
     useEffect(function(){
         loadDiscussions();
         loadMembers();
-        loadAdminProfile();
+        loadProfiles();
+        loadMyProfile()
     },[])
     return (
         <div>
@@ -266,26 +303,79 @@ function DiscussionBoard() {
                     </Modal.Body>
                 </Modal>
             </div>
-            <div className="myCardDark mx-auto col-md-11 row">
-                {
-                discussions ? 
-                discussions.map(discussion=>
-                    <div className="discBoards mx-auto">
-                        <div className="d-flex">
-                            {allMembers.map(member=>
-                                member._id === discussion.creatorId ? <img className="postImgThmb" src={member.profileImg} alt=""/> : ''
+            <div className="row mx-auto">
+                <div className="myCardDark mx-auto col-md-8">
+                    {
+                    discussions ? 
+                    discussions.map(discussion=>
+                        <div className="discBoards mx-auto">
+                            <div className="d-flex justify-content-between">
+                                <div className="">
+                                {allMembers.map(member=>
+                                    member._id === discussion.creatorId ? <img className="postImgThmb" src={member.profileImg} alt=""/> : '')}
+                                </div>
+                                <div className="col-5 text-left">
+                                    <h5 className="discnName">{discussion.discussionTitle}</h5>
+                                    <p className="pt-3">{new Date( discussion.created ).toLocaleString()}</p>
+                                </div>
+                                <div className="followersGrp col-3">
+                                    <div className="d-flex">
+                                        {discussion.followers.length>0 ?
+                                        discussion.followers.map(follower=>
+                                            allMembers.map(member=>
+                                                member._id === follower.userId ?
+                                                    <img className="repImgThmb" src={member.profileImg} alt=""/> : ''
+                                                )
+                                            ) :''}
+                                        {discussion.followers.length>0 ?
+                                        <p>{discussion.followers.length} Following</p>
+                                        : ''}
+                                    </div>
+                                    <div className="d-flex mt-2">
+                                        {discussion.comments.length>0 ?
+                                        <p>{discussion.comments.length} Comments</p>
+                                        : ''}
+                                    </div>
+                                </div>
+                                <div className="pt-4 col-3 ">
+                                    <Link to={`/TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage/${discussion._id}`} className="myBtnNew2">
+                                    view detail
+                                    </Link>
+
+                                </div>
+                            </div>
+                        </div>
+                        ):''}
+                </div>
+                <div className="col-md-2 myCardDark mx-auto">
+                    <h3 style={{color: "#cacaca"}}>Following</h3>
+                    <hr/>
+                    {myDiscussions ? myDiscussions.map(myDiscussion=>
+                        <div>
+                            {discussions.map(discussion=>
+                                discussion._id === myDiscussion.discId ? 
+                                <Link to={`/TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage/${discussion._id}`}>
+                                <div className="card mb-3">
+                                    <div style={{padding: "8px 20px"}}>
+                                        <div className="d-flex text-center">
+                                            {allMembers.map(member=>
+                                            member._id === discussion.creatorId ? <img className="repImgThmb mr-4" src={member.profileImg} alt=""/> : '' )}
+                                            {discussion.discussionTitle}
+                                        </div>
+                                    </div>
+                                </div>
+                                </Link>
+                                : ''
                                 )}
-                            <h5 className="discnName pl-4">{discussion.discussionTitle}</h5>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                        {/* {new Date( discussion.created ).toLocaleString('en-US').slice(0,9)} */}
-                            <p className="pt-3">{new Date( discussion.created ).toLocaleString()}</p>
-                            <Link to={`/TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage/${discussion._id}`} className="myBtnNew2">
-                            view detail
-                            </Link>
-                        </div>
-                    </div>
-                    ):''}
+
+                        </div> 
+                        
+                        )
+                        : ''}
+
+
+                </div>
+
             </div>
         </div>
     )

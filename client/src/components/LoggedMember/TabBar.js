@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import { Link, useParams , useLocation } from "react-router-dom";
+import React from 'react';
+import { Link , useLocation } from "react-router-dom";
 
-const userId = localStorage.id
-const userType = localStorage.type
-const theme = localStorage.theme;
-const teamId = localStorage.teamId;
-const name = localStorage.name;
-const userHouse = localStorage.house;
+// const userId = localStorage.id
+// const userType = localStorage.type
+// const theme = localStorage.theme;
+// const teamId = localStorage.teamId;
+// const name = localStorage.name;
+// const userHouse = localStorage.house;
 
 function TabBar(props) {
     const location = useLocation();
-    const [ house, setHouse] = useState({});
+    // const [ house, setHouse] = useState({});
 
     // async function loadHouse(){
     //     const fetchHouses = await fetch (`/api/house/${teamId}`).then( res => res.json());

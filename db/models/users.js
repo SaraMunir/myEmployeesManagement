@@ -13,6 +13,7 @@ let users = new Schema ({
     },
     bio: String,
     sex: String,
+    myDiscussions:[{discId: String}],
     birthday: String, 
     address: String,
     phoneNumber: String,
