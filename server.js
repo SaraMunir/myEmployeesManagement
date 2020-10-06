@@ -418,6 +418,17 @@ app.put( '/api/discussionBoardPic', upload.single('myFile'), async function( req
     console.log(imageUrl)
     res.json( imageUrl );
 });
+app.put( '/api/eventsPic', upload.single('myFile'), async function( req, res ){
+    console.log('is it coming in server')
+    const filePath = req.file.path;
+    const originalName = req.file.originalname;
+    const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
+        fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+    // const imgUploadDb = await orm.updateAdminAvatar( userId, imageUrl );
+    console.log(imageUrl)
+    res.json( imageUrl );
+});
 
 
 
@@ -623,4 +634,44 @@ app.put('/api/unVotePoll/:discussionId/:pollOptId', async function( req,res ){
     const pollData = req.body;
     const unvotePoll = await orm.unvotePoll( pollData, discussionId, pollOptId);
     res.json(unvotePoll);
+})
+
+//creating events
+app.post('/api/postEvent', async function( req,res ){
+    const EventData = req.body;
+    const postEvents = await orm.postEvents( EventData );
+    res.send(postEvents);
+})
+// getting Events
+app.get('/api/getEvents/:teamId', async(req, res) => {
+    const teamId = req.params.teamId;
+    const getEvents = await orm.getEvents( teamId );
+    res.json( getEvents );
+})
+app.get('/api/loadEventsDetail/:eventId', async(req, res) => {
+    const eventId = req.params.eventId;
+    const getEventDetail = await orm.getEventDetail( eventId );
+    res.json( getEventDetail );
+})
+app.post('/api/goingToEvent', async function( req,res ){
+    const eventData = req.body;
+    const goingToEventData = await orm.goingToEventData( eventData );
+    res.send(goingToEventData);
+})
+app.post('/api/notGoingToEvent', async function( req,res ){
+    const eventData = req.body;
+    const notGoingToEventData = await orm.notGoingToEventData( eventData );
+    res.send(notGoingToEventData);
+})
+app.get('/api/closeEvent/:eventId', async(req, res) => {
+    const eventId = req.params.eventId;
+    const closeEvent = await orm.closeEvent( eventId );
+    res.json( closeEvent );
+})
+
+app.put('/api/postEventCmnt/:evetnId', async function( req,res ){
+    const evetnId = req.params.evetnId
+    const commentData = req.body;
+    const postEvntcomnt = await orm.postEvntcomnt( commentData, evetnId );
+    res.json(postEvntcomnt);
 })

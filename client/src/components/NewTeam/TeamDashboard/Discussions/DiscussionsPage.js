@@ -1,19 +1,15 @@
-import React , {useState, useEffect, useRef}  from 'react'
-import { Link, useLocation, useParams } from "react-router-dom";
+import React , {useState, useEffect}  from 'react'
+import { useParams } from "react-router-dom";
 
 function DiscussionsPage() {
     const { teamId } = useParams();
     const { discussionId } = useParams();
     const userId = localStorage.id;
     const userType = localStorage.type;
-
-    const [ members, setMembers ] = useState([]);
-    const [ adminDetail, setAdminDetail ]= useState({});
     const [ allMembers, setAllMembers]=useState([]);
     const [ discutionPOst, setDiscutionPOst]=useState({});
     const [ discutionComments, setDiscutionComments]=useState([]);
     const [ pollOptions, setpollOptions]=useState([]);
-    const [ isVoted, setIsVoted]=useState(false)
     const [ isFollowing, setIsFollowing]=useState(false)
     const [ isDiscLiked, setIsDiscLiked]=useState(false)
     const [ commentForm, setCommentForm]=useState(false)
@@ -21,11 +17,11 @@ function DiscussionsPage() {
     const [ pollObj, setPollObj ]= useState({});
     const [ reply, setReply] =useState({})
     const [ reply2, setReply2] =useState({})
-    const [showTheInput, setShowTheInput]=useState({val: ''})
-    const [showMoreComment, setShowMoreComment]=useState({val: ''})
-    const [showHideBtnsArr, setShowHideBtnsArr]=useState([])
-    const [showHideReplyBtnsArr, setShowHideReplyBtnsArr]=useState([]);
-    const [ discutionImg, setDiscutionImg]=useState({isImg : false, imgSrc: ''});
+    const [ showTheInput, setShowTheInput]=useState({val: ''})
+    const [ showMoreComment, setShowMoreComment]=useState({val: ''})
+    const [ showHideBtnsArr, setShowHideBtnsArr]=useState([])
+    const [ showHideReplyBtnsArr, setShowHideReplyBtnsArr]=useState([]);
+    const [ discutionImg, setDiscutionImg]=useState({isImg : false, imgSrc: ''})
     let allMembs=[]
     async function loadDiscussionPost(){
         let showBtnsArr = []
@@ -37,7 +33,6 @@ function DiscussionsPage() {
         if(fetchDiscussion.pollOptions.length>0){
             let pollOptArr = []
             let totalVoteCount=0;
-            let optionCount = 0;
             fetchDiscussion.pollOptions.map(option=>{
                 let pollOptObj = option
                 totalVoteCount = totalVoteCount + option.votes.length
@@ -53,11 +48,6 @@ function DiscussionsPage() {
                 totalVoteCount: totalVoteCount,
                 totalPollOptCount: fetchDiscussion.pollOptions.length
             }
-            console.log('pollObjRaw', pollObjRaw)
-            console.log('pollOptArr', pollOptArr)
-            console.log('totalVoteCount', totalVoteCount)
-            console.log('pollOptions count', fetchDiscussion.pollOptions.length)
-            
             setpollOptions(pollOptArr)
             setPollObj(pollObjRaw)
         }
@@ -66,7 +56,6 @@ function DiscussionsPage() {
             console.log('discussion has a picture')
             setDiscutionImg({isImg : true, imgSrc: fetchDiscussion.discussionImg})
         }
-
         //setting up to check if the post is followed by user
         fetchDiscussion.followers.map(follower=>{
             if(follower.userId === userId){
@@ -121,14 +110,11 @@ function DiscussionsPage() {
     };
     async function loadMembers(){
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
-        console.log('fetched members are: ', fetchMembers)
         allMembs = fetchMembers;
-        setMembers(fetchMembers)
     }
-    async function loadAdminProfile(){
+    async function loadAdminsInfo(){
         if(userType==="Admin"){
             const getAdmnDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
-            setAdminDetail(getAdmnDetail);
             allMembs.push(getAdmnDetail);
             console.log("allMembs: ", allMembs)
             setAllMembers(allMembs)
@@ -136,9 +122,7 @@ function DiscussionsPage() {
         }
         if(userType==="Member"){
             const fetchTeamDetail = await fetch (`/api/teamDetails/${teamId}`).then( res => res.json());
-            // setTeamDetail(fetchTeamDetail);
             const getAdmnDetail = await fetch (`/api/adminProfile/${fetchTeamDetail.teamAdmin}`).then( res => res.json());
-            setAdminDetail(getAdmnDetail);
             allMembs.push(getAdmnDetail);
             console.log("allMembs: ", allMembs)
             setAllMembers(allMembs)
@@ -162,7 +146,7 @@ function DiscussionsPage() {
         }).then( result=>result.json());
         loadDiscussionPost();
         loadMembers();
-        loadAdminProfile();
+        loadAdminsInfo();
     }
     async function unFollowDiscussion(){
         const followObj={
@@ -297,7 +281,6 @@ function DiscussionsPage() {
     function hndleCmntInptChnge( e ){
         const { id, value } = e.target; 
         setDiscsnComment({...discsnComment, [id]:value });
-
     }
     function hndleCmntInptChnge2( e ){
         // data-idx={idx}
@@ -370,7 +353,7 @@ function DiscussionsPage() {
     useEffect(function(){
         loadDiscussionPost();
         loadMembers();
-        loadAdminProfile();
+        loadAdminsInfo();
     },[])
     return (
         <div className="container">

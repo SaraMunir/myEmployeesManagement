@@ -14,6 +14,7 @@ let users = new Schema ({
     bio: String,
     sex: String,
     myDiscussions:[{discId: String}],
+    myEvents:[{eventId: String}],
     birthday: String, 
     address: String,
     phoneNumber: String,

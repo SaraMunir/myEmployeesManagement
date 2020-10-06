@@ -1075,21 +1075,26 @@ a:hover{
 }
 .teamNavBarDark{
   background: #3e444b;
-  margin-bottom: 20px;
   box-shadow: 1px 2px 12px #1d2024;
+  position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 108;
 }
 .teamNavBarLight{
   background: #f5f5f5;
-  margin-bottom: 20px;
   box-shadow: 1px 2px 3px #998893;
+  position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 108;
 }
 .myNav{
-  padding: 20px;
+  padding: 10px 20px;
   transition: .5s all ease;
-
 }
 .myNavActive{
-  padding: 20px;
+  padding: 10px 20px;
   color: #ee7676;
   border-bottom: 3px solid #ee7676;
   transition: .8s all ease;
@@ -1237,4 +1242,39 @@ button:focus{
 .discImg{
   height: 50vh ;
   object-fit: contain;
+}
+.eventThmbImg{
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  /* color: #ff9fb0; */
+}
+.eventImg{
+  height: 50vh;
+  object-fit: cover;
+}
+.eventImage{
+  position: relative;
+}
+.dateCard{
+  position: absolute;
+  top: -89px;
+  left: 20px;
+}
+.dateTop{
+  padding: 20px;
+  width: 150px;
+  height: 30px;
+  background: #302729;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.dateBtm{
+  padding: 20px;
+  width: 150px;
+  height: 120px;
+  background: #bd4a5d;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 }

@@ -2,29 +2,21 @@ const mongoose = require("mongoose");
 const { stringify } = require("uuid");
 const Schema = mongoose.Schema;
 
-let discussionPost = new Schema ({
+let events = new Schema ({
     creatorId: String,
-    followers: [{userId: String, userType: String}],
-    discussionImg: String,
+    guests: [{userId: String, userType: String}],
+    eventImg: String,
     teamId: String,
-    discussionPost: String,
-    discussionTitle: String,
-    discussionType: String,
+    eventPost: String,
+    eventTitle: String,
+    eventType: String,
+    eventStartDate: {type: Date},
+    eventStartTime: String,
+    eventEndDate: {type: Date},
+    eventEndTime: String,
     resolved: {type: Boolean, default: false},
     closed: {type: Boolean, default: false},
-    pollOptions: [
-        {
-            optionId: Number,
-            optionTxt: String,
-            votes: [{ userId: String }],
-        }
-    ],
     likes: [
-        { 
-            userId: String, 
-        }
-    ],
-    upVotes: [
         { 
             userId: String, 
         }
@@ -55,5 +47,5 @@ let discussionPost = new Schema ({
 }, {
     timestamps: true
 });
-module.exports = mongoose.model('discussionPost', discussionPost);
+module.exports = mongoose.model('events', events);
     

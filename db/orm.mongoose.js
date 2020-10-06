@@ -725,7 +725,6 @@ async function postDiscLike(likeData, postId){
     );
     return  { message: "like Added" };
 }
-// {likes: {frndId: unLikedata.frndId}}
 async function postDiscUnLike(likeData, postId){
     const likeDiscPost = await db.discussionPost.findOneAndUpdate(
         { _id: postId},
@@ -733,7 +732,6 @@ async function postDiscUnLike(likeData, postId){
     );
     return  { message: "like Added" };
 }
-// {likes: {frndId: unLikedata.frndId}}
 async function postDisckCmnt(likeData, postId){
     const postDisckCmnt = await db.discussionPost.findOneAndUpdate(
         { _id: postId},
@@ -741,7 +739,7 @@ async function postDisckCmnt(likeData, postId){
     );
     return  { message: "comment Added" };
 }
-// {commments : {frndId: unLikedata.frndId}}
+
 async function postComntLike(likeData, discussionId, commentId){
     const postPoll = await db.discussionPost.findOneAndUpdate(
         { _id: discussionId, 'comments._id': commentId},
@@ -752,7 +750,6 @@ async function postComntLike(likeData, discussionId, commentId){
 async function unLikeComment(likeData, discussionId, commentId){
     const postLikeCmnt = await db.discussionPost.findOneAndUpdate(
         { _id: discussionId, 'comments._id': commentId},
-        // { "$push": {'comments.$.likes':likeData}}
         { "$pull": {"comments.$.likes" : {userId: likeData.userId} } }
     );
     return  { message: "like Added" };
@@ -817,24 +814,89 @@ async function unvotePoll(pollData, discussionId, pollOptId){
     );
     return  { message: "vote Added" };
 }
+
+// events
+async function postEvents(eventData){
+    const dbEventsPost = new db.events( eventData );
+    const saveEvents = await dbEventsPost.save();
+    return  { message: "events added" };
+}
+// fetching evets
+async function getEvents(teamId){
+    const getEvents = await db.events.find({
+        "teamId" : teamId
+    })
+    return getEvents
+}
+async function getEventDetail(eventId){
+    const getEventDetail = await db.events.findOne({
+        "_id" : eventId
+    })
+    return getEventDetail
+}
+async function closeEvent(eventId){
+    const closeEvent = await db.events.findOneAndUpdate(
+        {"_id" : eventId},
+        {"$set": {"closed": true}}
+        )
+    return closeEvent
+}
+async function goingToEventData(eventData){
+    if(eventData.userType==='Admin'){
+        const addToEventsList = await db.users.findOneAndUpdate(
+            { _id: eventData.userId},
+                { "$push": {"myEvents":{eventId: eventData.eventId}}}
+        );
+    }
+    if(eventData.userType==='Member'){
+        const addToEventsList = await db.members.findOneAndUpdate(
+            { _id: eventData.userId},
+                { "$push": {"myEvents":{eventId: eventData.eventId}}}
+        );
+    }
+    const addGuestToEvent = await db.events.findOneAndUpdate(
+        { _id: eventData.eventId},
+            { "$push": {"guests": {userId: eventData.userId, userType: eventData.userType}}}
+    );
+    return  { message: "discussion followed" };
+}
+async function notGoingToEventData(eventData){
+    if(eventData.userType==='Admin'){
+        const deleteFromEventList = await db.users.findOneAndUpdate(
+            { _id: eventData.userId},
+                { "$pull": {"myEvents":{eventId: eventData.eventId}}}
+        );
+    }
+    if(eventData.userType==='Member'){
+        const deleteFromEventList = await db.members.findOneAndUpdate(
+            { _id: eventData.userId},
+                { "$pull": {"myEvents":{eventId: eventData.eventId}}}
+        );
+    }
+    const deleteGuestFromEvent = await db.events.findOneAndUpdate(
+        { _id: eventData.eventId},
+            { "$pull": {"guests": {userId: eventData.userId}}}
+    );
+    return  { message: "event not Going" };
+}
+async function postEvntcomnt(likeData, eventId){
+    const postEvntcomnt = await db.events.findOneAndUpdate(
+        { _id: eventId},
+        { "$push": {comments:likeData}}
+    );
+    return  { message: "comment Added" };
+}
 module.exports = {
     registerUser,
     getAllEmail,
     loginUser,
     getAdmin,
     loginMember,
-    // postTeams,
-    // getTeams, 
     getTeamDetail,
     postRoles,
     getRoles,
     deleteRole,
-    // getEmployees,
-    // deleteEmployee,
     updateAvatar,
-    // getMembDet,
-    // updateEmployee, 
-    // new stuffs
     postNewTeam,
     getAllTeams,
     deleteTeam,
@@ -892,5 +954,12 @@ module.exports = {
     postReplytLike,
     unLikeReply,
     postPoll,
-    unvotePoll
+    unvotePoll,
+    postEvents,
+    getEvents, 
+    getEventDetail,
+    goingToEventData,
+    notGoingToEventData,
+    closeEvent,
+    postEvntcomnt
 }

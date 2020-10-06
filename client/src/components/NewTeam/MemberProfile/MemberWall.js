@@ -3,13 +3,12 @@ import { useHistory, useParams } from "react-router-dom";
 
 const userId = localStorage.id
 const teamId = localStorage.teamId
-// const userType = localStorage.type
 const theme = localStorage.theme;
 
 
 function MemberWall() {
     const { membId } = useParams();
-    const [ memberDetail, setMemberDetail ]= useState({});
+    // const [ memberDetail, setMemberDetail ]= useState({});
     const [ posts, setPosts ]= useState([]);
     const [ comment, setComment ]= useState({});
     const [ members, setMembers ] = useState([]);
@@ -28,13 +27,13 @@ function MemberWall() {
             }).then( result => result.json());
         // console.log('friend added: ', apiResult.message)
         setNewPost({ post:'', creatorId: `${userId}`, ownerId: `${membId}`})
-        loadMemberProfile();
+        // loadMemberProfile();
         loadPosts()
     }
-    async function loadMemberProfile(){
-        const getEmpDetail = await fetch (`/api/memberProfile/${membId}`).then( res => res.json());
-        setMemberDetail(getEmpDetail);
-    }
+    // async function loadMemberProfile(){
+    //     const getEmpDetail = await fetch (`/api/memberProfile/${membId}`).then( res => res.json());
+    //     // setMemberDetail(getEmpDetail);
+    // }
     async function loadMember(){
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
         console.log('fetched members are: ', fetchMembers)
@@ -44,7 +43,7 @@ function MemberWall() {
         const getPosts = await fetch (`/api/loadPosts/${membId}`).then( res => res.json());
         console.log(' fetched POSTS: ', getPosts)
         const sortingPosts = getPosts.sort(function(a,b){
-            if (a.upVotes.length == 0 ){
+            if (a.upVotes.length === 0 ){
                 let crA = a.created
                 let crB = b.created
                 return(crB>crA ? 1: -1)
@@ -192,7 +191,7 @@ function MemberWall() {
         document.location.reload(true);
     }
     useEffect(function(){
-        loadMemberProfile();
+        // loadMemberProfile();
         loadPosts()
         loadMember()
     },[])

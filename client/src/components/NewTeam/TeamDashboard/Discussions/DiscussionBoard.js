@@ -1,17 +1,15 @@
-import React , {useState, useEffect, useRef}  from 'react'
+import React, {useState, useEffect, useRef}  from 'react'
 import { Link, useLocation, useParams } from "react-router-dom";
 import {Modal} from 'react-bootstrap'
 
 function DiscussionBoard() {
-    const { teamId } = useParams();
     const inputDiscussionTitle = useRef();
     const inputDiscussionPost = useRef();
+    const { teamId } = useParams();
     const userId = localStorage.id
     const userType = localStorage.type;
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
-    // const [teamDetail, setTeamDetail]= useState( {});
-    const [teamAdmin, setTeamAdmin]= useState('');
-
+    // const [teamAdmin, setTeamAdmin]= useState('');
     const [ myPic, setMyPic] = useState ( '' );
     const [ discussions, setDiscussions ] = useState([]);
     const [ members, setMembers ] = useState([]);

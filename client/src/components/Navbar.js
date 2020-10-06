@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect } from 'react';
 import NavIcon from './assets/group.png';
 import { Link, useLocation } from "react-router-dom";
 function Navbar() {

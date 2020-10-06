@@ -25,6 +25,7 @@ let members = new Schema ({
     profileImg: String,
     coverImg: String,
     myDiscussions:[{discId: String}],
+    myEvents:[{eventId: String}],
     friendList: [
         {friendId: String}
     ],

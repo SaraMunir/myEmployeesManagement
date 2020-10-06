@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Link, useParams, Redirect } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import MyCalendar from "./MyCalendar"
 import OnHoverScrollContainer from './scroll/CustomScrollDiv';
@@ -8,17 +8,17 @@ const theme = localStorage.theme;
 
 function HomePage() {
     const { teamId } = useParams();
-    const [teamDetail, setTeamDetail]= useState( {});
+    // const [teamDetail, setTeamDetail]= useState( {});
     const [members, setMember] = useState([]);
     // const [membersBirth, setMembersBirth] = useState([]);
-    const [closestBirth, setClosestBirth] = useState([]);
+    // const [closestBirth, setClosestBirth] = useState([]);
     const [upcomingBirthday, setUpcomingBirthday] = useState([]);
     const [todayBirth, setTodayBirth] = useState([]);
     const [houses, setHouses] = useState([]);
     async function loadTeamDetail(){
         const fetchTeamDetail = await fetch (`/api/teamDetails/${teamId}`).then( res => res.json());
         console.log('fetched team detail is: ', fetchTeamDetail)
-        setTeamDetail(fetchTeamDetail)
+        // setTeamDetail(fetchTeamDetail)
     }
     async function loadMember(){
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
@@ -56,7 +56,7 @@ function HomePage() {
             console.log('members after sorting: ', membBirthday);
             // setMembersBirth(membBirthday);
             setUpcomingBirthday(upcomingBirthday);
-            setClosestBirth(membBirthday)
+            // setClosestBirth(membBirthday)
             setTodayBirth(membCurrentDateBirth);
         }
     async function loadHouse(){

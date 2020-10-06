@@ -6,10 +6,11 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import OnHoverScrollContainer from "../scroll/CustomScrollDiv";
 // import Birthdays from "./TeamDashboard/Birthdays.js"
 import TeamNavbar from "./TeamDashboard/TeamNavbar"
-import HomePage from "./TeamDashboard/HomePage"
-import DiscussionBoard from "./TeamDashboard/DiscussionBoard"
-import EventsPage from './TeamDashboard/EventsPage';
-import DiscussionPage from './TeamDashboard/DiscussionsPage';
+import HomePage from "./TeamDashboard/HomePage/HomePage"
+import DiscussionBoard from "./TeamDashboard/Discussions/DiscussionBoard"
+import EventsPage from './TeamDashboard/Events/EventsPage';
+import DiscussionPage from './TeamDashboard/Discussions/DiscussionsPage';
+import EventDetail from './TeamDashboard/Events/EventDetail';
 const userType = localStorage.type
 const theme = localStorage.theme;
 const userId = localStorage.id;
@@ -97,6 +98,8 @@ function TeamDashboard() {
                 {/* /TeamDetail/${teamId}/TeamDashboard/DiscussionBoard/DiscussionPage/${discussion._id} */}
                 <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/DiscussionBoard/DiscussionPage/:discussionId`]} component={DiscussionPage} teamAdmin={teamAdmin}/>
                 <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/EventsPage`]} component={EventsPage}/>
+                {/* /TeamDetail/${teamId}/TeamDashboard/EventsPage/Event/${event._id} */}
+                <Route exact path={[`/TeamDetail/:teamId/TeamDashboard/EventsPage/Event/:eventId`]} component={EventDetail}/>
             {/* <div className={ theme === 'Dark' ? "myCardDark mx-auto col-11" : "myCard mx-auto col-11"} style={{padding: '30px'}}>
                 <h5 className="text-left">Houses</h5>
                 <hr/>
