@@ -143,7 +143,7 @@ img {
   box-shadow: 1px 2px 3px #998893;
 }
 .myCardDark{
-  background: #3e444b;
+  background: rgb(62, 68, 75);
   margin-top: 10px;
   margin-bottom: 20px;
   min-width: 28%;
@@ -151,6 +151,7 @@ img {
   border-radius: 5px;
   padding: 10px;
   box-shadow: 1px 2px 12px #1d2024;
+  /* color: #3c444e; */
 }
 .myContainer{
   background: #e4e1e1;;
@@ -760,7 +761,7 @@ a:hover{
   border-radius: 8px;
 }
 .hoverName2{
-  width: 130px;
+  /* width: 130px; */
   font-size: .8rem;
   background: #dadada;
   color: #1d2024;
@@ -1278,3 +1279,35 @@ button:focus{
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
 }
+.guestList{
+  width: 85vw;
+  overflow-x: scroll;
+  margin: 0 auto;
+  padding: 25px;
+}
+.eventNavItm{
+  width: 200px;
+  border: 1px solid #ff9fb0;
+  padding: 10px 20px;
+  color: #ff9fb0;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.eventNavItmAct{
+  width: 200px;
+  border: 1px solid #ff9fb0;
+  padding: 10px 20px;
+  color: #3d3d3d;
+  background: #ff9fb0;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.eventsStuffs{
+  padding: 10px;
+  min-height: 100vh;
+}
+.timeLineItmTg{
+  padding: 10px;
+  background: coral;
+}
+

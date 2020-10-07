@@ -11,7 +11,7 @@ function TeamNavbar(props) {
                 <Link to={`/TeamDetail/${props.teamId}/TeamDashboard/DiscussionBoard`} className={location.pathname === `/TeamDetail/${props.teamId}/TeamDashboard/DiscussionBoard` ? "myNavActive mx-auto" : "myNav mx-auto"}>Discussion Board</Link>
                 <Link to={`/TeamDetail/${props.teamId}/TeamDashboard/EventsPage`} className={location.pathname === `/TeamDetail/${props.teamId}/TeamDashboard/EventsPage` ? "myNavActive mx-auto" : "myNav mx-auto"}>Events Board</Link>
             </div>
-        </div>
+        </div> 
     )
 }
 

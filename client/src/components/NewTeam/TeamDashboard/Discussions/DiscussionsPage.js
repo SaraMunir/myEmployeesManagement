@@ -88,20 +88,21 @@ function DiscussionsPage() {
                             commmentObj.CommentLikedByUser = true
                         }
                         //    setting up replies inorder to check if the reply is liked by user
-                        let replyArr = []
-                        comment.replies.map(reply=>{
-                            let replyObj = reply;
-                            if(replyObj.likes.length>0){
-                                reply.likes.map(like=>{
-                                    if(like.userId === userId){
-                                        replyObj.ReplyLikedByUser = true
-                                    }
-                                })
-                            }
-                            replyArr.push(replyObj) })
-                        // adding 
-                        commmentObj.replies = replyArr;
                     }) }
+                let replyArr = []
+                if(comment.replies.length>0){
+                    comment.replies.map(reply=>{
+                    let replyObj = reply;
+                    if(replyObj.likes.length>0){
+                        reply.likes.map(like=>{
+                            if(like.userId === userId){
+                                replyObj.ReplyLikedByUser = true
+                            }
+                        })
+                    }
+                    replyArr.push(replyObj) })
+                }
+                commmentObj.replies = replyArr;
                 commentArr.push(commmentObj) }) }
         setShowHideBtnsArr(showBtnsArr)
         setShowHideReplyBtnsArr(showBtnsArr2)
@@ -155,52 +156,6 @@ function DiscussionsPage() {
             userType: userType
         }
     }
-    async function likeDiscPost(postId, type){
-        
-        const likeData={
-            userId: userId,
-        }
-        if(type === 'discussion'){
-            const apiResult = await fetch(`/api/likeDiscPost/${postId}`, 
-            {   method: 'PUT',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(likeData)
-            }).then( result => result.json());
-            loadDiscussionPost();
-            return
-            }
-        if(type === 'comment'){
-            console.log('comments postId: ', postId)
-            const apiResult = await fetch(`/api/likeDiscComnt/${discussionId}/${postId}`, 
-            {   method: 'PUT',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(likeData)
-            }).then( result => result.json());
-            loadDiscussionPost();
-            return
-            }
-        if(type === 'reply'){
-            console.log("postId ", postId)
-            const replyLikesData={
-                userId: userId,
-                replyId: postId.replyId,
-                commentId: postId.commentId,
-            }
-            const apiResult = await fetch(`/api/likeCmntReply/${discussionId}`, 
-            {   method: 'PUT',
-                headers:{
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(replyLikesData)
-            }).then( result => result.json());
-            loadDiscussionPost();
-            return
-        }
-    }
     async function votePoll(pollOptnId){
         console.log('pollOptnId: ', pollOptnId);
         const pollData={
@@ -228,6 +183,54 @@ function DiscussionsPage() {
                 body: JSON.stringify(pollData)
             }).then( result => result.json());
             loadDiscussionPost();
+    }
+    async function likeDiscPost(postId, type){
+        console.log("type ", type)
+        console.log("postId ", postId)
+        const likeData={
+                userId: userId,
+                }
+        if(type === 'discussion'){
+        const apiResult = await fetch(`/api/likeDiscPost/${postId}`, 
+        {   method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(likeData)
+        }).then( result => result.json());
+        loadDiscussionPost();
+        return
+        }
+        if(type === 'comment'){
+        console.log('comments postId: ', postId)
+        const apiResult = await fetch(`/api/likeDiscComnt/${discussionId}/${postId}`, 
+        {   method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(likeData)
+        }).then( result => result.json());
+        loadDiscussionPost();
+        return
+        }
+        if(type === 'reply'){
+        console.log("type ", type)
+        console.log("postId ", postId)
+        const replyLikesData={
+            userId: userId,
+            replyId: postId.replyId,
+            commentId: postId.commentId,
+        }
+        console.log('replyLikesData ', replyLikesData)
+        const apiResult = await fetch(`/api/likeCmntReply/${discussionId}`, 
+        {   method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(replyLikesData)
+        }).then( result => result.json());
+        loadDiscussionPost();
+        return}
     }
     async function unLikeDiscPost(postId, type){
         const likeData={
@@ -469,6 +472,9 @@ function DiscussionsPage() {
                                     </div>
                                 {/* like section of the comment */}
                                     <div className="commentLike d-flex">
+                                    {comment.likes ? 
+                                        <p> {comment.likes.length}  &nbsp; </p>: ''
+                                        }
                                         {comment.CommentLikedByUser === true ? <div onClick={()=>unLikeDiscPost(comment._id, 'comment')}>
                                             <i class="onHvr fas fa-thumbs-up" style={{fontSize:'1.4rem', color: 'pink'}}></i>
                                         </div>:
@@ -477,15 +483,11 @@ function DiscussionsPage() {
                                             <i class="onHvr far fa-thumbs-up" style={{fontSize:'1.4rem'}}></i>
                                         </div>
                                         }
-                                        {
-                                            comment.likes ? 
-                                        <p> &nbsp; {comment.likes.length}</p>: ''
-                                        }
                                     </div>
                                 </div>
                                 {/* Replies Section if there are more than 1 replies only then*/}
                                 <div className="replyShowButtons">
-                                    { comment.replies.length>1 ?
+                                    { comment.replies.length>2 ?
                                     // button to show more replies
                                     showHideBtnsArr[idx][idx] == 'false'?
                                     <button className='myOtherBtn' onClick={handleShowMore} id={idx} name={`showMoreComments${idx}`} value={true} >Show {comment.replies.length-2} more Replies</button> : ''
@@ -513,18 +515,22 @@ function DiscussionsPage() {
                                                 </div>
                                             </div>
                                             <div className="d-flex">
+                                                {
+                                                rep.likes ? 
+                                                <p> {rep.likes.length} &nbsp; </p>: ''
+                                                }
                                                 {rep.ReplyLikedByUser === true ?
                                                 <div onClick={()=>unLikeDiscPost({replyId: rep._id, commentId: comment._id},  'reply')}>
-                                                    <i class="onHvr fas fa-thumbs-up" style={{fontSize:'1.4rem', color:'pink'}}></i>
-                                                </div>:
+                                                    <div>
+                                                        <i class="onHvr fas fa-thumbs-up" style={{fontSize:'1.4rem', color:'pink'}}></i>
+                                                        <p>unlike</p> 
+                                                    </div>
+                                                </div> :
                                                 <div onClick={()=>likeDiscPost({replyId: rep._id, commentId: comment._id},  'reply')}>
                                                     <i class="onHvr far fa-thumbs-up" style={{fontSize:'1.4rem'}}></i>
                                                 </div>
                                                 }
-                                                {
-                                                rep.likes ? 
-                                                <p> &nbsp; {rep.likes.length}</p>: ''
-                                                }
+                                                
                                             </div>
                                         </div>
                                     ) : ''}
@@ -545,17 +551,20 @@ function DiscussionsPage() {
                                                 </div>
                                             </div>
                                             <div className="d-flex">
+                                                {
+                                                rep.likes ? 
+                                                <p>{rep.likes.length}  &nbsp; </p>: ''
+                                                }
                                                 {rep.ReplyLikedByUser === true ?
                                                 <div onClick={()=>unLikeDiscPost({replyId: rep._id, commentId: comment._id},  'reply')}>
-                                                    <i class="onHvr fas fa-thumbs-up" style={{fontSize:'1.4rem', color:'pink'}}></i>
+                                                    <div>
+                                                        <i class="onHvr fas fa-thumbs-up" style={{fontSize:'1.4rem', color:'pink'}}></i>
+                                                        <p>unlike</p> 
+                                                    </div>
                                                 </div>:
                                                 <div onClick={()=>likeDiscPost({replyId: rep._id, commentId: comment._id},  'reply')}>
                                                     <i class="onHvr far fa-thumbs-up" style={{fontSize:'1.4rem'}}></i>
                                                 </div>
-                                                }
-                                                {
-                                                rep.likes ? 
-                                                <p> &nbsp; {rep.likes.length}</p>: ''
                                                 }
                                             </div>
                                         </div>

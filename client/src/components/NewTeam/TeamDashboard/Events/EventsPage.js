@@ -436,15 +436,15 @@ function EventsPage() {
                                     </div>
                                 </div>
                             </div>)}
-                            ):''}
+                            ):<div><h5>there are no upcoming events</h5></div>}
                     </div>
+                    {
+                        ongoingEvents.length>0 ? 
                     <div>
                         <hr/>
                         <h4 style={{color: '#cdced8'}}>Ongoing Events</h4>
                         <hr className="col-6 mx-auto"/>
-                        {
-                        ongoingEvents ? 
-                        ongoingEvents.map((event, idx)=>{ 
+                        {ongoingEvents.map((event, idx)=>{ 
                             const eventDate = event.eventStartDate.slice(8,10)
                             const eventMonth = event.eventStartDate.slice(5,7)
                             const eventYear = event.eventStartDate.slice(0,4)
@@ -507,15 +507,15 @@ function EventsPage() {
                                     </div>
                                 </div>
                             </div>)}
-                            ):''}
-                    </div>
+                            )}
+                    </div> : "" }
+                    {  pastEvents ? 
                     <div>
                         <hr/>
                         <h4 style={{color: '#cdced8'}}>Past Events</h4>
                         <hr className="col-6 mx-auto"/>
-                        {
-                        pastEvents ? 
-                        pastEvents.map((event, idx)=>{ 
+                        
+                        {pastEvents.map((event, idx)=>{ 
                             const eventDate = event.eventStartDate.slice(8,10)
                             const eventMonth = event.eventStartDate.slice(5,7)
                             const eventYear = event.eventStartDate.slice(0,4)
@@ -578,8 +578,8 @@ function EventsPage() {
                                     </div>
                                 </div>
                             </div>)}
-                            ):''}
-                    </div>
+                            )}
+                    </div> : ''}
                 </div>
                 <div className="col-md-2 myCardDark mx-auto">
                     <h3 style={{color: "#cacaca"}}>Following</h3>

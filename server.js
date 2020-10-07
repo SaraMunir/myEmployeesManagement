@@ -675,3 +675,58 @@ app.put('/api/postEventCmnt/:evetnId', async function( req,res ){
     const postEvntcomnt = await orm.postEvntcomnt( commentData, evetnId );
     res.json(postEvntcomnt);
 })
+// like post
+app.put('/api/likeEvntPost/:postId', async function( req,res ){
+    const postId = req.params.postId
+    const likeData = req.body;
+    const postEvntLike = await orm.postEvntLike( likeData, postId );
+    res.json(postEvntLike);
+})
+//unlike event post
+app.put('/api/unLikeEvntPost/:postId', async function( req,res ){
+    const postId = req.params.postId
+    const likeData = req.body;
+    const unLikeEvnt = await orm.unLikeEvnt( likeData, postId );
+    res.json(unLikeEvnt);
+})
+
+// like event's comment post
+app.put('/api/likeEvntComnt/:eventId/:postId', async function( req,res ){
+    const eventId = req.params.eventId
+    const postId = req.params.postId
+    const likeData = req.body;
+    const likeEvntComnt = await orm.likeEvntComnt( likeData, eventId, postId );
+    res.json(likeEvntComnt);
+})
+
+// like post
+app.put('/api/unLikeEvntComnt/:eventId/:postId', async function( req,res ){
+    const eventId = req.params.eventId
+    const postId = req.params.postId
+    const likeData = req.body;
+    const unLikeEvntComnt = await orm.unLikeEvntComnt( likeData, eventId,postId );
+    res.json(unLikeEvntComnt);
+})
+//replyeing to events comment
+app.put('/api/replyToEvntComment/:eventId/:commentId', async function( req,res ){
+    const eventId = req.params.eventId
+    const commentId = req.params.commentId
+    const replyData = req.body;
+    const postReplyToEvntsCmnt = await orm.postReplyToEvntsCmnt( replyData, eventId, commentId );
+    res.json(postReplyToEvntsCmnt);
+})
+// like reply
+app.put('/api/likeEvntCmntReply/:eventId', async function( req,res ){
+    const eventId = req.params.eventId
+    const replyLikeData = req.body;
+    const postEvntReplytLike = await orm.postEvntReplytLike( replyLikeData, eventId );
+    res.json(postEvntReplytLike);
+})
+// postReplytLike
+// unlike reply
+app.put('/api/unLikeEvntCmntReply/:eventId', async function( req,res ){
+    const eventId = req.params.eventId
+    const replyUnLikeData = req.body;
+    const unLikeEvntReply = await orm.unLikeEvntReply( replyUnLikeData, eventId );
+    res.json(unLikeEvntReply);
+})

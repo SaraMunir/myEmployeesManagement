@@ -755,9 +755,6 @@ async function unLikeComment(likeData, discussionId, commentId){
     return  { message: "like Added" };
 }
 async function postCmntReplies(replyData, discussionId, commentId ){
-    console.log("replyData", replyData)
-    console.log("discussionId", discussionId)
-    console.log("commentId", commentId)
     const postDisckCmnt = await db.discussionPost.findOneAndUpdate(
         { _id: discussionId, 'comments._id': commentId},
         { "$push": {'comments.$.replies':replyData}}
@@ -814,7 +811,6 @@ async function unvotePoll(pollData, discussionId, pollOptId){
     );
     return  { message: "vote Added" };
 }
-
 // events
 async function postEvents(eventData){
     const dbEventsPost = new db.events( eventData );
@@ -886,6 +882,87 @@ async function postEvntcomnt(likeData, eventId){
     );
     return  { message: "comment Added" };
 }
+async function postEvntLike(likeData, postId){
+    const likeEvntPost = await db.events.findOneAndUpdate(
+        { _id: postId},
+        { "$push": {likes: likeData}}
+    );
+    return  { message: "like Added" };
+}
+async function unLikeEvnt(likeData, postId){
+    const unLikeEvntPost = await db.events.findOneAndUpdate(
+        { _id: postId},
+        { "$pull": {likes:{userId: likeData.userId}}}
+    );
+    return  { message: "like Added" };
+}
+async function likeEvntComnt(likeData, eventId, commentId){
+    const postEventsCmntLike = await db.events.findOneAndUpdate(
+        { _id: eventId, 'comments._id': commentId},
+        { "$push": {'comments.$.likes':likeData}}
+    );
+    return  { message: "like Added" };
+}
+async function unLikeEvntComnt(likeData, eventId, commentId){
+    const unLikeComnt = await db.events.findOneAndUpdate(
+        { _id: eventId, 'comments._id': commentId},
+        { "$pull": {"comments.$.likes" : {userId: likeData.userId} } }
+    );
+    return  { message: "like Added" };
+}
+// postReplyToEvntsCmnt
+async function postReplyToEvntsCmnt(replyData, eventId, commentId ){
+    const postEvntReplCmnt = await db.events.findOneAndUpdate(
+        { _id: eventId, 'comments._id': commentId},
+        { "$push": {'comments.$.replies':replyData}}
+
+    );
+    return  { message: "comment Added" };
+}
+async function postEvntReplytLike(replyLikeData, eventId){
+    const likeData ={
+        userId: replyLikeData.userId
+    }
+    const postEvntReplytLike = await db.events.findOneAndUpdate(
+        { _id: eventId},
+        { "$push": 
+        {'comments.$[commentId].replies.$[replyId].likes':likeData}},
+        {
+            "arrayFilters": [
+                {"commentId._id" : replyLikeData.commentId},
+                {"replyId._id" : replyLikeData.replyId}
+            ]
+        }
+    );
+    return  { message: "like Added" };
+}
+// unLikeEvntReply
+// async function unLikeEvntReply(likeData, postId){
+//     console.log('likeData in orm: ', likeData)
+//     const unLikeEvntReply = await db.events.findOneAndUpdate(
+//         { _id: postId},
+//         { "$pull": {likes:{userId: likeData.userId}}}
+//     );
+//     return  { message: "like Added" };
+// }
+async function unLikeEvntReply(replyLikeData, discussionId){
+    const likeData ={
+        userId: replyLikeData.userId
+    }
+    const postLikeCmnt = await db.events.findOneAndUpdate(
+        { _id: discussionId},
+        { "$pull": 
+        {'comments.$[commentId].replies.$[replyId].likes':{userId: replyLikeData.userId}}},
+        {
+            "arrayFilters": [
+                {"commentId._id" : replyLikeData.commentId},
+                {"replyId._id" : replyLikeData.replyId}
+            ]
+        }
+    );
+    return  { message: "like Added" };
+}
+
 module.exports = {
     registerUser,
     getAllEmail,
@@ -961,5 +1038,12 @@ module.exports = {
     goingToEventData,
     notGoingToEventData,
     closeEvent,
-    postEvntcomnt
+    postEvntcomnt,
+    postEvntLike,
+    unLikeEvnt,
+    likeEvntComnt,
+    unLikeEvntComnt,
+    postReplyToEvntsCmnt,
+    postEvntReplytLike,
+    unLikeEvntReply
 }
