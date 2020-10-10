@@ -3,10 +3,17 @@ This application was built for managing groups let it be small or big. The appli
 
 ## Aspects
 
+* [Dashboard](#Dashboard)
 * [Discussions](#Discussions)
-* [Technologies](#technologies)
+* [Events](#Events)
 * [Setup](#setup)
 
 ## Discussions
-the groups have discussion boards where the members can create/start discussion on any topic they want.
+Dashboard contains a summary of the group, such as the members, houses/department.  it also showcases the upcoming birthdays of the members in the current month. 
+
+## Discussions
+the groups have discussion boards where the members can create/start discussion on any topic they want. Users can also add polls to their discussion where other members can vote. 
+
+## Events
+Users are also able to create events. They can schedule the events timeline under the timeline section. 
 
