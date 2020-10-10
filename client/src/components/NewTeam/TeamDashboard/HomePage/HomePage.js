@@ -77,6 +77,8 @@ function HomePage() {
     },[])
     return (
         <div>
+            {
+                houses.length>0 ?
             <div className={ theme === 'Dark' ? "myCardDark mx-auto col-11" : "myCard mx-auto col-11"} style={{padding: '30px'}}>
                 <h5 className="text-left">Houses</h5>
                 <hr/>
@@ -84,6 +86,9 @@ function HomePage() {
                     <img key={idx} class="houseThmbs" src={house.profileImg} alt="bdsb"/>
                 ): ''}
             </div>
+            :''
+
+            }
             <div className={ theme === 'Dark' ? "myCardDark mx-auto col-11" : "myCard mx-auto col-11"} style={{padding: '30px'}}>
                 <h5 className="text-left">Members</h5>
                 <hr/>

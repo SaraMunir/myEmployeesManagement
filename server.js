@@ -730,3 +730,11 @@ app.put('/api/unLikeEvntCmntReply/:eventId', async function( req,res ){
     const unLikeEvntReply = await orm.unLikeEvntReply( replyUnLikeData, eventId );
     res.json(unLikeEvntReply);
 })
+
+//creating events
+app.post('/api/postEventTimeLine/:eventId', async function( req,res ){
+    const eventId = req.params.eventId
+    const EventTimelineData = req.body;
+    const postEventTimeLine = await orm.postEventTimeLine( EventTimelineData, eventId);
+    res.send(postEventTimeLine);
+})

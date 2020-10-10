@@ -26,7 +26,7 @@ function EventsPage() {
     const [ lgShow, setLgShow] = useState(false);
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
     const [ newEvent, setNewEvent]= useState({
-        teamId: `${teamId}`, creatorId: `${userId}`, eventTitle: '', eventStartDate: '', eventStartTime: '', eventEndDate: '', eventEndTime: '', eventPost: '', eventImg: localStorage.unUploaded
+        teamId: `${teamId}`, creatorId: `${userId}`, eventTitle: '', eventStartDate: '', eventStartTime: '', eventEndDate: '', eventEndTime: '', eventPost: '', eventImg: !localStorage.unUploaded ? '':localStorage.unUploaded
     })
     const [ imgForm, setImgForm] = useState(false);
     const [ eventPic, setEventPic] = useState ( '' );
@@ -344,7 +344,7 @@ function EventsPage() {
                                             </div>
                                         </form>
                                         : ''}
-                                    {!newEvent.eventImg?''
+                                    {!newEvent.eventImg ? ''
                                     :<div className="uploadingDiscPic">
                                         <i class="fas fa-times cancelImg" onClick={cancelImg}></i>
                                         <img className="discnImgUp" src={newEvent.eventImg} alt=""/>
@@ -384,7 +384,7 @@ function EventsPage() {
                                 return ( <div key={`event${idx}`} className="discBoards mx-auto">
                                 <div className="d-flex justify-content-between">
                                     <div className="">
-                                        <img className="eventThmbImg" src={event.eventImg == ''?"https://image.freepik.com/free-vector/events-concept-illustration_114360-931.jpg" :event.eventImg} alt="eventImage"/>
+                                        <img className="eventThmbImg" src={event.eventImg == '' || !event.eventImg ?"https://image.freepik.com/free-vector/events-concept-illustration_114360-931.jpg" :event.eventImg} alt="eventImage"/>
                                     </div>
                                     <div className="col-6 text-left">
                                         <div className="d-flex">
@@ -455,7 +455,7 @@ function EventsPage() {
                                 return ( <div key={`event${idx}`} className="discBoards mx-auto">
                                 <div className="d-flex justify-content-between">
                                     <div className="">
-                                        <img className="eventThmbImg" src={event.eventImg == ''?"https://image.freepik.com/free-vector/events-concept-illustration_114360-931.jpg" :event.eventImg} alt="eventImage"/>
+                                        <img className="eventThmbImg" src={event.eventImg === '' ?"https://image.freepik.com/free-vector/events-concept-illustration_114360-931.jpg" : event.eventImg} alt="eventImage"/>
                                     </div>
                                     <div className="col-6 text-left">
                                         <div className="d-flex">

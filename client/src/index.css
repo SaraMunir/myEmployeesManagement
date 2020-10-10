@@ -1307,7 +1307,58 @@ button:focus{
   min-height: 100vh;
 }
 .timeLineItmTg{
+  min-width: 150px;
+  max-width: 250px;
   padding: 10px;
-  background: coral;
+  background: #f37085;
+}
+.tmLineSctn{
+  width: 100%;
+  /* min-height: 15vh; */
+  /* border: 2px solid orange; */
+}
+.sm{
+  width: 100%;
+  /* min-height: 15vh; */
+  /* border: 2px solid rgb(0, 255, 242); */
+}
+.mid{
+  width: 4px;
+  /* min-height: 15vh; */
+  border: 2px solid #e4435e;
+}
+.midCrcl{
+  border: 2px solid#e4435e;
+  background:#e4435e ;
+  width: 15px;
+  height: 10px;
+  border-radius: 50%;
+}
+.timeLineItmTrngleRight{
+  /* width: 10px; */
+  border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-left: 22px solid #f37085;
+}
+.timeLineItmTrngleLeft{
+  /* width: 10px; */
+  border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-right: 22px solid #f37085;
+}
+.timeLineItmTrngleDwn{
+  width: 10px;
+  border-top: 15px solid #f37085;
+  /* border-bottom: 22px solid #f37085; */
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+}
+.timeLineItmTrngleUp{
+  width: 10px;
+  /* border-top: 15px solid #f37085; */
+  border-bottom: 15px solid #f37085;
+  /* border-bottom: 22px solid coral; */
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
 }
 

@@ -813,6 +813,7 @@ async function unvotePoll(pollData, discussionId, pollOptId){
 }
 // events
 async function postEvents(eventData){
+    console.log('eventData received in orm: ', eventData)
     const dbEventsPost = new db.events( eventData );
     const saveEvents = await dbEventsPost.save();
     return  { message: "events added" };
@@ -882,6 +883,7 @@ async function postEvntcomnt(likeData, eventId){
     );
     return  { message: "comment Added" };
 }
+
 async function postEvntLike(likeData, postId){
     const likeEvntPost = await db.events.findOneAndUpdate(
         { _id: postId},
@@ -961,6 +963,14 @@ async function unLikeEvntReply(replyLikeData, discussionId){
         }
     );
     return  { message: "like Added" };
+}
+
+async function postEventTimeLine(eventData, eventId){
+    const postEvntTimeLine = await db.events.findOneAndUpdate(
+        { _id: eventId},
+        { "$push": {timeLine:eventData}}
+    );
+    return  { message: "comment Added" };
 }
 
 module.exports = {
@@ -1045,5 +1055,6 @@ module.exports = {
     unLikeEvntComnt,
     postReplyToEvntsCmnt,
     postEvntReplytLike,
-    unLikeEvntReply
+    unLikeEvntReply,
+    postEventTimeLine
 }

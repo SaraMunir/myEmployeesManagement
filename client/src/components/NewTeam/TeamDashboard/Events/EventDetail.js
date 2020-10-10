@@ -23,6 +23,7 @@ function EventDetail() {
     const [ showGuestList, setShowGuestList] =useState(false)
     const [ eventPostCmnt, setEventPostCmnt ]= useState({ commenterId: userId, comment: '' });
     const [ eventsComments, setEventsComments]=useState([]);
+    const [ eventsTimeLine, setEventsTimeLine]=useState([]);
     const [ isGoing, setIsGoing]=useState(false);
     const [month, setMonth]= useState(['January','February','March','April','May','June','July','August','September','October','November','December'])
     const [dayArr, setDayArr]= useState(['Sun','Mon','Tue','Wed','Thur','Fri','Sat'])
@@ -35,7 +36,6 @@ function EventDetail() {
     }
     async function loadEventDetail(){
         const eventDetail = await fetch (`/api/loadEventsDetail/${eventId}`).then( res => res.json());
-        console.log('eventDetail: ', eventDetail)
         setEventDetail(eventDetail);
         eventDetail.guests.map(guest=>{
             if(guest.userId === userId){
@@ -88,7 +88,26 @@ function EventDetail() {
         } else {
             setIsDiscLiked(false)
         }
-        //    setting up comments inorder to check if the comment is liked and also set up for buttons array
+        let sortedEventTimeLine = []
+        if(eventDetail.eventStartDate === eventDetail.eventEndDate){
+            sortedEventTimeLine =eventDetail.timeLine.sort(function(a,b){
+                let crA = a.timeLineTime
+                let crB = b.timeLineTime
+                return(crB-crA)
+            })
+            setEventsTimeLine(sortedEventTimeLine)
+        } else {
+            let sortEventTimeLineByDate = eventDetail.timeLine.sort(function(a,b){
+                let crA = a.timeLineDate.slice(8,10)
+                let crB = b.timeLineDate.slice(8,10)
+                if (crA>crB) return 1;
+                if (crA<crB) return -1;
+                if(a.timeLineTime>b.timeLineTime) return 1;
+                if(a.timeLineTime<b.timeLineTime) return -1;
+            })
+            console.log('sortEventTimeLineByDate',sortEventTimeLineByDate)
+            setEventsTimeLine(sortEventTimeLineByDate)
+        }
         if(eventDetail.comments.length>0){
             eventDetail.comments.map((comment, idx)=>{
                 let commmentObj = comment
@@ -101,27 +120,29 @@ function EventDetail() {
                         //     updating comment obj by adding extra key of 'if comment is liked by user'
                             commmentObj.CommentLikedByUser = true
                         }
+                        //    setting up replies inorder to check if the reply is liked by user
                     }) }
-                //    setting up replies inorder to check if the reply is liked by user
                 let replyArr = []
-                comment.replies.map(reply=>{
+                if(comment.replies.length>0){
+                    comment.replies.map(reply=>{
                     let replyObj = reply;
                     if(replyObj.likes.length>0){
                         reply.likes.map(like=>{
                             if(like.userId === userId){
-                                replyObj.ReplyLikedByUser2 = true
+                                replyObj.ReplyLikedByUser = true
                             }
                         })
                     }
                     replyArr.push(replyObj) })
-                // adding 
+                }
                 commmentObj.replies = replyArr;
                 commentArr.push(commmentObj) }) }
+        //    setting up comments inorder to check if the comment is liked and also set up for buttons array
         setShowHideBtnsArr(showBtnsArr)
         setShowHideReplyBtnsArr(showBtnsArr2)
         setEventsComments(eventDetail.comments)
+        // setEventsTimeLine(eventDetail.timeLine)
         setEventsGuests(eventDetail.guests)
-
     };
     function hndleCmntInptChnge( e ){
         const { id, value } = e.target; 
@@ -298,7 +319,6 @@ function EventDetail() {
         console.log('value ', value)
         // hideComments${idx}    showHideBtnsArr[idx][idx]
         let anotherArr = []
-        console.log('showHideBtnsArr: ', showHideBtnsArr)
         let newArr = showHideBtnsArr
         newArr.map((arr,idx)=>{
             if(idx === parseInt(id)){
@@ -376,7 +396,6 @@ function EventDetail() {
         }
     }
     let history = useHistory();
-
     function directTo(name, id) {
         history.push(`/TeamDetail/${teamId}/MemberProfile/${name}/${id}/TimeLine`);
         document.location.reload(true);
@@ -437,7 +456,12 @@ function EventDetail() {
                 <hr className="lineDivdr mt-4"/>
                 <div className="myCardDark mx-auto col-12" style={{width: '96%'}}>
                 {/* event Tittle */}
+                {/*     endDayName: dayArr[endDay],
+            endDate: eventEndDate,
+            endDayMonth: month[eventEndMonth-1],
+            endDayYear: eventEndYear,     */}
                 <h3 style={{color: '#cdced8'}}>{eventDetail.eventTitle}</h3>
+                <h5 style={{color: '#cdced8'}}>end time: {daysObj.endDate} {daysObj.endDayName} {daysObj.endDayMonth} {daysObj.endTime}</h5>
                 {/* {showGuestList === true ?
                 
                 :''} */}
@@ -555,9 +579,9 @@ function EventDetail() {
                                                 { comment.replies.length>2 ?
                                                 // button to show more replies
                                                 showHideBtnsArr[idx][idx] == 'false'?
-                                                <button className='myOtherBtn' onClick={handleShowMore} id={idx} name={`showMoreComments${idx}`} value={true} >Show {comment.replies.length-2} more Replies</button>
-                                                : ''
-                                                :'' }
+                                                <button className='myOtherBtn' onClick={handleShowMore} id={idx} name={`showMoreComments${idx}`} value={true} >Show {comment.replies.length-2} more Replies</button>: ''
+                                                :'' 
+                                                }
                                                 { showHideBtnsArr[idx][idx] == 'true' ?
                                                 // button to hide comments
                                                 <button className='myOtherBtn' onClick={handleShowMore} id={idx} value={false} name={``}>Hide Replies</button> : '' }
@@ -669,7 +693,7 @@ function EventDetail() {
                         { eventsTimeLineSect === true ?
                         <div>
                             {/* time line */}
-                            <TimeLine daysObj={daysObj}/>
+                            <TimeLine daysObj={daysObj} eventDetail={eventDetail} loadEventDetail={loadEventDetail} eventsTimeLine={eventsTimeLine}/>
                         </div>
                         :''
                         }

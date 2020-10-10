@@ -14,6 +14,14 @@ let events = new Schema ({
     eventStartTime: String,
     eventEndDate: {type: Date},
     eventEndTime: String,
+    timeLine:[
+        {
+            timeLineTitle: String,
+            timeLinePost: String,
+            timeLineDate: String,
+            timeLineTime: String
+        }
+    ],
     resolved: {type: Boolean, default: false},
     closed: {type: Boolean, default: false},
     likes: [
