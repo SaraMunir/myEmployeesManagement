@@ -5,7 +5,17 @@ const { v4: uuidv4 } = require('uuid');
 var short = require('short-uuid');
 
 // mongoose.connect(`mongodb://${process.env.movieTracker}`,{useNewUrlParser: true});
-mongoose.connect(`mongodb://localhost:27017/myEmployeeManagement`, {useNewUrlParser: true, useFindAndModify: false});
+//   mongodb+srv://saramunir011:<password>@cluster0.df4lk.mongodb.net/<dbname>?retryWrites=true&w=majority
+
+// mongodb+srv://db321:db321@cluster0.sgyeu.mongodb.net/book-forum?retryWrites=true&w=majority
+const password= '1qaz2wsx'
+const dbname= 'myGroupMembs'
+mongoose.connect(`mongodb+srv://saramunir011:${password}@cluster0.df4lk.mongodb.net/${dbname}?retryWrites=true&w=majority`, {useNewUrlParser: true, useFindAndModify: false});
+
+
+// mongoose.connect(`mongodb://localhost:27017/myEmployeeManagement`, {useNewUrlParser: true, useFindAndModify: false});
+
+
 const db = require( './models' );
 const e = require('express');
 
