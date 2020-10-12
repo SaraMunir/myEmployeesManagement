@@ -8,11 +8,10 @@ const orm = require( './db/orm.mongoose' );
 // const { kMaxLength } = require('buffer');
 const PORT = process.env.PORT || 8080;
 const app = express();
-var server = app.listen( PORT, function(){ console.log( `[myEmployeeManagement], http://localhost:${PORT}` ); });
 
-app.use( express.static(path.join(__dirname, 'client/build'))) ;
 app.use( express.urlencoded({ extended: false }) );
 app.use( express.json() );
+app.use( express.static(path.join(__dirname, 'client/build'))) ;
 // app.use( express.static('client/build/') );
 // app.use(express.static(path.join(__dirname, "client/build/")));
 // app.use(express.static(path.join(__dirname, "client/src/components/Genre")));
@@ -744,3 +743,6 @@ app.post('/api/postEventTimeLine/:eventId', async function( req,res ){
     const postEventTimeLine = await orm.postEventTimeLine( EventTimelineData, eventId);
     res.send(postEventTimeLine);
 })
+
+
+var server = app.listen( PORT, function(){ console.log( `[myEmployeeManagement], http://localhost:${PORT}` ); });
