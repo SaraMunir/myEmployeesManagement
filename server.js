@@ -16,8 +16,6 @@ app.use( express.static('client/build/') );
 // app.use( express.urlencoded({ extended: false }) );
 // app.use( express.json() );
 
-
-
 app.use( express.urlencoded({ extended: false }) );
 app.use( express.json() );
 
