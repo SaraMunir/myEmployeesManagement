@@ -56,4 +56,3 @@ let events = new Schema ({
     timestamps: true
 });
 module.exports = mongoose.model('events', events);
-    
