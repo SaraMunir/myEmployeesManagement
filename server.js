@@ -744,3 +744,9 @@ app.post('/api/postEventTimeLine/:eventId', async function( req,res ){
     const postEventTimeLine = await orm.postEventTimeLine( EventTimelineData, eventId);
     res.send(postEventTimeLine);
 })
+
+
+app.get('/*', function( req,res ){
+    console.log("redirect to index page!");
+    res.sendFile( path.join(__dirname, 'client/build', 'index.html') );
+  });
