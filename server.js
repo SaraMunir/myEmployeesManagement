@@ -10,9 +10,10 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 var server = app.listen( PORT, function(){ console.log( `[myEmployeeManagement], http://localhost:${PORT}` ); });
 
+// app.use( express.static('client/build/') );
 
-app.use( express.static('client/build/') );
-// app.use(express.static(path.join(__dirname, "client/src/components/Genre")));
+app.use(express.static(path.join(__dirname, "client/build/")));
+app.use(express.static(path.join(__dirname, "client/src/components/Genre")));
 // app.use( express.urlencoded({ extended: false }) );
 // app.use( express.json() );
 
