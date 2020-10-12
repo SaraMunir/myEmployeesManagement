@@ -10,10 +10,10 @@ var short = require('short-uuid');
 // mongodb+srv://db321:db321@cluster0.sgyeu.mongodb.net/book-forum?retryWrites=true&w=majority
 const password= '1qaz2wsx'
 const dbname= 'myGroupMembs'
-// mongoose.connect(`mongodb+srv://saramunir011:${password}@cluster0.df4lk.mongodb.net/${dbname}?retryWrites=true&w=majority`, {useNewUrlParser: true, useFindAndModify: false});
+mongoose.connect(`mongodb+srv://saramunir011:${password}@cluster0.df4lk.mongodb.net/${dbname}?retryWrites=true&w=majority`, {useNewUrlParser: true, useFindAndModify: false});
 
 
-mongoose.connect(`mongodb://localhost:27017/myEmployeeManagement`, {useNewUrlParser: true, useFindAndModify: false});
+// mongoose.connect(`mongodb://localhost:27017/myEmployeeManagement`, {useNewUrlParser: true, useFindAndModify: false});
 
 
 const db = require( './models' );
