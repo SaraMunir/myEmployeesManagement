@@ -25,15 +25,15 @@ function App() {
       <Router>
         <Navbar />
         <Route exact path={["/","/HomePage"]} component={HomePage}/>
-        <Route exact path={["/ProfilePage"]} component={ProfilePage}/>
-        <Route exact path={["/LogIn"]} component={LogIn}/>
-        <Route exact path={["/MemberLogIn"]} component={MemberLogIn}/>
-        <Route exact path={["/SignUp"]} component={SignUp}/>
-        <Route exact path={["/logout"]} component={LogOut}/> 
-        <Route exact path={["/Dashboard"]} component={Dashboard}/>
-        <Route path={["/UserProfile"]} component={UserProfile}/>
-        <Route path={["/NewTeamsPage"]} component={NewTeamsPage}/>
-        <Route path={["/TeamDetail/:teamId"]} component={TeamDetail} />
+        <Route exact path="/ProfilePage" component={ProfilePage}/>
+        <Route exact path="/LogIn" component={LogIn}/>
+        <Route exact path="/MemberLogIn" component={MemberLogIn}/>
+        <Route exact path="/SignUp" component={SignUp}/>
+        <Route exact path="/logout" component={LogOut}/> 
+        <Route exact path="/Dashboard" component={Dashboard}/>
+        <Route path="/UserProfile" component={UserProfile}/>
+        <Route path="/NewTeamsPage" component={NewTeamsPage}/>
+        <Route path="/TeamDetail/:teamId" component={TeamDetail} />
         {/* <Route path={["/AnimationTrial"]} component={AnimationTrial} /> */}
       </Router>
     </div>
