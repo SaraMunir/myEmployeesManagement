@@ -344,11 +344,11 @@ app.put('/api/adminDetailUpdate/:membId', async function( req,res ){
     // console.log(updateAdmin)
     res.send(updateAdmin);
 })
-const upload = require('multer')({ dest: 'client/public/uploads/' });
+const upload = require('multer')({ dest: 'build/uploads/' });
 
 app.post('/api/deleteOldProfilePIc', async function( req,res ){
     const oldphoto = req.body;
-    const path = `client/public/${oldphoto.old}`
+    const path = `build/${oldphoto.old}`
         fs.unlink(path, (err) => {
             if (err) {
             console.error(err)
@@ -366,7 +366,7 @@ app.put( '/api/upload/:userid', upload.single('myFile'), async function( req, re
     
     const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
     fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
-    const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+    const imageUrl = req.file.path.replace(/\\/g, '/').replace('build/','/')+fileExt;
     const imgUploadDb = await orm.updateAvatar( userId, imageUrl );
     res.send( imgUploadDb );
 });
@@ -378,7 +378,7 @@ app.put( '/api/uploadCvrPhto/:userid', upload.single('myFile'), async function( 
     const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
         fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
 
-        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('build/','/')+fileExt;
     const imgUploadDb = await orm.updateCoverPhto( userId, imageUrl );
     res.send( imgUploadDb );
 });
@@ -390,7 +390,7 @@ app.put( '/api/uploadAdminCvrPhto/:userid', upload.single('myFile'), async funct
     const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
         fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
 
-        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('build/','/')+fileExt;
     const imgUploadDb = await orm.updateAdmnCoverPhto( userId, imageUrl );
     res.send( imgUploadDb );
 });
@@ -410,7 +410,7 @@ app.put( '/api/adminUpload/:userid', upload.single('myFile'), async function( re
     const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
         fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
 
-        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('build/','/')+fileExt;
     const imgUploadDb = await orm.updateAdminAvatar( userId, imageUrl );
     res.send( imgUploadDb );
 });
@@ -420,7 +420,7 @@ app.put( '/api/discussionBoardPic', upload.single('myFile'), async function( req
     const originalName = req.file.originalname;
     const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
         fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
-        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('build/','/')+fileExt;
     // const imgUploadDb = await orm.updateAdminAvatar( userId, imageUrl );
     console.log(imageUrl)
     res.json( imageUrl );
@@ -431,7 +431,7 @@ app.put( '/api/eventsPic', upload.single('myFile'), async function( req, res ){
     const originalName = req.file.originalname;
     const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
         fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
-        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('build/','/')+fileExt;
     // const imgUploadDb = await orm.updateAdminAvatar( userId, imageUrl );
     console.log(imageUrl)
     res.json( imageUrl );
@@ -477,7 +477,7 @@ app.put( '/api/uploadHouseImg/:houseId', upload.single('myFile'), async function
     const fileExt = originalName.toLowerCase().substr((originalName.lastIndexOf('.'))).replace('jpeg','jpg');
         fs.renameSync( `${__dirname}/${filePath}`, `${__dirname}/${filePath}${fileExt}` );
 
-        const imageUrl = req.file.path.replace(/\\/g, '/').replace('client/public/','/')+fileExt;
+        const imageUrl = req.file.path.replace(/\\/g, '/').replace('build/','/')+fileExt;
     const imgUploadDb = await orm.updateHouseAvatar( hosueId, imageUrl );
     res.send( imgUploadDb );
 });
