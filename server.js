@@ -436,9 +436,6 @@ app.put( '/api/eventsPic', upload.single('myFile'), async function( req, res ){
     console.log(imageUrl)
     res.json( imageUrl );
 });
-
-
-
 //creating Houses:
 //creating employees
 app.post('/api/postHouse', async function( req,res ){
@@ -453,7 +450,6 @@ app.get('/api/house/:teamId', async(req, res) => {
     const getHouses = await orm.getHouses( teamId );
     res.json( getHouses );
 })
-
 ////deleting house
 app.get('/api/deleteHouse/:houseId', async(req, res) => {
     const houseId= req.params.houseId;
