@@ -8,7 +8,7 @@ This application was built for managing groups let it be small or big. The appli
 * [Events](#Events)
 * [Setup](#setup)
 
-## Discussions
+## Dashboard
 Dashboard contains a summary of the group, such as the members, houses/department.  it also showcases the upcoming birthdays of the members in the current month. 
 
 ## Discussions
