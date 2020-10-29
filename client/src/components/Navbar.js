@@ -51,18 +51,20 @@ function Navbar() {
     },[])
     return (
         <nav class={ theme === 'Dark' ? "navbar navbar-expand-lg navbar-dark bg-dark" : "navbar navbar-expand-lg navbar-light bg-light" }>
+            <Link to="/HomePage" className={location.pathname === "/HomePage" ? "nav-link active" : "nav-link"}>
             <a class="navbar-brand col-2" href="#"><img className="navIcon" src={NavIcon} alt=""/></a>
+            </Link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse mx-auto  col-8" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse mx-auto  col-6" id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto col-5">
-                    {id ? '':
+                    {/* {!id ? '':
                     <li class="nav-item  mx-auto">
                         <Link to="/HomePage" className={location.pathname === "/HomePage" ? "nav-link active" : "nav-link"}>
                         <i class="fas fa-2x fa-home"></i> Home Page
                         </Link>
-                    </li>}
+                    </li>} */}
                     {id && type == 'Admin' ? 
                     <li class="nav-item  mx-auto">
                         <Link to="/ProfilePage" className={location.pathname === "/ProfilePage" ? "nav-link active " : "nav-link"}>
@@ -98,7 +100,7 @@ function Navbar() {
                 </ul>
             </div>
             {!id ? '':
-            <div class="dropdown show  col-2">
+            <div class="dropdown show  col-4">
                 <a class="myBtnNew dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Show More
                 </a>
@@ -118,6 +120,30 @@ function Navbar() {
                 </div>
             </div>
             }
+            {!id ?
+            <div class="dropdown show">
+                <a class="myBtnNew dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Log In
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <Link to="/MemberLogIn" className="mx-auto">
+                        <div class="myBtnNew mx-auto" href="#" role="button">Log In as Member</div>
+                    </Link>
+                    <Link to="/LogIn">
+                        <div class="myBtnNew" href="#" role="button">Log In As Leader</div>
+                    </Link>
+                </div>
+            </div>
+            :'' }
+            {!id ? 
+                location.pathname === "/SignUp" ? '' :
+            <Link to="/SignUp">
+                <div class="myBtnNew" style={{width: '100px'}} href="#" role="button">Sign Up</div>
+            </Link>
+            : ''
+            }
+            
+
         </nav>
     )
 }

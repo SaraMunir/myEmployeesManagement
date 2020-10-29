@@ -1362,3 +1362,7 @@ button:focus{
   border-right: 15px solid transparent;
 }
 
+.heroText{
+  font-size: 3.5rem;
+  color: #444a5c;
+}

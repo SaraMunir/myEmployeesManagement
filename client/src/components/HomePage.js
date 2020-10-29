@@ -1,5 +1,5 @@
 import React from 'react'
-import heroImg from './assets/corporate-portrait-office-workers-employees/5471.jpg';
+import heroImg from './assets/young-people-taking-selfie_23-2148462713.png';
 import { Link, useLocation } from "react-router-dom";
 import { Redirect } from 'react-router-dom';
 const userType = localStorage.type
@@ -12,10 +12,16 @@ function HomePage() {
         <div class="container mx-auto row hero">
             { userId && userType=='Admin' ? <Redirect to='/NewTeamsPage'/> : '' }
             { userType=='Member' ? <Redirect to={`/UserProfile/TimeLine`}/> : ''}
-            <div class="col-10 mx-auto">
-                <img src={heroImg} alt=""style={{height: "40vh", width: "100%", objectFit:"cover"}}/>
+            <div class="col-6 mx-auto mt-5 text-left">
+                <h1 className='heroText'>My <span style={{fontWeight: 'bold'}}>Collective</span> <br/> group</h1>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci sapiente delectus molestiae, ea quae amet perspiciatis facilis pariatur itaque magni iusto sunt reprehenderit assumenda quam exercitationem dicta maiores, quibusdam harum!</p>
+                <div className="myBtnNew2">learn More</div>
+            </div>
+            <div class="col-6 mx-auto">
+                <img src={heroImg} alt=""style={{height: "85vh", width: "100%", objectFit:"contain"}}/>
             </div> 
-            { userId ? '' : <div class="d-flex mx-auto">
+            
+            {/* <div class="d-flex mx-auto">
                 <div class="col-5 mx-auto loginSect">
                     <h4 class="mt-5">Team Leader Log In</h4>
                     <p class="lead">Are you leader who is the best in leading a team of wonderful and brilliant people. Lets get started</p>
@@ -37,7 +43,7 @@ function HomePage() {
                         </Link>
                     </div>
                 </div>
-            </div>}
+            </div> */}
         </div>
     )
 }
