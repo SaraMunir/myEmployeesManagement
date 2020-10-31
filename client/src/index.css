@@ -991,6 +991,14 @@ a:hover{
   object-fit: cover;
   box-shadow: 1px 2px 3px #1d2024;
 }
+
+.navImgThm{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 1px 2px 3px #1d2024;
+}
 .repImgThmb{
   width: 40px;
   height: 40px;
@@ -1365,4 +1373,45 @@ button:focus{
 .heroText{
   font-size: 3.5rem;
   color: #444a5c;
+}
+.loaderWindow{
+  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 2050;
+  margin: 0 auto;
+  background: #bf91dd6e;
+}
+.loadingWnd{
+  width: 100px;
+  height: 100px;
+  margin: 200px auto;
+}
+.loadingGif{
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  object-fit: cover;
+}
+.howToImg{
+  width: 185px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.howSteps{
+  /* border: 1px solid goldenrod; */
+  padding: 15px 10px;
+  /* margin: 50px auto; */
+}
+.howToCard{
+  border: 1px solid #b938ca1c;
+  border-radius: 5px;
+  padding: 50px 0;
+}
+.howToCard:hover{
+  box-shadow: 2px 2px 12px #4f4e615b;
 }

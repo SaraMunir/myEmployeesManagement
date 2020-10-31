@@ -33,7 +33,7 @@ function App() {
         <Route exact path="/Dashboard" component={Dashboard}/>
         <Route exact path="/UserProfile" component={UserProfile}/>
         <Route exact path="/NewTeamsPage" component={NewTeamsPage}/>
-        <Route exact path="/TeamDetail/:teamId" component={TeamDetail} />
+        <Route path="/TeamDetail/:teamId" component={TeamDetail} />
         {/* <Route path={["/AnimationTrial"]} component={AnimationTrial} /> */}
       </Router>
     </div>

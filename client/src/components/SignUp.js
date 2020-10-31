@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect} from 'react'
 import { Redirect } from 'react-router-dom';
+import Loader from  "./assets/Rolling-1s-200px.gif";
+
 function SignUp() {
+    const [loading, setLoading] = useState(false);
     const [ userData, setUserData ] = useState({ name: "", email: "", password: ""});
     const [ isRegistered, setIsRegistered ] = useState( false );
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
@@ -12,41 +15,53 @@ function SignUp() {
         setUserData( { ...userData, [id]: value });
     }
     async function loadUserEmail(){
+        setLoading(true)
         const fetchEmail = await fetch (`/api/checkEmail`).then( res => res.json());
         setEmails(fetchEmail)
+        setLoading(false)
     }
     async function signUpUser( e ){
+        setLoading(true)
         let checkEmailExist = false;
         emails.map(email=>
-            {if(userData.email == email){checkEmailExist = true;} })
-        e.preventDefault();
+            {if(userData.email == email){
+                checkEmailExist = true;
+                setLoading(false)
+
+            } })
+            e.preventDefault();
         if( userData.email === "" ) {
             inputEmail.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide your Email!' } );
+            setLoading(false)
             return;
         }
         if( !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userData.email)) ) {
             inputEmail.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide a valid Email!' } );
+            setLoading(false)
             return;
         }
         if( userData.password === "" ) {
             inputPassword.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide a password!' } );
+            setLoading(false)
             return;
         }
         if( userData.password.length < 8 ) {
             inputPassword.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide a longer password (8 characters min)!' } );
+            setLoading(false)
             return;
         } 
         if ( checkEmailExist == true ){
             inputEmail.current.focus();
             setAlertMessage( { type: 'danger', message: 'Email address already exist, please provide a different email address!' } );
+            setLoading(false)
             return;
         }
         localStorage.clear();
-        console.log('finished?')
+        // setLoading(true)
         const registerUser = await fetch('/api/user/signUp',
             {
                 method: 'post', 
@@ -63,8 +78,10 @@ function SignUp() {
             setTimeout( function(){ setIsRegistered(true); }, 1000 );
             }else {
                 setAlertMessage( { type: 'danger', message: 'Try again' } );
+                setLoading(false)
             }
             setUserData({ name: "", email: "", password: ""})
+            setLoading(false)
     }
     useEffect(function(){
         loadUserEmail()
@@ -72,6 +89,11 @@ function SignUp() {
     return (
         <div class="container-fluid text-left">
             { isRegistered ? <Redirect to='/login' /> : '' }
+            <div className={loading === true ? "loaderWindow": "hide"}>
+                <div className="loadingWnd">
+                    <img className="loadingGif" src={Loader} alt="loadingWndow"/>
+                </div>
+            </div>
             <div className={ alertMessage.type ? `alert alert-${alertMessage.type}` : 'd-hide' } role="alert">
                 {alertMessage.message}
             </div>

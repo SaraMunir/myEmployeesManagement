@@ -1,14 +1,14 @@
 import React, {useState, useEffect }from 'react'
 import { useHistory, useParams } from "react-router-dom";
+import Loader from  "./Rolling-1s-200px.gif";
 
 const userId = localStorage.id
 const teamId = localStorage.teamId
 const theme = localStorage.theme;
 
-
 function MemberWall() {
     const { membId } = useParams();
-    // const [ memberDetail, setMemberDetail ]= useState({});
+    const [loading, setLoading] = useState(false);
     const [ posts, setPosts ]= useState([]);
     const [ comment, setComment ]= useState({});
     const [ members, setMembers ] = useState([]);
@@ -16,7 +16,12 @@ function MemberWall() {
     let history = useHistory();
 
     async function submitPost(){
+        setLoading(true)
         console.log(' post content: ', newPost)
+        if(newPost.post===''){
+            setLoading(false)
+            return
+        }
         const apiResult = await fetch(`/api/postPost/${membId}`, 
             {   method: 'post',
                 headers:{
@@ -29,11 +34,8 @@ function MemberWall() {
         setNewPost({ post:'', creatorId: `${userId}`, ownerId: `${membId}`})
         // loadMemberProfile();
         loadPosts()
+        setLoading(false)
     }
-    // async function loadMemberProfile(){
-    //     const getEmpDetail = await fetch (`/api/memberProfile/${membId}`).then( res => res.json());
-    //     // setMemberDetail(getEmpDetail);
-    // }
     async function loadMember(){
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
         console.log('fetched members are: ', fetchMembers)
@@ -91,6 +93,7 @@ function MemberWall() {
         setComment( {value} );
         }
     async function likePost(postId){
+        setLoading(true)
         const likeData={
             frndId: userId,
         }
@@ -102,8 +105,10 @@ function MemberWall() {
                 body: JSON.stringify(likeData)
             }).then( result => result.json());
         loadPosts();
+        setLoading(false)
     }
     async function upVotePost(postId){
+        setLoading(true)
         const voteData={
             frndId: userId,
         }
@@ -115,8 +120,11 @@ function MemberWall() {
                 body: JSON.stringify(voteData)
             }).then( result => result.json());
         loadPosts();
+        setLoading(false)
     }
     async function downVotePost(postId){
+        setLoading(true)
+
         const voteData={
             frndId: userId,
         }
@@ -128,8 +136,11 @@ function MemberWall() {
                 body: JSON.stringify(voteData)
             }).then( result => result.json());
         loadPosts();
+        setLoading(false)
+
     }
     async function likeComment(postId, commentId){
+        setLoading(true)
         const likeCmntData={
             frndId: userId,
         }
@@ -141,8 +152,12 @@ function MemberWall() {
                 body: JSON.stringify(likeCmntData)
             }).then( result => result.json());
         loadPosts();
+        setLoading(false)
+
     }
     async function unLikeComment(postId, commentId){
+        setLoading(true)
+
         const unlikeCmntData={
             frndId: userId,
         }
@@ -154,8 +169,11 @@ function MemberWall() {
                 body: JSON.stringify(unlikeCmntData)
             }).then( result => result.json());
         loadPosts();
+        setLoading(false)
+
     }
     async function unlikePost(postId){
+        setLoading(true)
         const unlikeData={
             frndId: userId,
         }
@@ -168,8 +186,10 @@ function MemberWall() {
             }).then( result => result.json());
         console.log('post unliked ', apiResult.message)
         loadPosts();
+        setLoading(false)
     }
     async function commentPost(postId){
+        setLoading(true)
         console.log('comment: ', comment);
         const commentData={
             commenterId: userId,
@@ -183,8 +203,9 @@ function MemberWall() {
                 },
                 body: JSON.stringify(commentData)
             }).then( result => result.json());
-            setComment({comment:''})
-            loadPosts();
+        setComment({comment:''})
+        loadPosts();
+        setLoading(false)
     }
     function directTo(name, id) {
         history.push(`/TeamDetail/${teamId}/MemberProfile/${name}/${id}/TimeLine`);
@@ -197,6 +218,11 @@ function MemberWall() {
     },[])
     return (
         <div >
+            <div className={loading === true ? "loaderWindow": "hide"}>
+                <div className="loadingWnd">
+                    <img className="loadingGif" src={Loader} alt="loadingWndow"/>
+                </div>
+            </div>
             <div className={ theme === 'Dark' ? " myCardDark  mx-auto" : " myCard mx-auto"}>
                 <div class="form-group">
                     <textarea

@@ -9,11 +9,17 @@ function Navbar() {
     const type = localStorage.type;
     const theme = localStorage.theme;
     const [ memberDetail, setMemberDetail ]= useState({});
+    const [ adminDetail, setAdminDetail ]= useState({});
     
     async function loadMemberProfile(){
         if(type === 'Member'){
             const getEmpDetail = await fetch (`/api/memberProfile/${id}`).then( res => res.json());
             setMemberDetail(getEmpDetail);
+        }
+        if(type === 'Admin'){
+            const getAdminDetail = await fetch (`/api/adminProfile/${id}`).then( res => res.json());
+            console.log('getAdminDetail: ', getAdminDetail)
+            setAdminDetail(getAdminDetail);
         }
     }
     async function changeTheme(time){
@@ -57,18 +63,12 @@ function Navbar() {
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse mx-auto  col-6" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse mx-auto col-8" id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto col-5">
-                    {/* {!id ? '':
-                    <li class="nav-item  mx-auto">
-                        <Link to="/HomePage" className={location.pathname === "/HomePage" ? "nav-link active" : "nav-link"}>
-                        <i class="fas fa-2x fa-home"></i> Home Page
-                        </Link>
-                    </li>} */}
                     {id && type == 'Admin' ? 
                     <li class="nav-item  mx-auto">
                         <Link to="/ProfilePage" className={location.pathname === "/ProfilePage" ? "nav-link active " : "nav-link"}>
-                        <i class="fas fa-2x fa-user-circle"></i> Profile
+                        <img className="navImgThm mr-3" src={adminDetail.profileImg ? adminDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"} alt=""/> Profile
                         </Link>
                     </li> : ''}
                     {id && type == 'Admin' ? 
@@ -100,7 +100,7 @@ function Navbar() {
                 </ul>
             </div>
             {!id ? '':
-            <div class="dropdown show  col-4">
+            <div class="dropdown show col-2">
                 <a class="myBtnNew dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Show More
                 </a>
@@ -121,29 +121,25 @@ function Navbar() {
             </div>
             }
             {!id ?
-            <div class="dropdown show">
-                <a class="myBtnNew dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Log In
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <Link to="/MemberLogIn" className="mx-auto">
-                        <div class="myBtnNew mx-auto" href="#" role="button">Log In as Member</div>
-                    </Link>
-                    <Link to="/LogIn">
-                        <div class="myBtnNew" href="#" role="button">Log In As Leader</div>
-                    </Link>
+            <div className="col-3 row">
+                <div class="myBtnNew col-5 dropdown">
+                    <a class="dropdown-toggle" style={{color:'white'}} href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Log In
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <Link to="/MemberLogIn" className="mx-auto">
+                            <div class="myBtnNew mx-auto" href="#" role="button">Log In as Member</div>
+                        </Link>
+                        <Link to="/LogIn">
+                            <div class="myBtnNew" href="#" role="button">Log In As Leader</div>
+                        </Link>
+                    </div>
                 </div>
+                <Link to="/SignUp">
+                    <div class="myBtnNew" style={{width: '100px'}} href="#" role="button">Sign Up</div>
+                </Link>
             </div>
             :'' }
-            {!id ? 
-                location.pathname === "/SignUp" ? '' :
-            <Link to="/SignUp">
-                <div class="myBtnNew" style={{width: '100px'}} href="#" role="button">Sign Up</div>
-            </Link>
-            : ''
-            }
-            
-
         </nav>
     )
 }

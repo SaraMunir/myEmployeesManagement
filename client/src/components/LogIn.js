@@ -1,13 +1,15 @@
 import React, { useState, useRef } from "react";
 import { Redirect , useHistory } from 'react-router-dom';
+import Loader from  "./assets/Rolling-1s-200px.gif";
+
 function LogIn() {
     let history = useHistory();
     const [ userData, setUserData ] = useState({ name: "", email: localStorage.email, password: "", rememberMe: true });
     const [ isLoggedIn, setIsLoggedIn ] = useState( false );
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
+    const [loading, setLoading] = useState(false);
     const inputEmail = useRef();
     const inputPassword = useRef();
-
     function handleInputChange( e ){
         const { id, value } = e.target;
         setUserData( { ...userData, [id]: value } );
@@ -28,6 +30,7 @@ function LogIn() {
             setAlertMessage( { type: 'danger', message: 'Please provide your password!' } );
             return;
         }
+        setLoading(true)
         const apiResult = await fetch('/api/user/login', 
             {   method: 'post',
                 headers: {
@@ -43,10 +46,12 @@ function LogIn() {
             localStorage.setItem('theme', apiResult.theme);
         if( !apiResult.message ){
             setAlertMessage( { type: 'danger', message: apiResult.error } );
+            setLoading(false)
             return;
         };
         setAlertMessage( { type: 'success', message: 'Loading, please wait...' } );
         localStorage.email = ( apiResult.rememberMe ? apiResult.email : '' );
+        setLoading(false)
         setTimeout( function(){ 
             setIsLoggedIn(true); 
             document.location.reload(true);
@@ -56,6 +61,11 @@ function LogIn() {
     return (
         <div style={{color: "black"}}>
             { isLoggedIn ? <Redirect to='/NewTeamsPage' /> : '' }
+            <div className={loading === true ? "loaderWindow": "hide"}>
+                <div className="loadingWnd">
+                    <img className="loadingGif" src={Loader} alt="loadingWndow"/>
+                </div>
+            </div>
             <div className={ alertMessage.type ? `alert alert-${alertMessage.type}` : 'd-hide' } role="alert">
                 {alertMessage.message}
             </div>

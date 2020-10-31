@@ -1,27 +1,35 @@
 import React, {useState, useEffect} from 'react';
 import { Link , Redirect} from "react-router-dom";
 import {Modal, Button} from 'react-bootstrap'
-const adminId = localStorage.id
-function Teams() {
+import Loader from  "./Rolling-1s-200px.gif";
 
+function Teams() {
+    const adminId = localStorage.id
+    const [loading, setLoading] = useState(false);
     const [lgShow, setLgShow] = useState(false);
     const [ newTeam, setNewTeam ] = useState({ teamName: "", teamDesc: "", adminId: localStorage.id, adminName: localStorage.name});
     const [teams, setTeams] = useState([]);
     async function loadAllTeams(){
+        setLoading(true)
         const fetchTeams = await fetch (`/api/allTeams/${adminId}`).then( res => res.json());
         console.log('fetched all teams are: ', fetchTeams)
         setTeams(fetchTeams)
+        setLoading(false)
     }
     function handleInputChange( e ){
         const { id, value } = e.target; 
         setNewTeam( { ...newTeam, [id]: value } );
     }
     async function pinTeam(teamId){
+        setLoading(true)
         const fetchTeams = await fetch (`/api/pinTeam/${teamId}`).then( res => res.json());
         console.log('fetched all teams are: ', fetchTeams)
         loadAllTeams();
+        setLoading(false)
+
     }
     async function submitTeam(e){
+        setLoading(true)
         console.log('team create?')
         e.preventDefault();
         await fetch('/api/newteams', 
@@ -34,17 +42,23 @@ function Teams() {
             }).then( result=>result.json())
             setNewTeam({ teamName: "", teamDesc: "", adminId: `${adminId}`})
             setLgShow(false);
+            setLoading(false)
+
             loadAllTeams();
         }
     useEffect(function(){
-        const adminId = localStorage.id
-
-        console.log('adminId: ', adminId)
+        // const adminId = localStorage.id
+        // console.log('adminId: ', adminId)
         loadAllTeams();
     },[])
     return (
         <div class="container mt-2">
             { adminId ? '': <Redirect to='/HomePage' />  }
+            <div className={loading === true ? "loaderWindow": "hide"}>
+                <div className="loadingWnd">
+                    <img className="loadingGif" src={Loader} alt="loadingWndow"/>
+                </div>
+            </div>
             <div className="d-flex justify-content-end">
                 {/* <div className="myBtn2">Create Team</div> */}
                 <Button onClick={() => setLgShow(true)}>Create Team

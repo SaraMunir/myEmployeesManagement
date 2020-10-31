@@ -1,12 +1,15 @@
 import React, {useState, useEffect } from 'react';
 import {Modal} from 'react-bootstrap'
+import Loader from  "./assets/Rolling-1s-200px.gif";
 
 const userId = localStorage.id
 const userType = localStorage.type
 function ProfilePage() {
+
     const [ adminDetail, setAdminDetail ]= useState({});
     const [lgShow, setLgShow] = useState(false);
     const [lgShow2, setLgShow2] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [ myPic, setMyPic] = useState ( '' );
     const [cvrFrmShow, setCvrFrmShow] = useState(false);
     // const [cvrFrmEdtShow, setCvrFrmEdtShow] = useState(false);
@@ -40,6 +43,7 @@ function ProfilePage() {
         setMyPic(file)
     }
     async function handleUpload(e){
+        setLoading(true)
         e.preventDefault();
         if(myPic){
             let myForm = document.getElementById('myForm');
@@ -66,6 +70,7 @@ function ProfilePage() {
         }
             setLgShow2(false)
             loadAdminProfile();
+            setLoading(false)
         
     }
     function handleInputChange( e ){
@@ -74,6 +79,7 @@ function ProfilePage() {
         setTrial ({ [id]: value })
         }
     async function updateDetDetail(){
+        setLoading(true)
         console.log('trial: ',trial)
         console.log('trial.id: ',trial.id)
         const apiResult = await fetch(`/api/adminDetailUpdate/${userId}`, 
@@ -87,6 +93,7 @@ function ProfilePage() {
         loadAdminProfile();
         let key = Object.keys(trial)[0];
         closeEditBtns(key)
+        setLoading(false)
     }
     function closeEditBtns(key){
         if (key==='email'){
@@ -160,6 +167,8 @@ function ProfilePage() {
         }
     }
     async function loadAdminProfile(){
+        setLoading(true)
+
         const getAdmnDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
         console.log('fetched Admin detail is: ', getAdmnDetail)
         console.log('cover setting: ', getAdmnDetail.coverImgSetting)
@@ -168,6 +177,8 @@ function ProfilePage() {
             // setDontCenter(false)
         }
         setAdminDetail(getAdmnDetail);
+        setLoading(false)
+
     }
     function handleCvrPicChange(e){
         const file = e.target.files[0];
@@ -178,6 +189,7 @@ function ProfilePage() {
         setMyCoverPIc (false);
     }
     async function handleCvrPhtUpload(e){
+        setLoading(true)
         e.preventDefault();
         uploadCoverPic(e);
         if(myCoverPIc){
@@ -202,7 +214,9 @@ function ProfilePage() {
             }).then( result=>result.json());
             }
             setCvrFrmShow(false)
+            setLoading(false)
             loadAdminProfile();
+
         }
     function movePicBy(by){
         if(by == 'y-'){
@@ -217,15 +231,15 @@ function ProfilePage() {
     function ShowBtns(){
         if(showBtns === false){
             setShowBtns(true)
-            return;
         } else 
         {
             setShowBtns(false)
-            setCoverPhoto(adminDetail.coverImgSetting)
+            setCoverPhoto(!adminDetail.coverImgSetting ?{y : 0}:adminDetail.coverImgSetting )
         }
     }
     async function saveCvrImgSett(){
         console.log( "coverPhoto : ", coverPhoto)
+        setLoading(true)
         const apiResult = await fetch(`api/saveCvrImgSettng/${userId}`,
         {
             method: 'PUT',
@@ -235,17 +249,20 @@ function ProfilePage() {
             body: JSON.stringify(coverPhoto)
         }
         ).then(result => result.json())
-
+        setLoading(false)
         loadAdminProfile();
         setShowBtns(false)
-    
     }
-
     useEffect(function(){
         loadAdminProfile();
     },[])
     return (
         <div className="">
+            <div className={loading === true ? "loaderWindow": "hide"}>
+                <div className="loadingWnd">
+                    <img className="loadingGif" src={Loader} alt="loadingWndow"/>
+                </div>
+            </div>
             <div className="adminCov">
                 <div className="covCntnr">
                     {   showBtns=== true ? <div className="editBtns col-2 mx-auto justify-content-around">

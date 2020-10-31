@@ -7,12 +7,15 @@ import About from './MemberAbout'
 import TabBar from './TabBar'
 import Wall from './MemberWall'
 import FriendList from './MemberFriendList'
+import Loader from  "./Rolling-1s-200px.gif";
+
 export const UserContext = React.createContext();
 const userId = localStorage.id
 const userType = localStorage.type
 const theme = localStorage.theme;
 
 function MemberProfile() {
+    const [loading, setLoading] = useState(false);
     const { membId } = useParams();
     const { teamId } = useParams();
     const [ memberDetail, setMemberDetail ]= useState({});
@@ -142,8 +145,7 @@ function MemberProfile() {
         setHouses(fetchHouses);
     }
     async function updateMembDetail(){
-        console.log('trial: ',trial) 
-        console.log('trial.id: ',trial.id)
+        setLoading(true)
         const apiResult = await fetch(`/api/memberDetailUpdate/${membId}`, 
             {   method: 'PUT',
                 headers:{
@@ -155,6 +157,7 @@ function MemberProfile() {
         loadMemberProfile();
         let key = Object.keys(trial)[0];
         closeEditBtns(key)
+        setLoading(false)
     }
     async function loadMyFriends(){
         const fetchUsersFriends = await fetch (`/api/getUserFriendList/${userId}`).then( res => res.json());
@@ -171,7 +174,6 @@ function MemberProfile() {
             }
         )
     }
-//   upload
     function handleChange(e){
         const file = e.target.files[0];
         setMyPic(file)
@@ -181,6 +183,7 @@ function MemberProfile() {
         setShowForm2(false);
     } 
     async function handleUpload(e){
+        setLoading(true)
         e.preventDefault();
         uploadPic(e);
         if(myPic){
@@ -207,6 +210,8 @@ function MemberProfile() {
             }
             setLgShow2(false)
             loadMemberProfile();
+            setLoading(false)
+
         
     }
     function closeBtn(){
@@ -238,6 +243,7 @@ function MemberProfile() {
         }
     }
     async function sendFrndReq(friendId){
+        setLoading(true)
         const friendData={
             friendId: friendId,
             userId: userId,
@@ -252,9 +258,10 @@ function MemberProfile() {
             }).then( result => result.json());
             console.log('friend added: ', apiResult.message)
         loadMemberProfile();
-
+        setLoading(false)
     }
     async function cancelFriendReq(friendId){
+        setLoading(true)
         const friendData={
             friendId: friendId,
             userId: userId,
@@ -270,8 +277,10 @@ function MemberProfile() {
             console.log('friend added: ', apiResult.message)
             loadMemberProfile();
             loadMyFriends()
+            setLoading(false)
     }
     async function unFrnd(friendId){
+        setLoading(true)
         const friendData={
             friendId: friendId,
             userId: userId,
@@ -286,6 +295,7 @@ function MemberProfile() {
             console.log('friend added: ', apiResult.message)
         loadMemberProfile();
         setRemvFrndBtn(false)
+        setLoading(false)
     }
     useEffect(function(){
         loadMemberProfile();
@@ -297,6 +307,11 @@ function MemberProfile() {
     },[])
     return (
         <div className="">
+            <div className={loading === true ? "loaderWindow": "hide"}>
+                <div className="loadingWnd">
+                    <img className="loadingGif" src={Loader} alt="loadingWndow"/>
+                </div>
+            </div>
             <div className="">
                 <img className='CovImg' src={
                     memberDetail.coverImg ? memberDetail.coverImg : "https://www.befunky.com/images/wp/wp-2016-03-blur-background-featured-1.jpg?auto=webp&format=jpg&width=880"} alt="coverPhoto"/>

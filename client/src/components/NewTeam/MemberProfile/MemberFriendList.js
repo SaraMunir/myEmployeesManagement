@@ -9,7 +9,6 @@ const theme = localStorage.theme;
 
 function MemberFriendList(props) {
     let history = useHistory();
-
     const [ members, setMembers ] = useState([]);
     const [ membersFrndList, setMembersFrndList ] = useState([]);
     const { memberFriend } = useContext(UserContext);

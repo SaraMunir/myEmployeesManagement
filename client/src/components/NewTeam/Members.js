@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef } from 'react';
 import {Modal, Button} from 'react-bootstrap'
 import { Link, useParams } from "react-router-dom";
+import Loader from  "./Rolling-1s-200px.gif";
 
 const userId = localStorage.id
 const userType = localStorage.type
@@ -8,6 +9,7 @@ const theme = localStorage.theme;
 
 function Members() {
     const { teamId } = useParams();
+    const [loading, setLoading] = useState(false);
     const [lgShow, setLgShow] = useState(false);
     const [lgShow2, setLgShow2] = useState(false);
     const [selectedHouse, setSelectedHouse] = useState({});
@@ -51,29 +53,32 @@ function Members() {
         }
     }
     async function submitMember(e){
+        setLoading(true)
         let checkEmailExist = false;
         member.map(memb=>
             {
-                if(newMember.membEmail == memb.email){
+                if(newMember.membEmail === memb.email){
                     checkEmailExist = true;
+                    setLoading(false)
                 }
             } )
-        console.log('checkEmail: ', checkEmailExist)
         e.preventDefault();
-        console.log('newMember', newMember);
         if (newMember.membEmail == ""){
             inputEmail.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide the members Email!' } );
+            setLoading(false)
             return;
         }
         if ( newMember.membPassword === "" || newMember.membPassword.length < 8 ){
             inputPassword.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide the members password!' } );
+            setLoading(false)
             return;
         }
         if ( checkEmailExist == true){
             inputEmail.current.focus();
             setAlertMessage( { type: 'danger', message: 'Email address already exist, please provide a different email address!' } );
+            setLoading(false)
             return;
         }
         const apiResult = await fetch('/api/postMember', 
@@ -86,27 +91,36 @@ function Members() {
             }).then( result=>result.json());
         setNewMember({ membName: "", membEmail: "", membRole: "", membSex: "", teamId: `${teamId}`})
         setLgShow(false);
+        setLoading(false)
         loadMember()
     }
     async function loadMember(){
+        setLoading(true)
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
         console.log('fetched members are: ', fetchMembers)
         setMember(fetchMembers)
-        setOriginalMember(fetchMembers)
+        setOriginalMember(fetchMembers);
+        setLoading(false)
     }
     async function loadTeamRoles(){
+        setLoading(true)
         const fetchRoles = await fetch (`/api/allRoles/${teamId}`).then( res => res.json());
         console.log('fetched roles are: ', fetchRoles.teamRoles)
         setTeamRoles(fetchRoles.teamRoles)
+        setLoading(false)
     }
     async function deleteMember(membId){
+        setLoading(true)
         const apiDeleteMember= await fetch(`/api/deleteMember/${membId}`);
         loadMember()
+        setLoading(false)
     }
     async function loadHouse(){
+        setLoading(true)
         const fetchHouses = await fetch (`/api/house/${teamId}`).then( res => res.json());
         console.log('fetched houses are: ', fetchHouses)
         setHouses(fetchHouses)
+        setLoading(false)
     }
     function SetView(typeView){
         if(typeView=='List'){
@@ -196,13 +210,13 @@ function Members() {
             console.log('memberFiltered ', memberFiltered.length)
     }
     function clearFilter(){
-        console.log('someething to be cleared')
         setMemberFiltered([])
         setFilterCategory([])
     }
     async function assignHouse(membId, id){
         console.log("selectedHouse: ", selectedHouse)
         console.log("membId: ", membId)
+        setLoading(true)
         const apiResult = await fetch(`/api/memberDetailUpdate/${membId}`, 
             {   method: 'PUT',
                 headers:{
@@ -213,7 +227,7 @@ function Members() {
         setSelectedHouse({});
         loadMember();
         closeMenu(id)
-
+        setLoading(false)
     }
     function showMenu(id){
         const el = document.getElementById(id);
@@ -234,9 +248,13 @@ function Members() {
         loadTeamRoles()
         loadHouse()
     },[])
-
     return (
         <div>
+            <div className={loading === true ? "loaderWindow": "hide"}>
+                <div className="loadingWnd">
+                    <img className="loadingGif" src={Loader} alt="loadingWndow"/>
+                </div>
+            </div>
             <h3 >Team Members</h3>
             <hr/>
             <div class="d-flex justify-content-between col-11 mx-auto">
