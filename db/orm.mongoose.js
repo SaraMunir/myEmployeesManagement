@@ -60,12 +60,14 @@ async function loginUser( email, password ) {
         return { error: "Invalid password" };
     }
     // remap the data into the specified fields as we are using camelCase
+    console.log("in orm Logged userData: ", userData)
     return {
         message: "user successfully loggedin",
         id: userData._id,
         name: userData.name,
         email: userData.email,
         theme: userData.theme,
+        profileImg: userData.profileImg
     };
 }
 // getTeams

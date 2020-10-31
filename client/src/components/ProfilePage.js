@@ -7,6 +7,7 @@ const userType = localStorage.type
 function ProfilePage() {
 
     const [ adminDetail, setAdminDetail ]= useState({});
+    const [ newProUpload, setNewProUpload ]= useState(false);
     const [lgShow, setLgShow] = useState(false);
     const [lgShow2, setLgShow2] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -168,17 +169,21 @@ function ProfilePage() {
     }
     async function loadAdminProfile(){
         setLoading(true)
-
+        console.log('newProUpload: ', newProUpload)
         const getAdmnDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
         console.log('fetched Admin detail is: ', getAdmnDetail)
         console.log('cover setting: ', getAdmnDetail.coverImgSetting)
+        if(newProUpload === true){
+            console.log('newProUpload is true so the pro img', getAdmnDetail.profileImg)
+            localStorage.setItem('profileImg', getAdmnDetail.profileImg);
+            setNewProUpload(false)
+        }
         if(getAdmnDetail.coverImgSetting){
             setCoverPhoto(getAdmnDetail.coverImgSetting)
             // setDontCenter(false)
         }
         setAdminDetail(getAdmnDetail);
         setLoading(false)
-
     }
     function handleCvrPicChange(e){
         const file = e.target.files[0];
@@ -189,6 +194,7 @@ function ProfilePage() {
         setMyCoverPIc (false);
     }
     async function handleCvrPhtUpload(e){
+        setNewProUpload(true)
         setLoading(true)
         e.preventDefault();
         uploadCoverPic(e);
@@ -200,7 +206,9 @@ function ProfilePage() {
                     method: 'PUT',
                     body: formData
                 }
-            ).then( result=>result.json())}
+            ).then( result=>result.json())
+            setLoading(false)
+        }
         if(adminDetail.coverImg){
             let oldPhoto = {old: adminDetail.coverImg};
             //delet old photo
@@ -213,10 +221,12 @@ function ProfilePage() {
                 body: JSON.stringify(oldPhoto)
             }).then( result=>result.json());
             }
-            setCvrFrmShow(false)
-            setLoading(false)
+        setCvrFrmShow(false)
+        setLoading(false)
+        setTimeout(() => {
             loadAdminProfile();
-
+            document.location.reload(true);
+        }, 500);
         }
     function movePicBy(by){
         if(by == 'y-'){

@@ -28,12 +28,10 @@ function HomePage() {
             scrollToRef(showMe)
         }, 100);
     }
-
-
     return (
         <div class="container mx-auto row hero">
-            { userId && userType=='Admin' ? <Redirect to='/NewTeamsPage'/> : '' }
-            { userType=='Member' ? <Redirect to={`/UserProfile/TimeLine`}/> : ''}
+            {/* { userId && userType=='Admin' ? <Redirect to='/NewTeamsPage'/> : '' }
+            { userId && userType=='Member' ? <Redirect to={`/UserProfile/TimeLine`}/> : ''} */}
             <div class="col-6 mx-auto mt-5 text-left">
                 <h1 className='heroText'>My <span style={{fontWeight: 'bold'}}>Collective</span> <br/> group</h1>
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci sapiente delectus molestiae, ea quae amet perspiciatis facilis pariatur itaque magni iusto sunt reprehenderit assumenda quam exercitationem dicta maiores, quibusdam harum!</p>

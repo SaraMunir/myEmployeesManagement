@@ -69,6 +69,7 @@ function Navbar() {
                     <li class="nav-item  mx-auto">
                         <Link to="/ProfilePage" className={location.pathname === "/ProfilePage" ? "nav-link active " : "nav-link"}>
                         <img className="navImgThm mr-3" src={adminDetail.profileImg ? adminDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"} alt=""/> Profile
+                        {/* <img className="navImgThm mr-3" src={ profileImg === 'undefined'|| !profileImg ? "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125" : profileImg} alt=""/> Profile */}
                         </Link>
                     </li> : ''}
                     {id && type == 'Admin' ? 

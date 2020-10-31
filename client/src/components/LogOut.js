@@ -21,7 +21,7 @@ function LogoutPage(){
     return (
         <div>
             {/* { isLoggedOut ? <Redirect to='/HomePage' /> : '' } */}
-            { isLoggedOut ? <Redirect to='/HomePage' /> : '' }
+            { isLoggedOut === true ? <Redirect to='/HomePage' /> : '' }
             <section class="jumbotron text-center">
                 <div class="container">
                     <p class="lead text-muted">Please wait, logging out...</p>
