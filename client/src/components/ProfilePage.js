@@ -226,6 +226,7 @@ function ProfilePage() {
         setTimeout(() => {
             loadAdminProfile();
             document.location.reload(true);
+
         }, 500);
         }
     function movePicBy(by){
