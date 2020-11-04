@@ -226,7 +226,6 @@ function ProfilePage() {
         setTimeout(() => {
             loadAdminProfile();
             document.location.reload(true);
-
         }, 500);
         }
     function movePicBy(by){
@@ -326,8 +325,7 @@ function ProfilePage() {
                 </div>
                 <div className="shorSum row col">
                     <div className="adminProImg">
-                        <img className="profilePhoto" src={adminDetail.profileImg ? adminDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"
-                        } alt="memberImg"/>
+                        <img className="profilePhoto" src={adminDetail.profileImg ? adminDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"} alt="memberImg"/>
                         <i className="fas fa-camera admiUpIcon"  onClick={() => setLgShow2(true)}></i>
                         <Modal
                             size="lg"

@@ -33,7 +33,7 @@ img {
 .myBtnNew{
   text-align: center;
   width: 150px;
-  background:  #e79fab;
+  background:  #f0525f;
   padding: 10px;
   margin: 5px;
   color: white;
@@ -42,7 +42,7 @@ img {
 }
 .myBtnNew2{
   text-align: center;
-  background:  #e79fab;
+  background:  #f0525f;
   padding: 10px;
   margin: 5px;
   color: white;
@@ -51,7 +51,7 @@ img {
 }
 .myBtnNew4{
   text-align: center;
-  background:  #e79fab;
+  background:  #f0525f;
   margin: 5px;
   padding: 8px 15px;
   color: white;
@@ -60,7 +60,8 @@ img {
 }
 .myBtnTrnslu{
   text-align: center;
-  background:  #e79fab96;
+  /* background:  #e79fab96; */
+  background:  #f0525fc0;
   padding: 10px;
   margin: 5px;
   color: white;
@@ -102,7 +103,7 @@ img {
   right: -12px;
   width: 25px;
   height: 25px;
-  background:  #fd788e;
+  background:  #f0525f;
   border: 2px;
   border-radius: 50%;
   color: white;
@@ -192,7 +193,7 @@ hr{
   top: 0;
   left: 0;
   height: 100vh;
-  background-image: linear-gradient(135deg , #e79fab , #bd4a5d);
+  background-image: linear-gradient(135deg , #e7959c , #f0525f);
   padding: 0;
   z-index: 120;
   /* position: relative; */
@@ -200,7 +201,7 @@ hr{
 .sideArw2{
   height: 100vh;
   position: absolute;
-  background-image: linear-gradient(135deg , #e79fab , #bd4a5d);
+  background-image: linear-gradient(135deg , #e7959c , #f0525f);
   padding: 0;
   z-index: 120;
   transition: .9s ease all ;
@@ -224,7 +225,7 @@ hr{
   top: 0;
   right: 0;
   left: -150px;
-  background-image: linear-gradient(135deg , #e79fab , #fd788e);
+  background-image: linear-gradient(135deg , #e7959c , #f0525f);
   z-index: 200;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -239,15 +240,15 @@ hr{
 .crclBtn{
   padding: 10px;
   border-radius: 50%;
-  background-image: linear-gradient(135deg , #e79fab , #bd4a5d);
+  background-image: linear-gradient(135deg , #e7959c , #f0525f);
   transition: .7s ease-in-out all;
 }
 .crclBtn:hover{
-  background-image: linear-gradient(135deg , #bd4a5d,  #e79fab);
+  background-image: linear-gradient(135deg , #f0525f,  #e7959c);
 }
 .sidBarItem2:hover{
   color: white;
-  background: #fd788e;
+  background: #f0525f;
   text-decoration: none;
 }
 .sidBarItem2{

@@ -1,5 +1,5 @@
 import React,{useRef, useState} from 'react'
-import heroImg from './assets/young-people-taking-selfie_23-2148462713.png';
+import heroImg from './assets/team-spirit-concept-illustration_114360-1073.jpg';
 import { Link, useLocation } from "react-router-dom";
 import { Redirect } from 'react-router-dom';
 import makeGroup from './assets/add-notes-concept-illustration_114360-2496.jpg'
@@ -83,6 +83,11 @@ function HomePage() {
                         <hr className="col-4 mx-auto" style={{borderWidth: '2px'}}/>
                         <h5>Make Friends</h5>
                     </div>
+                </div>
+                <div className="mx-auto">
+                    <Link to="/SignUp">
+                        <div class="myBtnNew mx-auto" href="#" role="button">lets Get started</div>
+                    </Link>
                 </div>
             </div>
         </div>
