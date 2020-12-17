@@ -1,28 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import { Link, useParams } from "react-router-dom";
-
-import MyCalendar from "./MyCalendar"
 import OnHoverScrollContainer from './scroll/CustomScrollDiv';
+import MyChart from "./MyCharts"
 import Birthdays from "./Birthdays"
 const theme = localStorage.theme;
 
 function HomePage() {
     const { teamId } = useParams();
-    // const [teamDetail, setTeamDetail]= useState( {});
     const [members, setMember] = useState([]);
-    // const [membersBirth, setMembersBirth] = useState([]);
-    // const [closestBirth, setClosestBirth] = useState([]);
+    const [maleMembNumb, setMaleMembNumb] = useState()
     const [upcomingBirthday, setUpcomingBirthday] = useState([]);
     const [todayBirth, setTodayBirth] = useState([]);
     const [houses, setHouses] = useState([]);
     async function loadTeamDetail(){
         const fetchTeamDetail = await fetch (`/api/teamDetails/${teamId}`).then( res => res.json());
         console.log('fetched team detail is: ', fetchTeamDetail)
-        // setTeamDetail(fetchTeamDetail)
     }
     async function loadMember(){
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
-        console.log('fetched members are: ', fetchMembers)
         setMember(fetchMembers)
         const membBirthday=[];
         const membCurrentDateBirth=[];
@@ -30,6 +25,7 @@ function HomePage() {
         var d = new Date();
         var thisMonth = (d.getMonth() + 1);
         var today = d.getDate();
+        var maleMembNum = 0
         fetchMembers.map((member)=>{
             if(member.birthday){
                 let birthDay = member.birthday.split("-");
@@ -44,7 +40,11 @@ function HomePage() {
                     }
                     }
                 }
-            });
+            if(member.sex==='M'){
+                maleMembNum += 1
+            }
+        });
+        console.log('male memb no: ',maleMembNum )
             membBirthday.sort(function(a, b){
                 let birthDay1 = a.birthday.split("-");
                 let birthDay2 = b.birthday.split("-");
@@ -53,15 +53,12 @@ function HomePage() {
                 let birthDay1 = a.birthday.split("-");
                 let birthDay2 = b.birthday.split("-");
                 return (birthDay1[2] > birthDay2[2] ? 1 : -1 )} );
-            console.log('members after sorting: ', membBirthday);
-            // setMembersBirth(membBirthday);
+            setMaleMembNumb(maleMembNum)
             setUpcomingBirthday(upcomingBirthday);
-            // setClosestBirth(membBirthday)
             setTodayBirth(membCurrentDateBirth);
         }
     async function loadHouse(){
         const fetchHouses = await fetch (`/api/house/${teamId}`).then( res => res.json());
-        console.log('fetched houses are: ', fetchHouses)
         setHouses(fetchHouses);
     }
     const object ={
@@ -77,8 +74,7 @@ function HomePage() {
     },[])
     return (
         <div>
-            {
-                houses.length>0 ?
+            {houses.length>0 ?
             <div className={ theme === 'Dark' ? "myCardDark mx-auto col-11" : "myCard mx-auto col-11"} style={{padding: '30px'}}>
                 <h5 className="text-left">Houses</h5>
                 <hr/>
@@ -87,8 +83,12 @@ function HomePage() {
                 ): ''}
             </div>
             :''
-
             }
+            <div className={theme === 'Dark' ? "myCardDark mx-auto col-11" : "myCard mx-auto col-11"} style={{padding: '30px'}}>
+                <h5 className="text-left">Charts</h5>
+                <hr/>
+                <MyChart maleMembNumb={maleMembNumb} teamId={teamId}/>
+            </div>
             <div className={ theme === 'Dark' ? "myCardDark mx-auto col-11" : "myCard mx-auto col-11"} style={{padding: '30px'}}>
                 <h5 className="text-left">Members</h5>
                 <hr/>
@@ -121,13 +121,6 @@ function HomePage() {
             </div>
             <div className="row col-11 mx-auto justify-content-between" style={{padding: '0'}}>
                 <div className="col-6 mx-auto">
-                    <div className={ theme === 'Dark' ? "myCardDark col-12 row" : "myCard col-12 row"} style={{ padding: '30px', height: "75vh"}}>
-                        <div className="col-12 mx-auto">
-                            <h4>Calendar</h4>
-                            <hr/>
-                            <MyCalendar/>
-                        </div>
-                    </div>
                     <div className={ theme === 'Dark' ? "myCardDark col-12 row" : "myCard col-12 row"} style={{ padding: '30px', minHeight: "30vh"}}>
                         <div className="col-12 mx-auto">
                             <h4>Upcoming Events</h4>

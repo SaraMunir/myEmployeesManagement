@@ -160,7 +160,20 @@ function EventsTimeLine(props) {
                         <div className="mx-auto">
                             <div className="timeLineItmTg mx-auto">
                                 <h5 style={{margin: '0'}}>{props.daysObj.dayDate}  {props.daysObj.dayName}</h5>
-                                <p style={{margin: '0'}}>{parseInt(props.daysObj.startTime)-12} {parseInt(props.daysObj.startTime)<12 ? 'am': 'pm'}</p>
+
+                                <p style={{margin: '0'}}>
+                                    {/* {parseInt(props.daysObj.startTime) < 12 ? (props.daysObj.startTime) :
+                                    parseInt(props.daysObj.startTime)== 12 ? 
+                                    (props.daysObj.startTime) :
+                                    (props.daysObj.startTime)-12
+                                    }  */}
+                                    {parseInt(props.daysObj.startTime) < 12 ? (props.daysObj.startTime) :
+                                    parseInt(props.daysObj.startTime)== 12 ? 
+                                    (props.daysObj.startTime) :
+                                    parseInt(props.daysObj.startTime)-12 + ':' + props.daysObj.startTime.slice(3,5)
+                                    }
+                                    
+                                    {parseInt(props.daysObj.startTime)<12 ? 'am': 'pm'}</p>
                             </div>
                             <div className="timeLineItmTrngleDwn mx-auto"></div>
                         </div>
@@ -181,10 +194,15 @@ function EventsTimeLine(props) {
                         <div>
                             <div className="d-flex">
                                 <div className="timeLineItmTg">
-                                    <h4>{timeline.timeLineTitle}</h4>
+                                    <h4>{timeline.timeLineTitle} </h4>
                                     <p style={{margin: '0'}}>{timeline.timeLineDate}</p>
-                                    <p style={{margin: '0'}}>{parseInt(timeline.timeLineTime)-12} {parseInt(timeline.timeLineTime)<12 ? 'am':'pm'}</p>
-                                    
+                                    <p style={{margin: '0'}}>
+                                    {parseInt(timeline.timeLineTime) < 12 ? (timeline.timeLineTime) :
+                                    parseInt(timeline.timeLineTime)== 12 ? 
+                                    (timeline.timeLineTime) :
+                                    parseInt(timeline.timeLineTime)-12 + ':' + timeline.timeLineTime.slice(3,5)
+                                    }
+                                    {(timeline.timeLineTime)<12 ? 'am':'pm'}</p>
                                 </div>
                                 <div  style={{margin: 'auto'}}>
                                     <div className="timeLineItmTrngleRight"></div>
@@ -215,11 +233,16 @@ function EventsTimeLine(props) {
                                 <div className="timeLineItmTg">
                                     <h4>{timeline.timeLineTitle}</h4>
                                     <p style={{margin: '0'}}>{timeline.timeLineDate}</p>
-                                    <p style={{margin: '0'}}>{parseInt(timeline.timeLineTime)-12}
+                                    <p style={{margin: '0'}}>
+                                    {parseInt(timeline.timeLineTime) < 12 ? (timeline.timeLineTime) :
+                                        parseInt(timeline.timeLineTime)== 12 ? 
+                                        (timeline.timeLineTime) :
+                                        parseInt(timeline.timeLineTime)-12 + ':' + timeline.timeLineTime.slice(3,5)
+                                        }
                                     {parseInt(timeline.timeLineTime)<12 ? 'am': 'pm'}</p>
                                 </div>
                             </div>
-                        </div>
+                </div>
                     </div>
                 </div>
                 <div className="dot tmLineSctn d-flex mt-2 mb-2">
@@ -258,7 +281,21 @@ function EventsTimeLine(props) {
                             <div className="timeLineItmTrngleUp mx-auto"></div>
                             <div className="timeLineItmTg mx-auto">
                                 <h4 style={{margin: '0'}}>{props.daysObj.endDate}  {props.daysObj.endDayName}</h4>
-                                <p style={{margin: '0'}}>{parseInt(props.daysObj.endTime)-12} {parseInt(props.daysObj.endTime)<12 ? 'am': 'pm'}</p>
+                                <p style={{margin: '0'}}>
+                                    {/* {parseInt(props.daysObj.endTime) < 12 ? props.daysObj.endTime :
+                                    parseInt(props.daysObj.endTime) == 12 ? 
+                                    props.daysObj.endTime :
+                                    parseInt(props.daysObj.endTime)-12
+                                    } */}
+                                    {parseInt(props.daysObj.endTime) < 12 ? (props.daysObj.endTime) :
+                                    parseInt(props.daysObj.endTime)== 12 ? 
+                                    (props.daysObj.endTime) :
+                                    parseInt(props.daysObj.endTime)-12 + ':' + props.daysObj.endTime.slice(3,5)
+                                    }
+                                    {/* {parseInt(props.daysObj.endTime) < 12 ? parseInt(props.daysObj.endTime) : parseInt(props.daysObj.endTime)-12}
+                                    {props.daysObj.endTime} */}
+                                    
+                                    {parseInt(props.daysObj.endTime)<12 ? 'am': 'pm'}</p>
                                 
                             </div>
                         </div>

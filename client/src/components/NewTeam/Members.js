@@ -171,12 +171,12 @@ function Members() {
         console.log('sorting category: ', category)
         console.log('sorting type: ', type)
         // setMember([])
-        if(type == 'Role'){    
+        if(type == 'Role'){
             teamRoles.map((role)=>
                 { 
                     if(role.roleName == category){
-                        console.log(`role.roleName: `, role.roleName)
-                        console.log(`category: `, category)
+                        // console.log(`role.roleName: `, role.roleName)
+                        // console.log(`category: `, category)
                         const newList = originalMember.filter(mem=> mem.role == category)
                         let cat ={
                             category: category,
@@ -188,13 +188,42 @@ function Members() {
                         setFilterCategory(oldArray => [...oldArray, cat])
                     }
                 })}
+        if(type == 'sex'){
+            if(category === 'F'){
+                const newList = originalMember.filter(mem=> mem.sex == "F")
+                    let cat ={
+                        category: "Female",
+                        type: type
+                    }
+                    setMemberFiltered(oldArray => [...oldArray, ...newList]);
+                    setFilterCategory(oldArray => [...oldArray, cat])
+            }
+            if(category === 'M'){
+                const newList = originalMember.filter(mem=> mem.sex == "M")
+                    let cat ={
+                        category: "Male",
+                        type: type
+                    }
+                    setMemberFiltered(oldArray => [...oldArray, ...newList]);
+                    setFilterCategory(oldArray => [...oldArray, cat])
+            }
+            if(category === 'Other'){
+                const newList = originalMember.filter(mem=> mem.sex == "Other")
+                    let cat ={
+                        category: "Other",
+                        type: type
+                    }
+                    setMemberFiltered(oldArray => [...oldArray, ...newList]);
+                    setFilterCategory(oldArray => [...oldArray, cat])
+            }
+        }
     }
     function removeFilter(category, type){
         console.log(category)
         if(type == 'Role'){  
         teamRoles.map((role)=>
             { 
-                if(role.roleName == category){
+                if(role.roleName === "category"){
                     console.log(`role.roleName: `, role.roleName)
                     console.log(`category: `, category)
                     const newList = memberFiltered.filter(mem=> mem.role !== category)
@@ -206,8 +235,26 @@ function Members() {
                 }
             })
         }
-            console.log('originalMember ', originalMember)
-            console.log('memberFiltered ', memberFiltered.length)
+        if(type == 'sex'){
+            if(category === 'Female'){
+                const newList = memberFiltered.filter(mem=> mem.sex !== 'F')
+                const newCatList = filterCategory.filter(cat=> cat.category !== category)
+                setMemberFiltered(oldArray => [...newList]);
+                setFilterCategory(oldArray => [...newCatList])
+            }
+            if(category === 'Male'){
+                const newList = memberFiltered.filter(mem=> mem.sex !== 'M')
+                const newCatList = filterCategory.filter(cat=> cat.category !== category)
+                setMemberFiltered(oldArray => [...newList]);
+                setFilterCategory(oldArray => [...newCatList])
+            }
+            if(category === 'Other'){
+                const newList = memberFiltered.filter(mem=> mem.sex !== 'Other')
+                const newCatList = filterCategory.filter(cat=> cat.category !== category)
+                setMemberFiltered(oldArray => [...newList]);
+                setFilterCategory(oldArray => [...newCatList])
+            }
+        }
     }
     function clearFilter(){
         setMemberFiltered([])
@@ -351,7 +398,16 @@ function Members() {
                             
                             </div>
                             <hr/>
-                            <div  className="text-left dropdown-item mx-auto" onClick={()=>filterMembers('Sex')}>By Sex</div>
+                            <div className="text-left dropdown-item mx-auto listToHover">
+                                <div className="list1"> <i class="fas fa-angle-left"></i> &nbsp; By Sex</div>
+                                    <div className="listHoverDiv">
+                                        <div>
+                                            <div className="listHoverItem" onClick={()=>filterMembers(`F`, `sex`)}>Female</div> 
+                                            <div className="listHoverItem" onClick={()=>filterMembers(`M`, `sex`)}>Male</div> 
+                                            <div className="listHoverItem" onClick={()=>filterMembers(`Other`, `sex`)}>Other</div> 
+                                        </div>
+                                    </div>
+                            </div>
                         </div>
                     </div>
                     <div class="Sorting btn-group">

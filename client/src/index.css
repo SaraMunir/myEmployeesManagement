@@ -11,6 +11,10 @@ code {
     monospace;
 }
 .hero {
+  /* color: #d363ff99;
+  color: #4042b499;
+  color: #63d3ff99;
+  color: #63ffcb99; */
 
   background-size: cover;
   height: 84vh;
@@ -839,7 +843,12 @@ a:hover{
   top: 0;
   left: 0;
 }
+/* background: #63ff7099;
+background: #e2ff6399;
+background: #ffbb6398;
+background: #ff756398; */
 .groupListDark{
+  /* background: #013636; */
   background: #3e444b;
   position: sticky;
   height: 78vh;
@@ -849,7 +858,7 @@ a:hover{
 }
 .darkBackGrnd{
   background: #343a40;
-  color: #c5c5c5;
+  color: #e4e4e4;
   min-height: 100vh;
 }
 .navIcon{
@@ -1372,7 +1381,7 @@ button:focus{
 }
 
 .heroText{
-  font-size: 3.5rem;
+  font-size: 4rem;
   color: #444a5c;
 }
 .loaderWindow{

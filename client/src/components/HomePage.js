@@ -34,7 +34,7 @@ function HomePage() {
             { userId && userType=='Member' ? <Redirect to={`/UserProfile/TimeLine`}/> : ''} */}
             <div class="col-6 mx-auto mt-5 text-left">
                 <h1 className='heroText'>My <span style={{fontWeight: 'bold'}}>Collective</span> <br/> group</h1>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci sapiente delectus molestiae, ea quae amet perspiciatis facilis pariatur itaque magni iusto sunt reprehenderit assumenda quam exercitationem dicta maiores, quibusdam harum!</p>
+                <p style={{fontSize: '1.75rem'}}>Create and manage groups , add members, create discussions and event</p>
                 <div className="myBtnNew2 col-4 mt-3" onClick={showMeme}>learn More</div>
             </div>
             <div class="col-6 mx-auto">

@@ -93,7 +93,11 @@ function EventDetail() {
             sortedEventTimeLine =eventDetail.timeLine.sort(function(a,b){
                 let crA = a.timeLineTime
                 let crB = b.timeLineTime
-                return(crB-crA)
+                if (crA>crB) return 1;
+                if (crA<crB) return -1;
+                if(a.timeLineTime>b.timeLineTime) return 1;
+                if(a.timeLineTime<b.timeLineTime) return -1;
+                // return(crB-crA)
             })
             setEventsTimeLine(sortedEventTimeLine)
         } else {

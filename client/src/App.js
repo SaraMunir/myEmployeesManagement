@@ -21,7 +21,7 @@ function App() {
   const theme = localStorage.theme;
   return (
     // App darkBackGrnd
-    <div className={theme === 'Dark' ? "App darkBackGrnd" : "App"}>
+    <div className={theme === 'Dark' ? "container-fluild App darkBackGrnd" : "container-fluild App"}>
       <Router>
         <Navbar />
         <Route exact path={["/","/HomePage"]} component={HomePage}/>

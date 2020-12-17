@@ -69,15 +69,14 @@ function Navbar() {
                     <li class="nav-item  mx-auto">
                         <Link to="/ProfilePage" className={location.pathname === "/ProfilePage" ? "nav-link active " : "nav-link"}>
                         <img className="navImgThm mr-3" src={adminDetail.profileImg ? adminDetail.profileImg : "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125"} alt=""/> Profile
-                        {/* <img className="navImgThm mr-3" src={ profileImg === 'undefined'|| !profileImg ? "https://i2.wp.com/wp.laravel-news.com/wp-content/uploads/2018/03/avatar-images-spatie.png?resize=2200%2C1125" : profileImg} alt=""/> Profile */}
                         </Link>
                     </li> : ''}
-                    {id && type == 'Admin' ? 
+                    {/* {id && type == 'Admin' ? 
                     <li class="nav-item  mx-auto">
                         <Link to="/Dashboard" className={location.pathname === "/Dashboard" ? "nav-link active " : "nav-link"}>
                         <i class="fas fa-2x fa-columns"></i> Dashboard
                         </Link>
-                    </li> : ''}
+                    </li> : ''} */}
                     {id && type === 'Member' ?
                     <li class="nav-item  mx-auto">
                         <Link to="/UserProfile/TimeLine" className={location.pathname === "/UserProfile/TimeLine" ? "nav-link active " : "nav-link"}>
