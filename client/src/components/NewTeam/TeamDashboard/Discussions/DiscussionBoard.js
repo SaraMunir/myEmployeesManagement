@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useRef}  from 'react'
 import { Link, useLocation, useParams } from "react-router-dom";
 import {Modal} from 'react-bootstrap'
-
 function DiscussionBoard() {
+    const theme = localStorage.theme;
     const inputDiscussionTitle = useRef();
     const inputDiscussionPost = useRef();
     const { teamId } = useParams();
+    
     const userId = localStorage.id
     const userType = localStorage.type;
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
@@ -41,7 +42,6 @@ function DiscussionBoard() {
                     body: formData
                 }
             ).then( result=>result.json())
-            console.log(uploadPic)
             setNewDiscussion( { ...newDiscussion, discussionImg: uploadPic } );
             localStorage.setItem("unUploaded", uploadPic);
             setImgForm(false)
@@ -65,18 +65,14 @@ function DiscussionBoard() {
             setImgForm(true)
         } else
         setImgForm(false)
-        // if(localStorage.unUploaded !== ''){
-        //     cancelImg()
-        // }
-        // setNewDiscussion( { ...newDiscussion, discussionType: '' } );
     }
     function showPollForm(){
         if (pollForm == false){
-            console.log(newDiscussion)
+            // console.log(newDiscussion)
             setPollForm(true)
             let newObj = newDiscussion;
             newObj.discussionType = 'poll'
-            console.log('newObj: ', newObj)
+            // console.log('newObj: ', newObj)
             setNewDiscussion(newObj)
             return
             // setNewDiscussion({ ...newDiscussion, discussionType: 'poll'});
@@ -131,14 +127,12 @@ function DiscussionBoard() {
             return;
         }
         let discussionObj = newDiscussion
-        console.log('newDiscussion', discussionObj)
         if(newDiscussion.discussionType == 'poll'){
-            console.log('pollOptions : ',pollOptions)
+            // console.log('pollOptions : ',pollOptions)
             discussionObj = {
                 ...discussionObj, pollOptions
             }
         }
-        console.log('final discussionObj', discussionObj)
         const apiResult = await fetch('/api/postDiscussion', 
         {   method: 'post',
             headers: {
@@ -147,7 +141,7 @@ function DiscussionBoard() {
             },
             body: JSON.stringify(discussionObj)
         }).then( result=>result.json());
-        console.log('discussion posted');
+        // console.log('discussion posted');
         localStorage.setItem("unUploaded", '');
         setNewDiscussion({
             teamId: `${teamId}`, creatorId: `${userId}`, discussionTitle: '', discussionPost: '', discussionImg: localStorage.unUploaded,discussionType:'',
@@ -172,7 +166,6 @@ function DiscussionBoard() {
             const getAdmnDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
             setAdminDetail(getAdmnDetail);
             allMembs.push(getAdmnDetail);
-            console.log("allMembs: ", allMembs)
             setAllMembers(allMembs)
             return
         }
@@ -182,7 +175,6 @@ function DiscussionBoard() {
             const getAdmnDetail = await fetch (`/api/adminProfile/${fetchTeamDetail.teamAdmin}`).then( res => res.json());
             setAdminDetail(getAdmnDetail);
             allMembs.push(getAdmnDetail);
-            console.log("allMembs: ", allMembs)
             setAllMembers(allMembs)
             return
         }
@@ -190,14 +182,12 @@ function DiscussionBoard() {
     async function loadMyProfile(){
         if(userType==="Admin"){
             const myDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
-            console.log('myDetail: ', myDetail)
             setMyDetail(myDetail)
             setMyDiscussions(myDetail.myDiscussions)
             return
         }
         if(userType==="Member"){
             const myDetail = await fetch (`/api/memberProfile/${userId}`).then( res => res.json());
-            console.log('myDetail: ', myDetail)
             setMyDetail(myDetail)
             setMyDiscussions(myDetail.myDiscussions)
             return
@@ -302,15 +292,15 @@ function DiscussionBoard() {
                 </Modal>
             </div>
             <div className="row mx-auto">
-                <div className="myCardDark mx-auto col-md-8">
-                    {
-                    discussions ? 
-                    discussions.map(discussion=>
+                <div className={theme === 'Dark' ? "myCardDark mx-auto col-md-8" : "myCard mx-auto col-md-8"}>
+                    <h4>Discussions</h4>
+                    <hr className="col-6 mx-auto"/>
+                    { discussions ? discussions.map(discussion=>
                         <div className="discBoards mx-auto">
                             <div className="d-flex justify-content-between">
                                 <div className="">
                                 {allMembers.map(member=>
-                                    member._id === discussion.creatorId ? <img className="postImgThmb" src={member.profileImg} alt=""/> : '')}
+                                    member._id === discussion.creatorId ? <img className="postImgThmb" src={member.profileImg} alt="" /> : '')}
                                 </div>
                                 <div className="col-5 text-left">
                                     <h5 className="discnName">{discussion.discussionTitle}</h5>
@@ -318,21 +308,21 @@ function DiscussionBoard() {
                                 </div>
                                 <div className="followersGrp col-3">
                                     <div className="d-flex">
-                                        {discussion.followers.length>0 ?
-                                        discussion.followers.map(follower=>
-                                            allMembers.map(member=>
-                                                member._id === follower.userId ?
-                                                    <img className="repImgThmb" src={member.profileImg} alt=""/> : ''
-                                                )
-                                            ) :''}
+                                    {discussion.followers.length>0 ?
+                                    discussion.followers.map(follower=>
+                                        allMembers.map(member=>
+                                            member._id === follower.userId ?
+                                                <img className="repImgThmb" src={member.profileImg} alt="" style={{marginLeft:'-10px'}}/> : ''
+                                            )
+                                        ) :''}
+                                    </div>
+                                    <div className="d-flex mt-2">
                                         {discussion.followers.length>0 ?
                                         <p>{discussion.followers.length} Following</p>
                                         : ''}
-                                    </div>
-                                    <div className="d-flex mt-2">
-                                        {discussion.comments.length>0 ?
+                                        {/* {discussion.comments.length>0 ?
                                         <p>{discussion.comments.length} Comments</p>
-                                        : ''}
+                                        : ''} */}
                                     </div>
                                 </div>
                                 <div className="pt-4 col-3 ">
@@ -345,8 +335,8 @@ function DiscussionBoard() {
                         </div>
                         ):''}
                 </div>
-                <div className="col-md-2 myCardDark mx-auto">
-                    <h3 style={{color: "#cacaca"}}>Following</h3>
+                <div className={theme === 'Dark' ? "col-md-2 myCardDark mx-auto" : " col-md-2 myCard mx-auto"}>
+                    <h4 >Following</h4>
                     <hr/>
                     {myDiscussions ? myDiscussions.map(myDiscussion=>
                         <div>
@@ -368,10 +358,7 @@ function DiscussionBoard() {
 
                         </div> 
                         
-                        )
-                        : ''}
-
-
+                        ): ''}
                 </div>
 
             </div>

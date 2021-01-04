@@ -78,7 +78,7 @@ function Teams() {
                             <div class="form-group">
                                 <label for="teamName">Create My Team</label>
                                 <input type="text" class="form-control" id="teamName" aria-describedby="taskHelp" onChange={handleInputChange} value={newTeam.teamName}/>
-                                <label for="teamDesc">Example textarea</label>
+                                <label for="teamDesc">Provide Description</label>
                                 <textarea class="form-control" id="teamDesc" rows="3" value={newTeam.teamDesc} onChange={handleInputChange}></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary" onClick={submitTeam}>Submit</button>

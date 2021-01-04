@@ -1,32 +1,29 @@
 {
   "files": {
-    "main.css": "/static/css/main.bb285e5d.chunk.css",
-    "main.js": "/static/js/main.7bc9e508.chunk.js",
-    "main.js.map": "/static/js/main.7bc9e508.chunk.js.map",
+    "main.css": "/static/css/main.668f1e87.chunk.css",
+    "main.js": "/static/js/main.edb3c92b.chunk.js",
+    "main.js.map": "/static/js/main.edb3c92b.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.09b85ec0.js",
     "runtime-main.js.map": "/static/js/runtime-main.09b85ec0.js.map",
-    "static/css/2.8dbe6964.chunk.css": "/static/css/2.8dbe6964.chunk.css",
-    "static/js/2.3ed2efc6.chunk.js": "/static/js/2.3ed2efc6.chunk.js",
-    "static/js/2.3ed2efc6.chunk.js.map": "/static/js/2.3ed2efc6.chunk.js.map",
+    "static/js/2.6bad71de.chunk.js": "/static/js/2.6bad71de.chunk.js",
+    "static/js/2.6bad71de.chunk.js.map": "/static/js/2.6bad71de.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.36f2a4049a2f6aca8998efc68586ed91.js": "/precache-manifest.36f2a4049a2f6aca8998efc68586ed91.js",
+    "precache-manifest.07be8d17306a7a0af6db50e43fe8f67e.js": "/precache-manifest.07be8d17306a7a0af6db50e43fe8f67e.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/2.8dbe6964.chunk.css.map": "/static/css/2.8dbe6964.chunk.css.map",
-    "static/css/main.bb285e5d.chunk.css.map": "/static/css/main.bb285e5d.chunk.css.map",
-    "static/js/2.3ed2efc6.chunk.js.LICENSE.txt": "/static/js/2.3ed2efc6.chunk.js.LICENSE.txt",
+    "static/css/main.668f1e87.chunk.css.map": "/static/css/main.668f1e87.chunk.css.map",
+    "static/js/2.6bad71de.chunk.js.LICENSE.txt": "/static/js/2.6bad71de.chunk.js.LICENSE.txt",
     "static/media/3187910.jpg": "/static/media/3187910.bcff49a0.jpg",
     "static/media/Rolling-1s-200px.gif": "/static/media/Rolling-1s-200px.2d4958d0.gif",
     "static/media/add-notes-concept-illustration_114360-2496.jpg": "/static/media/add-notes-concept-illustration_114360-2496.d1bb4367.jpg",
     "static/media/add-user-concept-illustration_114360-557.jpg": "/static/media/add-user-concept-illustration_114360-557.f0975269.jpg",
     "static/media/connecting-teams-concept-illustration_114360-665.jpg": "/static/media/connecting-teams-concept-illustration_114360-665.4bc4c9e5.jpg",
     "static/media/design-community-concept-illustration_114360-1244.jpg": "/static/media/design-community-concept-illustration_114360-1244.ce759510.jpg",
-    "static/media/young-people-taking-selfie_23-2148462713.png": "/static/media/young-people-taking-selfie_23-2148462713.a8141ef5.png"
+    "static/media/team-spirit-concept-illustration_114360-1073.jpg": "/static/media/team-spirit-concept-illustration_114360-1073.676e6fa1.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.09b85ec0.js",
-    "static/css/2.8dbe6964.chunk.css",
-    "static/js/2.3ed2efc6.chunk.js",
-    "static/css/main.bb285e5d.chunk.css",
-    "static/js/main.7bc9e508.chunk.js"
+    "static/js/2.6bad71de.chunk.js",
+    "static/css/main.668f1e87.chunk.css",
+    "static/js/main.edb3c92b.chunk.js"
   ]
 }

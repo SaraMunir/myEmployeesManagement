@@ -5,8 +5,8 @@ function Birthdays(props) {
     const { teamId } = useParams();
 
     return (
-        <div className="col-6 mx-auto">
-            <div className={ props.theme === 'Dark' ? "myCardDark col-12" : "myCard col-12 row"} style={{padding: '30px' ,  height: "100vh"}}>
+        <div className="col-lg-6 mx-auto">
+            <div className={ props.theme === 'Dark' ? "myCardDark col-12 m-0" : "myCard col-12 row m-0"} style={{padding: '15px' ,  height: "100vh"}}>
                 <div className="col-12 mx-auto" >
                     <h4>Birthdays</h4>
                     <hr style={{"width": "100%"}}/>

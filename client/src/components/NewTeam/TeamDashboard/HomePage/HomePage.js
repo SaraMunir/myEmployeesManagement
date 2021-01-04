@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import OnHoverScrollContainer from './scroll/CustomScrollDiv';
 import MyChart from "./MyCharts"
 import Birthdays from "./Birthdays"
+import UpcomingEvents from './UpcomingEvents';
 const theme = localStorage.theme;
 
 function HomePage() {
@@ -12,10 +13,10 @@ function HomePage() {
     const [upcomingBirthday, setUpcomingBirthday] = useState([]);
     const [todayBirth, setTodayBirth] = useState([]);
     const [houses, setHouses] = useState([]);
-    async function loadTeamDetail(){
-        const fetchTeamDetail = await fetch (`/api/teamDetails/${teamId}`).then( res => res.json());
-        console.log('fetched team detail is: ', fetchTeamDetail)
-    }
+    // async function loadTeamDetail(){
+    //     await fetch (`/api/teamDetails/${teamId}`).then( res => res.json());
+    //     // console.log('fetched team detail is: ', fetchTeamDetail)
+    // }
     async function loadMember(){
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
         setMember(fetchMembers)
@@ -44,7 +45,7 @@ function HomePage() {
                 maleMembNum += 1
             }
         });
-        console.log('male memb no: ',maleMembNum )
+        // console.log('male memb no: ',maleMembNum )
             membBirthday.sort(function(a, b){
                 let birthDay1 = a.birthday.split("-");
                 let birthDay2 = b.birthday.split("-");
@@ -62,13 +63,14 @@ function HomePage() {
         setHouses(fetchHouses);
     }
     const object ={
+        teamId:teamId,
         theme: theme,
         OnHoverScrollContainer: OnHoverScrollContainer,
         todayBirth: todayBirth,
         upcomingBirthday: upcomingBirthday
     }
     useEffect(function(){
-        loadTeamDetail()
+        // loadTeamDetail()
         loadMember()
         loadHouse()
     },[])
@@ -120,14 +122,15 @@ function HomePage() {
                 </div>
             </div>
             <div className="row col-11 mx-auto justify-content-between" style={{padding: '0'}}>
-                <div className="col-6 mx-auto">
+                {/* <div className="col-6 mx-auto">
                     <div className={ theme === 'Dark' ? "myCardDark col-12 row" : "myCard col-12 row"} style={{ padding: '30px', minHeight: "30vh"}}>
                         <div className="col-12 mx-auto">
                             <h4>Upcoming Events</h4>
                             <hr/>
                         </div>
                     </div>
-                </div>
+                </div> */}
+                <UpcomingEvents {...object}/>
                 <Birthdays {...object}/>
             </div>
         </div>

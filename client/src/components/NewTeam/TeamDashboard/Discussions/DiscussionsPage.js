@@ -462,10 +462,20 @@ function DiscussionsPage() {
                                 <div className="d-flex justify-content-between">
                                     <div className="d-flex">
                                         {allMembers.map((member, idx)=>
-                                        member._id === comment.commenterId ? <img
-                                        key={`membImg2${idx}`} className="postImgThmb" src={member.profileImg} alt=""/> : ''
+                                        member._id === comment.commenterId ? 
+                                        <div>
+                                            <img
+                                            key={`membImg2${idx}`} className="postImgThmb" src={member.profileImg} alt=""/>
+                                            
+                                        </div>
+                                        : ''
                                         )}
                                         <div className="ml-3 text-left comntDet" style={{margin:'0'}}>
+                                            {allMembers.map((member, idx)=>
+                                            member._id === comment.commenterId ? 
+                                            <h5 style={{fontWeight: 'bolder'}}>{member.name}</h5>
+                                            : ''
+                                            )}
                                             <h6>{comment.comment}</h6>
                                             <p className="postTimes">replied - {new Date(comment.created).toLocaleString()}</p>
                                         </div>
@@ -505,11 +515,24 @@ function DiscussionsPage() {
                                     comment.replies.map((rep, idx)=>
                                         <div key={`reps${idx}`} className='d-flex singlRep justify-content-between mt-2'>
                                             <div className="d-flex">
-                                                {allMembers.map((member, idx)=>
-                                                    member._id === rep.replierId ? <img
-                                                    key={`membImg5${idx}`} className="repImgThmb" src={member.profileImg} alt=""/> : ''
-                                                    )}
+                                                <div>
+                                                    {allMembers.map((member, idx)=>
+                                                        member._id === rep.replierId ? 
+                                                        <div>
+                                                            <img
+                                                            key={`membImg5${idx}`} className="repImgThmb" src={member.profileImg} alt=""/>
+                                                            
+                                                        </div>
+                                                        : ''
+                                                        )}
+                                                </div>
                                                 <div className="ml-3 text-left comntDet" style={{margin:'0'}}>
+                                                    
+                                                    {allMembers.map((member, idx)=>
+                                                        member._id === rep.replierId ?  
+                                                        <h5 style={{fontWeight: 'bolder'}}>{member.name}</h5>
+                                                        : ''
+                                                        )}
                                                     <h6>{rep.reply}</h6>
                                                     <p className="postTimes">replied - {new Date(rep.created).toLocaleString()}</p>
                                                 </div>
@@ -542,10 +565,18 @@ function DiscussionsPage() {
                                         <div key={`reps${idx}`} className='d-flex singlRep mt-2 justify-content-between'>
                                             <div className="d-flex ">
                                                 {allMembers.map((member, idx)=>
-                                                    member._id === rep.replierId ? <img
-                                                    key={`membImg5${idx}`} className="repImgThmb" src={member.profileImg} alt=""/> : ''
+                                                    member._id === rep.replierId ? 
+                                                    <div>
+                                                        <img
+                                                        key={`membImg5${idx}`} className="repImgThmb" src={member.profileImg} alt=""/>
+                                                    </div>
+                                                    : ''
                                                     )}
                                                 <div className="ml-3 text-left comntDet" style={{margin:'0'}}>
+                                                    {allMembers.map((member, idx)=>
+                                                    member._id === rep.replierId ? 
+                                                    <h6 style={{fontWeight: 'bolder'}}>{member.name}</h6>
+                                                    : '')}
                                                     <h6>{rep.reply}</h6>
                                                     <p className="postTimes">replied - {new Date(rep.created).toLocaleString()}</p>
                                                 </div>

@@ -12,11 +12,16 @@ const name = localStorage.name;
 const userHouse = localStorage.house;
 function NewSideBar(props) {
     const location = useLocation();
+    const [ isHouseAssigned, setSsHouseAssigned] = useState(true);
     const [ house, setHouse] = useState({});
 
     async function loadHouse(){
         const fetchHouses = await fetch (`/api/house/${teamId}`).then( res => res.json());
-        console.log('fetched houses are: ', fetchHouses)
+        if(fetchHouses.length == 0){
+            console.log('there is no houses assigned!')
+            setSsHouseAssigned(false)
+        }
+        // console.log('fetched houses are: ', fetchHouses)
         if (userType == 'Member'){fetchHouses.map(house=>
             {if(house._id == userHouse ){
                 setHouse(house);
@@ -47,7 +52,7 @@ function NewSideBar(props) {
                         {/* My House */}
                         </li>
                     </Link>: ''}
-                    { userType == 'Admin' ? 
+                    { userType == 'Admin' && isHouseAssigned === true ? 
                     <Link to={`/TeamDetail/${props.teamId}/House`} className="try">
                         <li class={location.pathname === `/TeamDetail/${props.teamId}/House` ? "sidBarItem2Active myBubbleCnt" : "sidBarItem2 myBubbleCnt"}>
                         <i class="crclBtn fas fa-home"></i>

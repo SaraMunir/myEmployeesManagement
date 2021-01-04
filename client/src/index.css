@@ -422,8 +422,8 @@ a:hover{
 }
 .teamDashboard{
   width: 100%;
-  background-image: linear-gradient(135deg, #faf2f3, #e8dcf0);
-}
+  background-image: linear-gradient(135deg, #e2d8d9, #d7cbdf);
+} 
 .fullWidth{
   width: 100%;
   background-image: linear-gradient(135deg, #faf2f300, #e8dcf000);
@@ -1125,8 +1125,7 @@ background: #ff756398; */
 }
 .discBoards{
   /* width: 340px; */
-  background-image: linear-gradient(135deg , #ce6678 , #bd4a5d);  padding: 20px 10px;
-  /* padding: 15px 40px 5px 40px; */
+  background-image: linear-gradient(135deg , #ce6678 , #bd4a5d);  padding: 10px;
   margin: 10px;
   border-radius: 8px;
   box-shadow: 1px 2px 3px #31282e;

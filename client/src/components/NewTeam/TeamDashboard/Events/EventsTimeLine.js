@@ -16,7 +16,6 @@ function EventsTimeLine(props) {
         timeLineTime: ''
     })
     const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
-
     const timeLineTitle = useRef();
     const timeLinePost = useRef();
     const timeLineDate = useRef();
@@ -27,8 +26,6 @@ function EventsTimeLine(props) {
         setNewTimeLine( { ...newTimeLine, [id]: value } );
         }
     async function submitNewTimeLine(){
-        console.log('newTimeLine: ', newTimeLine)
-        console.log('eventDetail: ', props.eventDetail)
         if(newTimeLine.timeLineTitle === ''){
             timeLineTitle.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide Title of the timeline!' } );
@@ -79,18 +76,6 @@ function EventsTimeLine(props) {
         setLgShow(false);
         props.loadEventDetail()
     }
-    // const dayObj = {
-    //     dayName: dayArr[startDay],
-    //     dayDate: eventDate,
-    //     dayMonth: month[eventMonth-1],
-    //     dayYear: eventYear,
-    //     startTime: eventStartTime,
-    //     endDayName: dayArr[endDay],
-    //     endDate: eventEndDate,
-    //     endDayMonth: month[eventEndMonth-1],
-    //     endDayYear: eventEndYear,
-    //     endTime: eventDetail.eventEndTime,
-    // }
     return (
         <div style={{color: 'white'}} className='mx-auto'>
             <div className="d-flex  justify-content-end">

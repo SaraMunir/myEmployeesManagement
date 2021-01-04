@@ -16,7 +16,7 @@ function TeamDetail() {
     const [teamDetail, setTeamDetail]= useState( {});
     async function loadTeamDetail(){
         const fetchTeamDetail = await fetch (`/api/teamDetails/${teamId}`).then( res => res.json());
-        console.log('fetched team detail is: ', fetchTeamDetail)
+        // console.log('fetched team detail is: ', fetchTeamDetail)
         setTeamDetail(fetchTeamDetail)
     }
     useEffect(function(){

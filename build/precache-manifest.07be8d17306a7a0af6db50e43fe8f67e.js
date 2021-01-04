@@ -1,27 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3ab163c3904bdeeac8c40a343cded1f0",
+    "revision": "5a5ef8955654b8fc116dae089fc9ddb8",
     "url": "/index.html"
   },
   {
-    "revision": "21813c2683182206f721",
-    "url": "/static/css/2.8dbe6964.chunk.css"
+    "revision": "6bf428653add9a37c86b",
+    "url": "/static/css/main.668f1e87.chunk.css"
   },
   {
-    "revision": "0da2d8cea549f9394141",
-    "url": "/static/css/main.bb285e5d.chunk.css"
+    "revision": "a727c6b014395e881614",
+    "url": "/static/js/2.6bad71de.chunk.js"
   },
   {
-    "revision": "21813c2683182206f721",
-    "url": "/static/js/2.3ed2efc6.chunk.js"
+    "revision": "0d389a999de6380f44ce34649054f5a2",
+    "url": "/static/js/2.6bad71de.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "3453b8997016469371284a28c0e873e2",
-    "url": "/static/js/2.3ed2efc6.chunk.js.LICENSE.txt"
-  },
-  {
-    "revision": "0da2d8cea549f9394141",
-    "url": "/static/js/main.7bc9e508.chunk.js"
+    "revision": "6bf428653add9a37c86b",
+    "url": "/static/js/main.edb3c92b.chunk.js"
   },
   {
     "revision": "9b4e396c183e42c1fa5c",
@@ -52,7 +48,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/design-community-concept-illustration_114360-1244.ce759510.jpg"
   },
   {
-    "revision": "a8141ef54a84c8f291fba78ab8a02b5e",
-    "url": "/static/media/young-people-taking-selfie_23-2148462713.a8141ef5.png"
+    "revision": "676e6fa17a1f04b941019901d5907fd4",
+    "url": "/static/media/team-spirit-concept-illustration_114360-1073.676e6fa1.jpg"
   }
 ]);

@@ -825,7 +825,7 @@ async function unvotePoll(pollData, discussionId, pollOptId){
 }
 // events
 async function postEvents(eventData){
-    console.log('eventData received in orm: ', eventData)
+    // console.log('eventData received in orm: ', eventData)
     const dbEventsPost = new db.events( eventData );
     const saveEvents = await dbEventsPost.save();
     return  { message: "events added" };
@@ -950,15 +950,6 @@ async function postEvntReplytLike(replyLikeData, eventId){
     );
     return  { message: "like Added" };
 }
-// unLikeEvntReply
-// async function unLikeEvntReply(likeData, postId){
-//     console.log('likeData in orm: ', likeData)
-//     const unLikeEvntReply = await db.events.findOneAndUpdate(
-//         { _id: postId},
-//         { "$pull": {likes:{userId: likeData.userId}}}
-//     );
-//     return  { message: "like Added" };
-// }
 async function unLikeEvntReply(replyLikeData, discussionId){
     const likeData ={
         userId: replyLikeData.userId

@@ -18,7 +18,7 @@ function Navbar() {
         }
         if(type === 'Admin'){
             const getAdminDetail = await fetch (`/api/adminProfile/${id}`).then( res => res.json());
-            console.log('getAdminDetail: ', getAdminDetail)
+            // console.log('getAdminDetail: ', getAdminDetail)
             setAdminDetail(getAdminDetail);
         }
     }
@@ -35,7 +35,7 @@ function Navbar() {
                     },
                     body: JSON.stringify(theme)
                 }).then( result => result.json());
-            console.log(' received theme: ', apiResult)
+            // console.log(' received theme: ', apiResult)
             localStorage.setItem('theme', apiResult);
             document.location.reload(true);
         }
@@ -47,7 +47,7 @@ function Navbar() {
                     },
                     body: JSON.stringify(theme)
                 }).then( result => result.json());
-            console.log(' received theme: ', apiResult)
+            // console.log(' received theme: ', apiResult)
             localStorage.setItem('theme', apiResult);
             document.location.reload(true);
         }

@@ -2,6 +2,7 @@ import React , {useState, useEffect, useRef}  from 'react'
 import { Link, useHistory, useParams } from "react-router-dom";
 import TimeLine from './EventsTimeLine'
 function EventDetail() {
+    const theme = localStorage.theme;
     const { teamId } = useParams();
     const { eventId } = useParams();
     const userId = localStorage.id;
@@ -376,11 +377,6 @@ function EventDetail() {
         } else {setShowGuestList(false)}
     }
     function showSects(categories){
-        // post  guest  timeLine
-        // const [ eventsPostSect, setEventsPostSect]=useState(false)
-        // const [ eventsGuestSect, setEventsGuestSect]=useState(false)
-        // const [ eventsTimeLineSect, setEventsTimeLineSect]=useState(false)
-    
         if(categories==='post'){
             if(eventsPostSect=== false){
                 setEventsPostSect(true);
@@ -459,11 +455,6 @@ function EventDetail() {
                 </div>
                 <hr className="lineDivdr mt-4"/>
                 <div className="myCardDark mx-auto col-12" style={{width: '96%'}}>
-                {/* event Tittle */}
-                {/*     endDayName: dayArr[endDay],
-            endDate: eventEndDate,
-            endDayMonth: month[eventEndMonth-1],
-            endDayYear: eventEndYear,     */}
                 <h3 style={{color: '#cdced8'}}>{eventDetail.eventTitle}</h3>
                 <h5 style={{color: '#cdced8'}}>end time: {daysObj.endDate} {daysObj.endDayName} {daysObj.endDayMonth} {daysObj.endTime}</h5>
                 {/* {showGuestList === true ?

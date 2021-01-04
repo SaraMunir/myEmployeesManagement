@@ -1,9 +1,8 @@
-import React, {useState, useEffect, useRef}  from 'react'
-import { Link, useLocation, useParams } from "react-router-dom";
-
-import {Modal} from 'react-bootstrap'
-
+import React, {useState, useEffect, useRef}  from 'react';
+import { Link, useParams } from "react-router-dom";
+import {Modal} from 'react-bootstrap';
 function EventsPage() {
+    const theme = localStorage.theme;
     const { teamId } = useParams();
     const [month, setMonth]= useState(['January','February','March','April','May','June','July','August','September','October','November','December'])
     const [dayArr, setDayArr]= useState(['Sun','Mon','Tue','Wed','Thur','Fri','Sat'])
@@ -78,7 +77,6 @@ function EventsPage() {
     }
     async function loadEvent(){
         const fetchEvents = await fetch (`/api/getEvents/${teamId}`).then( res => res.json());
-        console.log('fetchEvents: ', fetchEvents)
         let eventsArr = [];
         let today = new Date();
         let todaySdate  = today.getDate();
@@ -112,10 +110,6 @@ function EventsPage() {
                 pastEventArr.push(event);
             }
         })
-        console.log('pastEventArr: ', pastEventArr)
-        console.log('ongoingEventArr: ', ongoingEventArr)
-        console.log('upCommingEventArr: ', upCommingEventArr)
-        // setUpcomingEvents ]= useState([]); pastEvents, setPastEvents ]= useState([]); ongoingEvents, setOngoingEvents
         setOngoingEvents(ongoingEventArr)
         setPastEvents(pastEventArr)
         setUpcomingEvents(upCommingEventArr)
@@ -157,9 +151,6 @@ function EventsPage() {
             return;
         }
         if(newEvent.eventStartDate == date &&  newEvent.eventStartTime !== ''){
-            
-            // console.log("newEvent.eventStartTime: ", newEvent.eventStartTime)
-            // console.log("nowTime: ", nowTime)
             if(newEvent.eventStartTime < nowTime){
                 inputEventStartTime.current.focus();
                 setAlertMessage( { type: 'danger', message: 'Please Select a later time than now' } );
@@ -194,10 +185,7 @@ function EventsPage() {
                 return;
             }
         }
-        console.log("newEvent: ", newEvent )
-        let eventObj = newEvent
-        // console.log('newEvent', eventObj)
-        // console.log('final eventObj', eventObj)
+        let eventObj = newEvent;
         setAlertMessage( { type: 'primary', message: 'Good to go!' } );
         setTimeout(() => {
             setAlertMessage( { type: '', message: '' } );
@@ -219,27 +207,20 @@ function EventsPage() {
     }
     async function loadMembers(){
         const fetchMembers = await fetch (`/api/member/${teamId}`).then( res => res.json());
-        console.log('fetched members are: ', fetchMembers)
         allMembs = fetchMembers;
         setMembers(fetchMembers)
-        // setAllMembers(...allMembers, ...fetchMembers)
     }
     async function loadProfiles(){
         if(userType==="Admin"){
             const getAdmnDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
-            // setAdminDetail(getAdmnDetail);
             allMembs.push(getAdmnDetail);
-            console.log("allMembs: ", allMembs)
             setAllMembers(allMembs)
             return
         }
         if(userType==="Member"){
             const fetchTeamDetail = await fetch (`/api/teamDetails/${teamId}`).then( res => res.json());
-            // setTeamDetail(fetchTeamDetail);
             const getAdmnDetail = await fetch (`/api/adminProfile/${fetchTeamDetail.teamAdmin}`).then( res => res.json());
-            // setAdminDetail(getAdmnDetail);
             allMembs.push(getAdmnDetail);
-            console.log("allMembs: ", allMembs)
             setAllMembers(allMembs)
             return
         }
@@ -247,15 +228,11 @@ function EventsPage() {
     async function loadMyProfile(){
         if(userType==="Admin"){
             const myDetail = await fetch (`/api/adminProfile/${userId}`).then( res => res.json());
-            console.log('myDetail: ', myDetail)
-            // setMyDetail(myDetail)
             setMyEvents(myDetail.myDiscussions)
             return
         }
         if(userType==="Member"){
             const myDetail = await fetch (`/api/memberProfile/${userId}`).then( res => res.json());
-            console.log('myDetail: ', myDetail)
-            // setMyDetail(myDetail)
             setMyEvents(myDetail.myDiscussions)
             return
         }
@@ -265,7 +242,6 @@ function EventsPage() {
         loadMembers();
         loadProfiles();
         loadMyProfile()
-
     },[])
     return (
         <div>
@@ -367,9 +343,10 @@ function EventsPage() {
                 </Modal>
             </div>
             <div className="row mx-auto">
-                <div className="myCardDark mx-auto col-md-8">
+                {/* className={theme === 'Dark' ? "myCardDark mx-auto col-md-8" : "myCard mx-auto col-md-8"} */}
+                <div className={theme === 'Dark' ? "myCardDark mx-auto col-md-8" : "myCard mx-auto col-md-8"}>
                     <div>
-                        <h4 style={{color: '#cdced8'}}>Upcoming Events</h4>
+                        <h4>Upcoming Events</h4>
                         <hr className="col-6 mx-auto"/>
                         {
                         upcomingEvents ? 
@@ -438,11 +415,10 @@ function EventsPage() {
                             </div>)}
                             ):<div><h5>there are no upcoming events</h5></div>}
                     </div>
-                    {
-                        ongoingEvents.length>0 ? 
+                    {ongoingEvents.length>0 ? 
                     <div>
                         <hr/>
-                        <h4 style={{color: '#cdced8'}}>Ongoing Events</h4>
+                        <h4>Ongoing Events</h4>
                         <hr className="col-6 mx-auto"/>
                         {ongoingEvents.map((event, idx)=>{ 
                             const eventDate = event.eventStartDate.slice(8,10)
@@ -512,9 +488,8 @@ function EventsPage() {
                     {  pastEvents ? 
                     <div>
                         <hr/>
-                        <h4 style={{color: '#cdced8'}}>Past Events</h4>
+                        <h4>Past Events</h4>
                         <hr className="col-6 mx-auto"/>
-                        
                         {pastEvents.map((event, idx)=>{ 
                             const eventDate = event.eventStartDate.slice(8,10)
                             const eventMonth = event.eventStartDate.slice(5,7)
@@ -581,8 +556,8 @@ function EventsPage() {
                             )}
                     </div> : ''}
                 </div>
-                <div className="col-md-2 myCardDark mx-auto">
-                    <h3 style={{color: "#cacaca"}}>Following</h3>
+                <div className={theme === 'Dark' ? "col-md-2 myCardDark mx-auto" : " col-md-2 myCard mx-auto"}>
+                    <h4>Following</h4>
                     <hr/>
                     {/* {myevents ? myevents.map(myDiscussion=>
                         <div>
