@@ -21,7 +21,7 @@ Dashboard contains a summary of the group, such as the members, houses/departmen
 
 ## Groups/Teams
 User can create any number of groups. 
-![alt text](./teamsPage.png)
+![alt text](teamsPage.PNG)
 
 ## Discussions
 the groups have discussion boards where the members can create/start discussion on any topic they want. Users can also add polls to their discussion where other members can vote. 
