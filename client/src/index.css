@@ -137,6 +137,9 @@ img {
   height: 25vh;
   object-fit: cover;
 }
+.card-text{
+  min-height: 10vh;
+}
 .myCard{
   background: #f5f5f5;
   margin-top: 10px;
@@ -591,7 +594,7 @@ a:hover{
 
 .teamCard{
   max-width: 200px;
-  height: 60vh;
+  min-height: 60vh;
 }
 .imgThmbnail{
   width: 10vh;
