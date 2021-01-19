@@ -20,7 +20,8 @@ The application was built on MERN stack. it allows users to create groups, add m
 Dashboard contains a summary of the group, such as the members, houses/department.  it also showcases the upcoming birthdays of the members in the current month.  -->
 
 ## Groups/Teams
-User 
+User can create any number of groups. 
+![alt text](./teamsPage.png)
 
 ## Discussions
 the groups have discussion boards where the members can create/start discussion on any topic they want. Users can also add polls to their discussion where other members can vote. 
