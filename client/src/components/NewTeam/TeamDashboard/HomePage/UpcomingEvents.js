@@ -13,31 +13,44 @@ function UpcomingEvents(props) {
         let eventsArr = [];
         let today = new Date();
         let todaySdate  = today.getDate();
+        let todaySMonth  = today.getMonth()+1;
+
         if(today.getDate()<10){
             todaySdate = '0'+today.getDate()
         }
-        let todaysDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ todaySdate;
+        if(today.getMonth()+1<10){
+            todaySMonth = today.getMonth()+1;
+        }
+        let date = today.getFullYear()+'-'+todaySMonth+'-'+ todaySdate;
         let pastEventArr = []
         let ongoingEventArr = []
         let upCommingEventArr = []
         fetchEvents.map(async event=>{
             if(event.closed === false){
-                if(event.eventStartDate < todaysDate){
-                    console.log('todays todaysDate is: ', todaysDate)
-                    console.log('todaysDate is earlier than today')
-                    if(event.eventEndDate < todaysDate){
-                        console.log('is ongoing showing')
+                var eStartDate = new Date(event.eventStartDate);
+                var eEndDate = new Date(event.eventEndDate);
+                var todayDate = new Date(date);
+                // console.log('todays date: ', date)
+                // console.log('todays date todayDate: ', todayDate)
+                // console.log('events start date: ', event.eventStartDate)
+                // console.log('eStartDate: ', eStartDate)
+                if(eStartDate.getTime() <= todayDate.getTime()){
+                    console.log('no')
+                    if(eEndDate.getTime() < todayDate.getTime()){
+                        console.log('event already ended')
                         pastEventArr.push(event);
                         const getEventDone = await fetch (`/api/closeEvent/${event._id}`).then( res => res.json());
-                    }
-                    if(event.eventEndDate > todaysDate){
-                        console.log('this event is ongoing? : ', event)
+                    } else if (eEndDate.getTime() > todayDate.getTime()){
+                        console.log('event is ongoing and ending is later than today')
+                        ongoingEventArr.push(event);
+                    } else {
+                        console.log('event is ongoing and ending date is today')
                         ongoingEventArr.push(event);
                     }
-                }
-                if(event.eventStartDate > todaysDate){
-                    console.log('date is later than today')
+                }else if(eStartDate.getTime() > todayDate.getTime()){
+                    console.log('event is upcoming');
                     upCommingEventArr.push(event);
+                } else{
                 }
             }
             if(event.closed === true ){

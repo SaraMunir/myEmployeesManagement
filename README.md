@@ -7,21 +7,26 @@ The application was built on MERN stack. it allows users to create groups, add m
 ## Features
 
 <!-- * [Dashboard](#Dashboard) -->
-* [Groups/Teams](#Groups/Teams)
-* [Group Home Page](#GroupHomePage)
+<!-- * [Groups/Teams](#Groups/Teams)
+* [GroupHomePage](#GroupHomePage)
 * [Discussions](#Discussions)
 * [Events](#Events)
 * [Settings](#Settings)
 * [Houses / Departments](#Houses)
 * [Roles](#Roles)
 * [Themes](#Themes)
-* [Grid To List](#GridToList)
+* [Grid To List](#GridToList) -->
 <!-- ## Dashboard
 Dashboard contains a summary of the group, such as the members, houses/department.  it also showcases the upcoming birthdays of the members in the current month.  -->
 
 ## Groups/Teams
 User can create any number of groups. 
-![alt text](teamsPage.PNG)
+![Teams/group page](teamsPage.PNG)
+
+## Groups Home Page
+Groups home page gives us a basic summary of the group. It gives an overview of data such as number of members, upcoming events and birthdays.
+![Homepage](D:\BOOTCAMP\project\myEmployeesManagement\GroupApp-HomePage.gif)
+
 
 ## Discussions
 the groups have discussion boards where the members can create/start discussion on any topic they want. Users can also add polls to their discussion where other members can vote. 

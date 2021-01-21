@@ -80,31 +80,60 @@ function EventsPage() {
         let eventsArr = [];
         let today = new Date();
         let todaySdate  = today.getDate();
+        let todaySMonth  = today.getMonth()+1;
         if(today.getDate()<10){
-            todaySdate = '0'+today.getDate()
+            todaySdate = '0'+today.getDate();
         }
-        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ todaySdate;
+        if(today.getMonth()+1<10){
+            todaySMonth = today.getMonth()+1;
+        }
+        let date = today.getFullYear()+'-'+todaySMonth+'-'+ todaySdate;
         let pastEventArr = []
         let ongoingEventArr = []
         let upCommingEventArr = []
+        console.log('fetchEvents: ', fetchEvents)
 
         fetchEvents.map(async event=>{
             if(event.closed === false){
-                if(event.eventStartDate < date){
-                    console.log('todays date is: ', date)
-                    console.log('date is earlier than today', event.eventStartDate.slice(0,10))
-                    if(event.eventEndDate < date){
+                var eStartDate = new Date(event.eventStartDate);
+                var eEndDate = new Date(event.eventEndDate);
+                var todayDate = new Date(date);
+                // console.log('todays date: ', date)
+                // console.log('todays date todayDate: ', todayDate)
+                // console.log('events start date: ', event.eventStartDate)
+                // console.log('eStartDate: ', eStartDate)
+                if(eStartDate.getTime() <= todayDate.getTime()){
+                    console.log('no')
+                    if(eEndDate.getTime() < todayDate.getTime()){
+                        console.log('event already ended')
                         pastEventArr.push(event);
                         const getEventDone = await fetch (`/api/closeEvent/${event._id}`).then( res => res.json());
-                    }
-                    if(event.eventEndDate >= date){
+                    } else if (eEndDate.getTime() > todayDate.getTime()){
+                        console.log('event is ongoing and ending is later than today')
+                        ongoingEventArr.push(event);
+                    } else {
+                        console.log('event is ongoing and ending date is today')
                         ongoingEventArr.push(event);
                     }
-                }
-                if(event.eventStartDate >= date){
-                    console.log('date is later than today')
+                }else if(eStartDate.getTime() > todayDate.getTime()){
+                    console.log('event is upcoming');
                     upCommingEventArr.push(event);
+                } else{
+
                 }
+                // if(event.eventStartDate.getTime() > date.getTime()){
+                //     console.log('yes')
+                // }
+                // if(event.eventStartDate < date){
+                //     console.log('date is earlier than today', event.eventStartDate.slice(0,10))
+                //     if(event.eventEndDate < date){
+                //         console.log('event already ended')
+                //     }
+                // }
+                // if(event.eventStartDate >= date){
+                //     console.log('date is later than today')
+                //     upCommingEventArr.push(event);
+                // }
             }
             if(event.closed === true ){
                 pastEventArr.push(event);
@@ -118,13 +147,17 @@ function EventsPage() {
     async function submitNewEvent(){
         let today = new Date();
         let todaySdate  = today.getDate();
+        let todaySMonth  = today.getMonth()+1;
         var time = today.getHours() + ":" + today.getMinutes();
         var nowTime = today.getHours() + ":" + today.getMinutes() ;
         var nowHour = today.getHours()
         if(today.getDate()<10){
             todaySdate = '0'+today.getDate()
         }
-        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+ todaySdate;
+        if(today.getMonth()+1<10){
+            todaySMonth = '0'+(today.getMonth()+1)
+        }
+        let date = today.getFullYear()+'-'+todaySMonth+'-'+ todaySdate;
         if(newEvent.eventTitle == ''){
             inputEventTitle.current.focus();
             setAlertMessage( { type: 'danger', message: 'Please provide Title of the Event!' } );
@@ -158,6 +191,8 @@ function EventsPage() {
             }
         }
         if(newEvent.eventStartDate < date){
+            console.log('todays date: ', date)
+            console.log('selected date: ', newEvent.eventStartDate)
             inputEventStartDate.current.focus();
             setAlertMessage( { type: 'danger', message: 'the start date cannot be days before today' } );
             return;

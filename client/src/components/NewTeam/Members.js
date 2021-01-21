@@ -223,7 +223,7 @@ function Members() {
         if(type == 'Role'){  
         teamRoles.map((role)=>
             { 
-                if(role.roleName === "category"){
+                if(role.roleName === category){
                     console.log(`role.roleName: `, role.roleName)
                     console.log(`category: `, category)
                     const newList = memberFiltered.filter(mem=> mem.role !== category)
