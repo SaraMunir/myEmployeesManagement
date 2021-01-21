@@ -25,7 +25,8 @@ User can create any number of groups.
 
 ## Groups Home Page
 Groups home page gives us a basic summary of the group. It gives an overview of data such as number of members, upcoming events and birthdays.
-![Homepage](D:\BOOTCAMP\project\myEmployeesManagement\GroupApp-HomePage.gif)
+
+![Homepage](GroupApp-HomePage.gif)
 
 
 ## Discussions
